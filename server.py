@@ -17,13 +17,11 @@ def index():
 # TODO: login page - route to return login
 
 
+# load login page when at this route
 @app.route("/login", methods=['post', 'get'])
 def login():
-    print("Login")
-    # return html for login page
-    return jsonify(
-        message="hello  world"
-    )
+    return render_template('login.html')
+
 # TODO: login mentor - login mentor func
 # TODO: login mentee - login mentee func
 
