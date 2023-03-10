@@ -1,12 +1,13 @@
 class User:
-    def __init__(self, id, name, username, password, profilePic, age, occupation, education,
-                 experience, bio):
+    def __init__(self, id, name, email, username, password, dob, occupation, education,
+                 experience, bio,  profilePic=''):
         self.id = id
         self.name = name
+        self.email = email
         self.username = username
         self.password = password
         self.profilePic = profilePic
-        self.age = age
+        self.dob = dob
         self.occupation = occupation
         self.education = education
         self.areasOfInterests = []
