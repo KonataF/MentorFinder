@@ -12,6 +12,10 @@ def index():
         message="Homepage"
     )
 # TODO: signup page - route to return signuppage
+@app.route("/signup", methods=['post', 'get'])
+def login():
+    return render_template('signup.html')
+
 # TODO: signup mentor - sign up mentor func
 # TODO: signup mentee - sign up mentee func
 # TODO: login page - route to return login
