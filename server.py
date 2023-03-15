@@ -19,7 +19,7 @@ def index():
 
 
 @app.route("/signupMentor", methods=['post', 'get'])
-def signup():
+def signupMentor():
     # return render_template('signup.html')
 
     name = request.form.get("name")
@@ -32,10 +32,10 @@ def signup():
     education = request.form.get("education")
     experience = request.form.get("experience")
     bio = request.form.get("bio")
-    maxNumOfMentees = request.form.get("maxNumOfMentees")
+    maxCapacityNum = request.form.get("maxNumOfMentees")
 
-    u1 = Mentor(name, email, username, password, dob, occupation, education, experience /
-                bio, bio, profilePic, maxNumOfMentees)
+    u1 = Mentor(23, name, email, username, password, dob, occupation,
+                education, experience, bio, profilePic, maxCapacityNum)
 
     print("Sign up page triggered")
     return jsonify(
@@ -44,7 +44,7 @@ def signup():
 
 
 @app.route("/signupMentee", methods=['post', 'get'])
-def signup():
+def signupMentee():
     # return render_template('signup.html')
 
     name = request.form.get("name")
@@ -58,12 +58,12 @@ def signup():
     experience = request.form.get("experience")
     bio = request.form.get("bio")
 
-    u1 = Mentee(name, email, username, password, dob, occupation, education, experience /
-                bio, bio, profilePic)
+    u1 = Mentee(32, name, email, username, password, dob, occupation, education, experience,
+                bio, profilePic)
 
     print("Sign up page triggered")
     return jsonify(
-        message="Sign up page here"
+        message="Sign up for mentees page here"
     )
 
 
