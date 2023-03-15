@@ -15,9 +15,14 @@ def index():
     return render_template('index.html')
 
 
-@app.route("/login", methods=['post', 'get'])
+@app.route("/loginAsMentor", methods=['post', 'get'])
 def loginAsMentor():
-    return render_template('login.html')
+    return render_template('loginAsMentor.html')
+
+
+@app.route("/loginAsMentee", methods=['post', 'get'])
+def loginAsMentee():
+    return render_template('loginAsMentee.html')
 
 
 @app.route("/signupAsMentor", methods=['post', 'get'])
@@ -117,4 +122,5 @@ def menteeAuth():
 
 if __name__ == "__main__":
     Database.initialize()
+    print(Database.get_collection('user'))
     app.run(debug=True)

@@ -18,6 +18,10 @@ class Database:
     def get_collections(cls):
         return cls.database.list_collection_names()
 
+    @classmethod
+    def get_collection(cls, collection):
+        return cls.database[collection]
+
 
 # Database.initialize()
 # Database.save_to_db({"name": "Walmart", "location": "Venice, CA"})
