@@ -15,12 +15,10 @@ def index():
     return jsonify(
         message="Homepage"
     )
-# TODO: signup page - route to return signuppage
 
 
 @app.route("/signupMentor", methods=['post', 'get'])
 def signupMentor():
-    # return render_template('signup.html')
 
     name = request.form.get("name")
     email = request.form.get("email")
@@ -45,7 +43,6 @@ def signupMentor():
 
 @app.route("/signupMentee", methods=['post', 'get'])
 def signupMentee():
-    # return render_template('signup.html')
 
     name = request.form.get("name")
     email = request.form.get("email")
@@ -67,19 +64,11 @@ def signupMentee():
     )
 
 
-# TODO: signup mentor - sign up mentor func
-# TODO: signup mentee - sign up mentee func
-# TODO: login page - route to return login
-
-
-# load login page when at this route
 @app.route("/login", methods=['post', 'get'])
 def login():
 
     email = request.form.get("email")
     password = request.form.get("password")
-
-    # pull user records
 
     user_records = {}
     user_password = ''
@@ -92,11 +81,6 @@ def login():
         return jsonify(
             message="User email is incorrect or user does not exist, please sign up"
         )
-
-    # return render_template('login.html')
-
-# TODO: login mentor - login mentor func
-# TODO: login mentee - login mentee func
 
 
 # logging in as mentor
