@@ -1,5 +1,5 @@
 from User import User
-from marshmallow import Schema, fields
+#from marshmallow import Schema, fields
 
 
 class Mentor(User):
@@ -15,6 +15,6 @@ class Mentor(User):
         return len(self.menteeList)
 
 
-class StoreSchema(Schema):
-    name = fields.Str()
-    location = fields.Str()
+# class StoreSchema(Schema):
+#     name = fields.Str()
+#     location = fields.Str()

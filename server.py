@@ -1,20 +1,33 @@
+from Mentee import *
+from Mentor import *
+from User import *
 from flask import Flask, jsonify, render_template, request, url_for, redirect, session
 import pymongo
 import bcrypt
-from User import *
-from Mentor import *
-from Mentee import *
+from database import Database
+
 
 app = Flask(__name__)
 
 
 @app.route("/", methods=['post', 'get'])
 def index():
-    print("Server up")
+    return render_template('index.html')
 
-    return jsonify(
-        message="Homepage"
-    )
+
+@app.route("/login", methods=['post', 'get'])
+def loginAsMentor():
+    return render_template('login.html')
+
+
+@app.route("/signupAsMentor", methods=['post', 'get'])
+def signupAsMentor():
+    return render_template('signupAsMentor.html')
+
+
+@app.route("/signupAsMentee", methods=['post', 'get'])
+def signupAsMentee():
+    return render_template('signupAsMentee.html')
 
 
 @app.route("/signupMentor", methods=['post', 'get'])
@@ -103,4 +116,5 @@ def menteeAuth():
 
 
 if __name__ == "__main__":
+    Database.initialize()
     app.run(debug=True)
