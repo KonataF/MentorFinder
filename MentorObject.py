@@ -1,4 +1,4 @@
-class MenteeObject:
+class MentorObject:
     def __init__(self,  email, password,  bio, username='', dob='', occupation='', education='', experience='',  profilePic='', userType='',  name=''):
         self.name = name
         self.email = email
@@ -18,3 +18,6 @@ class MenteeObject:
         self.experience = experience
         self.bio = bio
         self.mentorList = []
+        self.maxCapacityNum = 0
+        self.menteeList = []
+        self.ifMaxCapacity = False
