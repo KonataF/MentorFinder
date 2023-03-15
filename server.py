@@ -5,7 +5,8 @@ from flask import Flask, jsonify, render_template, request, url_for, redirect, s
 import pymongo
 import bcrypt
 from database import Database
-
+from MenteeObject import *
+import pprint
 
 app = Flask(__name__)
 
@@ -35,11 +36,41 @@ def signupAsMentee():
     return render_template('signupAsMentee.html')
 
 
-@app.route("/signupMentor", methods=['post', 'get'])
+@app.route("/registerMentee", methods=['post', 'get'])
+def registerMentee():
+    # return render_template('signupAsMentee.html')
+    email = request.form.get("email")
+    password = request.form.get("password")
+    bio = request.form.get("bio")
+
+    mentee = MenteeObject(email, password, bio)
+
+    serialized_mentee = vars(mentee)
+
+    menteeCollection = Database.get_collection('mentee')
+
+    search_result = menteeCollection.find_one({"email": email})
+
+    if search_result is None:
+
+        menteeCollection.insert_one(serialized_mentee)
+
+        return jsonify(
+            message="You are Registered"
+        )
+
+    else:
+
+        return jsonify(
+            message="Someone with similar email exists, please log in"
+        )
+
+
+@ app.route("/signupMentor", methods=['post', 'get'])
 def signupMentor():
 
     name = request.form.get("name")
-    email = request.form.get("email")
+
     username = request.form.get("username")
     password = request.form.get("password")
     profilePic = request.form.get("profilePic")
@@ -59,7 +90,7 @@ def signupMentor():
     )
 
 
-@app.route("/signupMentee", methods=['post', 'get'])
+@ app.route("/signupMentee", methods=['post', 'get'])
 def signupMentee():
 
     name = request.form.get("name")
@@ -82,7 +113,7 @@ def signupMentee():
     )
 
 
-@app.route("/login", methods=['post', 'get'])
+@ app.route("/login", methods=['post', 'get'])
 def login():
 
     email = request.form.get("email")
@@ -102,7 +133,7 @@ def login():
 
 
 # logging in as mentor
-@app.route("/mentorAuth", methods=['post', 'get'])
+@ app.route("/mentorAuth", methods=['post', 'get'])
 def mentorAuth():
     print("Login")
     # return html for login page
@@ -111,7 +142,7 @@ def mentorAuth():
     )
 
 
-@app.route("/menteeAuth", methods=['post', 'get'])
+@ app.route("/menteeAuth", methods=['post', 'get'])
 def menteeAuth():
     print("Register")
 
