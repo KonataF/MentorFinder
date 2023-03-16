@@ -21,12 +21,3 @@ class Database:
     @classmethod
     def get_collection(cls, collection):
         return cls.database[collection]
-
-
-# Database.initialize()
-# Database.save_to_db({"name": "Walmart", "location": "Venice, CA"})
-
-# loaded_objects = Database.load_from_db({"name": "Walmart"})
-# print(loaded_objects)
-
-# print(Database.get_collections())

@@ -166,51 +166,13 @@ def mentorAuth():
             message="User not found, please register"
         )
 
-# @ app.route("/signupMentor", methods=['post', 'get'])
-# def signupMentor():
 
-#     name = request.form.get("name")
-
-#     username = request.form.get("username")
-#     password = request.form.get("password")
-#     profilePic = request.form.get("profilePic")
-#     dob = request.form.get("dob")
-#     occupation = request.form.get("occupation")
-#     education = request.form.get("education")
-#     experience = request.form.get("experience")
-#     bio = request.form.get("bio")
-#     maxCapacityNum = request.form.get("maxNumOfMentees")
-
-#     u1 = Mentor(23, name, email, username, password, dob, occupation,
-#                 education, experience, bio, profilePic, maxCapacityNum)
-
-#     print("Sign up page triggered")
-#     return jsonify(
-#         message="Sign up page here"
-#     )
-
-
-# @ app.route("/signupMentee", methods=['post', 'get'])
-# def signupMentee():
-
-#     name = request.form.get("name")
-#     email = request.form.get("email")
-#     username = request.form.get("username")
-#     password = request.form.get("password")
-#     profilePic = request.form.get("profilePic")
-#     dob = request.form.get("dob")
-#     occupation = request.form.get("occupation")
-#     education = request.form.get("education")
-#     experience = request.form.get("experience")
-#     bio = request.form.get("bio")
-
-#     u1 = Mentee(32, name, email, username, password, dob, occupation, education, experience,
-#                 bio, profilePic)
-
-#     print("Sign up page triggered")
-#     return jsonify(
-#         message="Sign up for mentees page here"
-#     )
+# logging in as mentor
+@app.route("/logout", methods=['post', 'get'])
+def logout():
+    return jsonify(
+        message="Logging out.."
+    )
 
 
 if __name__ == "__main__":
