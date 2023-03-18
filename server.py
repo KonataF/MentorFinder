@@ -1,6 +1,7 @@
 from Mentee import *
 from Mentor import *
 from User import *
+import os
 from flask import Flask, jsonify, render_template, request, url_for, redirect, session
 import pymongo
 import bcrypt
@@ -8,7 +9,7 @@ from database import Database
 from MenteeObject import *
 from MentorObject import *
 import pprint
-
+from dotenv import load_dotenv
 app = Flask(__name__)
 
 
@@ -82,11 +83,11 @@ def menteeAuth():
     menteeFound = menteeCollection.find_one(
         {"email": email})
 
-    if menteeFound is not None:
+    if menteeFound:
         print(f"Mentor found {menteeFound}")
         passwordcheck = menteeFound['password']
         if bcrypt.checkpw(password.encode('utf8'), passwordcheck):
-
+            session["email"] = menteeFound['email']
             return jsonify(
                 message="Welcome"
             )
@@ -149,11 +150,11 @@ def mentorAuth():
     mentorFound = mentorCollection.find_one(
         {"email": email})
 
-    if mentorFound is not None:
+    if mentorFound:
         print(f"Mentor found {mentorFound}")
         passwordcheck = mentorFound['password']
         if bcrypt.checkpw(password.encode('utf8'), passwordcheck):
-
+            session["email"] = mentorFound['email']
             return jsonify(
                 message="Welcome"
             )
@@ -180,5 +181,8 @@ def logout():
 
 
 if __name__ == "__main__":
+    load_dotenv()
+    app.secret_key = os.environ.get("app_secret_key")
+    app.config['SESSION_TYPE'] = 'filesystem'
     Database.initialize()
     app.run(debug=True)
