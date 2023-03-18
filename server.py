@@ -144,8 +144,45 @@ def buildMenteeProfile():
         )
 
 
+@app.route("/buildMentorProfile", methods=['post', 'get'])
+def buildMentorProfile():
+    print(request.form)
+    email = request.form.get("email")
+
+    mentorCollection = Database.get_collection('mentor')
+
+    print(f'updating records for {email}')
+
+    query = {"email": email}
+
+    newvalues = {"$set":
+                 {"name": request.form.get('name'),
+                  "username": request.form.get('username'),
+                  "profilePic": request.form.get('profilepic'),
+                  "dob": request.form.get('dob'),
+                  "occupation": request.form.get('occupation'),
+                  "education": request.form.get('education'),
+                  "areasOfInterests": request.form.get('area_of_interest'),
+                  "bio": request.form.get('bio'),
+                  "experience": request.form.get('experience'),
+                  "maxCapacityNum": request.form.get('max_mentees'),
+                  }}
+
+    updationResult = mentorCollection.update_one(query, newvalues)
+
+    if updationResult.modified_count > 0:
+        return jsonify(
+            message="Your profile building as a mentor is complete"
+        )
+    else:
+        return jsonify(
+            message="Error while building a profi"
+        )
+
+
 @ app.route("/registerMentor", methods=['post', 'get'])
 def registerMentor():
+    message = ''
     email = request.form.get("email")
     password = request.form.get("password")
     bio = request.form.get("bio")
@@ -165,10 +202,8 @@ def registerMentor():
     if search_result is None:
 
         mentorCollection.insert_one(serialized_mentor)
-
-        return jsonify(
-            message="You are Registered as a mentor"
-        )
+        message = "You are Registered as a mentor"
+        return render_template('buildProfileMentor.html', message=message, mentorObj=mentor)
 
     else:
         print(search_result)
