@@ -43,11 +43,12 @@ def registerMentee():
     password = request.form.get("password")
     bio = request.form.get("bio")
 
-    mentee = MenteeObject(email, password, bio)
+    hashed_password = bcrypt.hashpw(password.encode('utf8'), bcrypt.gensalt())
+
+    mentee = MenteeObject(email, hashed_password, bio)
 
     serialized_mentee = vars(mentee)
 
-    # don't store the passwords in plaintext
     menteeCollection = Database.get_collection('mentee')
 
     search_result = menteeCollection.find_one({"email": email})
@@ -83,7 +84,8 @@ def menteeAuth():
 
     if menteeFound is not None:
         print(f"Mentor found {menteeFound}")
-        if password == menteeFound['password']:
+        passwordcheck = menteeFound['password']
+        if bcrypt.checkpw(password.encode('utf8'), passwordcheck):
 
             return jsonify(
                 message="Welcome"
@@ -108,11 +110,12 @@ def registerMentor():
     password = request.form.get("password")
     bio = request.form.get("bio")
 
-    mentor = MentorObject(email, password, bio)
+    hashed_password = bcrypt.hashpw(password.encode('utf8'), bcrypt.gensalt())
+
+    mentor = MentorObject(email, hashed_password, bio)
 
     serialized_mentor = vars(mentor)
 
-    # don't store the passwords in plaintext
     mentorCollection = Database.get_collection('mentor')
 
     search_result = mentorCollection.find_one({"email": email})
@@ -148,7 +151,8 @@ def mentorAuth():
 
     if mentorFound is not None:
         print(f"Mentor found {mentorFound}")
-        if password == mentorFound['password']:
+        passwordcheck = mentorFound['password']
+        if bcrypt.checkpw(password.encode('utf8'), passwordcheck):
 
             return jsonify(
                 message="Welcome"
