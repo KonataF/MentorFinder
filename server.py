@@ -10,6 +10,7 @@ from MenteeObject import *
 from MentorObject import *
 import pprint
 from dotenv import load_dotenv
+
 app = Flask(__name__)
 
 
@@ -40,6 +41,9 @@ def signupAsMentee():
 
 @app.route("/registerMentee", methods=['post', 'get'])
 def registerMentee():
+
+    message = ""
+
     email = request.form.get("email")
     password = request.form.get("password")
     bio = request.form.get("bio")
@@ -58,9 +62,9 @@ def registerMentee():
 
         menteeCollection.insert_one(serialized_mentee)
 
-        return jsonify(
-            message="You are Registered"
-        )
+        message = "you are registered now"
+
+        return render_template('buildProfileMentee.html', message=message, menteeObj=mentee)
 
     else:
 
@@ -72,7 +76,6 @@ def registerMentee():
 # logging in as mentor
 @app.route("/menteeAuth", methods=['post', 'get'])
 def menteeAuth():
-
     email = request.form.get("email")
     password = request.form.get("password")
 
@@ -105,7 +108,43 @@ def menteeAuth():
         )
 
 
-@app.route("/registerMentor", methods=['post', 'get'])
+@app.route("/buildMenteeProfile", methods=['post', 'get'])
+def buildMenteeProfile():
+    print(request.form)
+    email = request.form.get("email")
+
+    menteeCollection = Database.get_collection('mentee')
+
+    print(f'updating records for {email}')
+
+    query = {"email": email}
+
+    newvalues = {"$set":
+                 {"name": request.form.get('name'),
+                  "username": request.form.get('username'),
+                  "profilePic": request.form.get('profilepic'),
+                  "dob": request.form.get('dob'),
+                  "occupation": request.form.get('occupation'),
+                  "education": request.form.get('education'),
+                  "areasOfInterests": request.form.get('area_of_interest'),
+                  "bio": request.form.get('bio'),
+                  "experience": request.form.get('experience'),
+                  "maxCapacityNum": request.form.get('max_mentees'),
+                  }}
+
+    updationResult = menteeCollection.update_one(query, newvalues)
+
+    if updationResult.modified_count > 0:
+        return jsonify(
+            message="Your profile building is complete"
+        )
+    else:
+        return jsonify(
+            message="Error while building a profi"
+        )
+
+
+@ app.route("/registerMentor", methods=['post', 'get'])
 def registerMentor():
     email = request.form.get("email")
     password = request.form.get("password")
@@ -114,6 +153,8 @@ def registerMentor():
     hashed_password = bcrypt.hashpw(password.encode('utf8'), bcrypt.gensalt())
 
     mentor = MentorObject(email, hashed_password, bio)
+
+    print(f'Registering {mentor.email}')
 
     serialized_mentor = vars(mentor)
 
@@ -137,7 +178,7 @@ def registerMentor():
 
 
 # logging in as mentor
-@app.route("/mentorAuth", methods=['post', 'get'])
+@ app.route("/mentorAuth", methods=['post', 'get'])
 def mentorAuth():
 
     email = request.form.get("email")
@@ -173,8 +214,10 @@ def mentorAuth():
 
 
 # logging in as mentor
-@app.route("/logout", methods=['post', 'get'])
+@ app.route("/logout", methods=['post', 'get'])
 def logout():
+    if "email" in session:
+        session.pop("email", None)
     return jsonify(
         message="Logging out.."
     )
