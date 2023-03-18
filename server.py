@@ -39,7 +39,19 @@ def signupAsMentee():
     return render_template('signupAsMentee.html')
 
 
-@app.route("/registerMentee", methods=['post', 'get'])
+@app.route("/admin", methods=['post', 'get'])
+def admin():
+
+    mentees = list(Database.get_collection('mentee').find({}))
+
+    mentors = list(Database.get_collection('mentor').find({}))
+
+    print(mentees, mentors)
+
+    return render_template('adminView.html', mentees=mentees, mentors=mentors)
+
+
+@ app.route("/registerMentee", methods=['post', 'get'])
 def registerMentee():
 
     message = ""
@@ -74,7 +86,7 @@ def registerMentee():
 
 
 # logging in as mentor
-@app.route("/menteeAuth", methods=['post', 'get'])
+@ app.route("/menteeAuth", methods=['post', 'get'])
 def menteeAuth():
     email = request.form.get("email")
     password = request.form.get("password")
@@ -108,7 +120,7 @@ def menteeAuth():
         )
 
 
-@app.route("/buildMenteeProfile", methods=['post', 'get'])
+@ app.route("/buildMenteeProfile", methods=['post', 'get'])
 def buildMenteeProfile():
     print(request.form)
     email = request.form.get("email")
@@ -144,7 +156,7 @@ def buildMenteeProfile():
         )
 
 
-@app.route("/buildMentorProfile", methods=['post', 'get'])
+@ app.route("/buildMentorProfile", methods=['post', 'get'])
 def buildMentorProfile():
     print(request.form)
     email = request.form.get("email")
