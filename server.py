@@ -39,9 +39,33 @@ def signupAsMentee():
     return render_template('signupAsMentee.html')
 
 
-# @ app.route("/profile", methods=['post', 'get'])
-# def profile():
-#     return render_template('myProfile.html')
+@ app.route("/profile/<typeOfUser>/<username>", methods=['post', 'get'])
+def profile(typeOfUser, username):
+    print(f'fetching profile for {typeOfUser} : {username}')
+    # return render_template('myProfile.html')
+
+    userFound = ''
+
+    if typeOfUser == 'mentee':
+
+        menteeCollection = Database.get_collection('mentee')
+
+        userFound = menteeCollection.find_one(
+            {"username": username})
+
+    else:
+
+        mentorCollection = Database.get_collection('mentor')
+
+        userFound = mentorCollection.find_one(
+            {"username": username})
+
+    if userFound:
+        print(f"Mentee found {userFound}")
+        return render_template('myProfile.html', profile=userFound)
+
+    else:
+        return render_template('404.html')
 
 
 @app.route("/admin", methods=['post', 'get'])
