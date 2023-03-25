@@ -39,6 +39,11 @@ def signupAsMentee():
     return render_template('signupAsMentee.html')
 
 
+# @ app.route("/profile", methods=['post', 'get'])
+# def profile():
+#     return render_template('myProfile.html')
+
+
 @app.route("/admin", methods=['post', 'get'])
 def admin():
 
@@ -125,6 +130,8 @@ def buildMenteeProfile():
     print(request.form)
     email = request.form.get("email")
 
+    formData = request.form
+
     menteeCollection = Database.get_collection('mentee')
 
     print(f'updating records for {email}')
@@ -145,11 +152,12 @@ def buildMenteeProfile():
                   }}
 
     updationResult = menteeCollection.update_one(query, newvalues)
-
+    print(f"updation count: {updationResult.modified_count}")
     if updationResult.modified_count > 0:
-        return jsonify(
-            message="Your profile building is complete"
-        )
+        return render_template('myProfile.html', profile=formData)
+        # return jsonify(
+        #     message="Your profile building is complete"
+        # )
     else:
         return jsonify(
             message="Error while building a profi"
