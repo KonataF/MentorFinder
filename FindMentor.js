@@ -1,3 +1,7 @@
+import SearchBar from '../components/searchBar'
+
 export default function FindMentor() {
-    return <h1>Find Mentor</h1>
+    return (
+        <SearchBar />
+    )
 }
