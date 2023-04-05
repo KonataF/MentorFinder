@@ -34,10 +34,30 @@ export function App() {
       {
         currentForm === "login" ? <Login onFormSwitch={toggleForm} /> : <Register onFormSwitch={toggleForm} />
       }
-    </div>
+      </div>
+      <div className="menu-container">
+        <div className="menu_trigger">
 
+        </div>
+        <div className="educationDropdown">
+          <h3> Unused <br/><span></span></h3>
+          <ul>
+            <DropdownItem/>
+          </ul>
+        </div>
+      </div>
+
+    
     </>
   )
+}
+function DropdownItem(props) {
+  return(
+    //**Not sure what is going on here */
+    <li className = 'dropdownItem'></li>
+    <img></img>
+      <a> [props.text] </a>
+  );
 }
 
 export default App;
