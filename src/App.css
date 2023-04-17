@@ -1,6 +1,9 @@
 .App {
   text-align: center;
 <<<<<<< user_profile/10/syd
+=======
+<<<<<<< user_profile/10/syd
+>>>>>>> main
 }
 
 .App-logo {
@@ -37,6 +40,8 @@
     transform: rotate(360deg);
   }
 }
+<<<<<<< user_profile/10/syd
+=======
 =======
   display: flex;
   min-height: 100vh;
@@ -86,4 +91,5 @@ button {
   color: white;
   text-decoration: underline;
 }
+>>>>>>> main
 >>>>>>> main
