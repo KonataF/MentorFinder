@@ -1,4 +1,7 @@
 <<<<<<< user_profile/10/syd
+=======
+<<<<<<< user_profile/10/syd
+>>>>>>> main
 import logo from './logo.svg';
 import './App.css';
 
@@ -20,6 +23,8 @@ function App() {
         </a>
       </header>
     </div>
+<<<<<<< user_profile/10/syd
+=======
 =======
 import './App.css';
 import Navbar from './Navbar';
@@ -81,6 +86,7 @@ function DropdownItem(props) {
     // <img></img>
     //   <a> [props.text] </a>
     <p>sample text</p>
+>>>>>>> main
 >>>>>>> main
   );
 }
