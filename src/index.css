@@ -1,5 +1,7 @@
 
 =======
+
+=======
 :root {
   --primary-bg: #324c67;
   --secondary-bg: #47596c;
@@ -62,7 +64,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 
 =======
+
+=======
   background-color: var(--primary-bg);
+
 
 }
 
@@ -73,6 +78,8 @@ code {
 
 =======
 
+=======
+
 ul {
   list-style: none;
 }
@@ -80,4 +87,5 @@ ul {
 a {
   text-decoration: none;
 }
+
 
