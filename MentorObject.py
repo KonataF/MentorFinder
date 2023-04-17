@@ -1,7 +1,5 @@
-class User:
-    def __init__(self, id, name, email, username, password, dob, occupation, education,
-                 experience, bio,  profilePic='', type=""):
-        self.id = id
+class MentorObject:
+    def __init__(self,  email, password,  bio, username='', dob='', occupation='', education='', experience='',  profilePic='', userType='',  name=''):
         self.name = name
         self.email = email
         self.username = username
@@ -16,6 +14,10 @@ class User:
         self.upvotedPosts = []
         self.downvotedPosts = []
         self.hubsList = []
-        self.type = type
+        self.userType = userType
         self.experience = experience
         self.bio = bio
+        self.mentorList = []
+        self.maxCapacityNum = 0
+        self.menteeList = []
+        self.ifMaxCapacity = False
