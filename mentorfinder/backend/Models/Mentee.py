@@ -1,5 +1,5 @@
 class Mentee:
-    def __init__(self,  fname, lname, email, password,  bio='', username='', dob='', occupation='', education='', experience='',  profilePic=''):
+    def __init__(self, fname, lname, email, password, bio='', username='', dob='', occupation='', education='', experience='',  profilePic=''):
         self.fname = fname
         self.lname = lname
         self.email = email

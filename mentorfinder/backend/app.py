@@ -5,7 +5,8 @@ from dotenv import load_dotenv
 import os
 import json
 import bcrypt
-from Models import Mentee, Mentor
+from Models.Mentee import Mentee
+from Models.Mentor import Mentor
 
 app = Flask(__name__)
 
@@ -20,11 +21,11 @@ def get_current_time():
     return {'time': time.time()}
 
 
-@ app.route("/api/register", methods=['post', 'get'])
+@ app.route("/api/register", methods=['post'])
 def register():
 
-    message = ""
-
+    f_name = request.json.get("firstName")
+    l_name = request.json.get("lastName")
     email = request.json.get("email")
     password = request.json.get("password")
     user_type = request.json.get("userType")
@@ -33,9 +34,12 @@ def register():
 
     hashed_password = bcrypt.hashpw(password.encode('utf8'), bcrypt.gensalt())
 
-    if user_type is "Mentee":
+    if user_type == "Mentee":
 
-        mentee = Mentee(email, hashed_password, bio)
+        mentee = Mentee(f_name, l_name,
+                        email, hashed_password)
+
+        print(f'Registering Mentee {mentee.email}')
 
         serialized_mentee = vars(mentee)
 
@@ -45,19 +49,39 @@ def register():
 
         if search_result is None:
 
-            menteeCollection.insert_one(serialized_mentee)
+            obj_id = menteeCollection.insert_one(serialized_mentee).inserted_id
 
-            message = "you are registered now"
+            print("mentee registered")
 
-            return render_template('buildProfileMentee.html', message=message, menteeObj=mentee)
+            return jsonify({"registered": True, "objectId": str(obj_id)})
 
-        # else:
+        else:
 
-        #     return jsonify(
-        #         message="Someone with similar email exists, please log in"
-        #     )
+            return jsonify({"registered": False})
 
-    return {"data": "ahhshhashsa"}
+    else:
+
+        mentor = Mentor(f_name, l_name, email, hashed_password)
+
+        print(f'Registering Mentor {mentor.fname}')
+
+        serialized_mentor = vars(mentor)
+
+        mentorCollection = Database.get_collection('mentor')
+
+        search_result = mentorCollection.find_one({"email": email})
+
+        if search_result is None:
+
+            obj_id = mentorCollection.insert_one(
+                serialized_mentor).inserted_id
+
+            return jsonify({"registered": True, "objectId": str(obj_id)})
+
+        else:
+            print(search_result)
+
+            return jsonify({"registered": False})
 
 
 if __name__ == "__main__":

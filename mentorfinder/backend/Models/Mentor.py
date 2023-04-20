@@ -1,10 +1,10 @@
-class MentorObject:
-    def __init__(self,  email, password,  bio, username='', dob='', occupation='', education='', experience='',  profilePic='',  fname='', lname=''):
+class Mentor:
+    def __init__(self,  fname, lname, email, password,  bio='', username='', dob='', occupation='', education='', experience='',  profilePic=''):
         self.fname = fname
         self.lname = lname
         self.email = email
-        self.username = username
         self.password = password
+        self.username = username
         self.profilePic = profilePic
         self.dob = dob
         self.occupation = occupation
@@ -17,7 +17,6 @@ class MentorObject:
         self.hubsList = []
         self.experience = experience
         self.bio = bio
-        self.mentorList = []
         self.maxCapacityNum = 0
         self.menteeList = []
         self.ifMaxCapacity = False

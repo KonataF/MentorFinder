@@ -10,7 +10,9 @@ class Database:
         uname = os.environ.get("uname")
         db_key = os.environ.get("key")
         connectionURL = f"mongodb+srv://{uname}:{db_key}@mentorfinder.kjb2und.mongodb.net/?retryWrites=true&w=majority"
+        print(connectionURL)
         client = pymongo.MongoClient(connectionURL)
+        print(client.server_info())
         cls.database = client.get_database("MentorFinderDB")
 
     @classmethod
