@@ -1,9 +1,10 @@
-class MenteeObject:
-    def __init__(self,  email, password,  bio, username='', dob='', occupation='', education='', experience='',  profilePic='', userType='',  name=''):
-        self.name = name
+class Mentee:
+    def __init__(self,  fname, lname, email, password,  bio='', username='', dob='', occupation='', education='', experience='',  profilePic=''):
+        self.fname = fname
+        self.lname = lname
         self.email = email
-        self.username = username
         self.password = password
+        self.username = username
         self.profilePic = profilePic
         self.dob = dob
         self.occupation = occupation

@@ -1,6 +1,7 @@
 class MentorObject:
-    def __init__(self,  email, password,  bio, username='', dob='', occupation='', education='', experience='',  profilePic='', userType='',  name=''):
-        self.name = name
+    def __init__(self,  email, password,  bio, username='', dob='', occupation='', education='', experience='',  profilePic='',  fname='', lname=''):
+        self.fname = fname
+        self.lname = lname
         self.email = email
         self.username = username
         self.password = password
