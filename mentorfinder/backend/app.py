@@ -47,7 +47,7 @@ def get_user_data(typeOfUser, userId):
     if userFound:
         print(f"Mentee found {userFound}")
         print(type(userFound))
-        return {'userFound': True, 'data': json.dumps(userFound, default=json_util.default)}
+        return json.dumps(userFound, default=json_util.default)
 
     else:
         return {'userFound': False, "message": f"{typeOfUser} not found"}
