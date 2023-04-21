@@ -292,6 +292,27 @@ def mentorAuth():
         )
 
 
+# searching for mentors
+@app.route("/mentorSearch", methods=['post', 'get'])
+def mentorSearch():
+    return render_template('mentorSearch.html')
+
+@ app.route("/searchForMentors", methods=['post', 'get'])
+def searchForMentors():
+    #print(request.form)
+    pass
+
+
+# searching for mentees
+@app.route("/menteeSearch", methods=['post', 'get'])
+def menteeSearch():
+    return render_template('menteeSearch.html')
+
+@ app.route("/searchForMentees", methods=['post', 'get'])
+def searchForMentees():
+    #print(request.form)
+    pass
+
 # logging in as mentor
 @ app.route("/logout", methods=['post', 'get'])
 def logout():
@@ -308,3 +329,4 @@ if __name__ == "__main__":
     app.config['SESSION_TYPE'] = 'filesystem'
     Database.initialize()
     app.run(debug=True)
+

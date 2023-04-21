@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Mentor Search Page</title>
+</head>
+<body>
+
+<h1>Welcome!</h1>
+<h2> Search for mentors down below: </h2>
+
+<form action="/searchForMentors" method="get">
+    <label for="name">Name</label><br>
+    <input type="text" id="name" name="name"><br><br>
+    <label for="company">Company</label><br>
+    <input type="text" id="company" name="company"><br><br>
+    <label for="occupation">Occupation</label><br>
+    <input type="text" id="occupation" name="occupation"><br><br>
+
+    <label for="educationLvl">Education Level</label><br>
+    <select id="educationLvl" name="educationLvl">
+        <option value="Master's Degree">Master's Degree</option>
+        <option value="Doctorate Degree">Doctorate Degree</option>
+    </select> <br><br>
+
+    <label for="areasOfInterest">Areas of Interest</label><br>
+    <select id="areasOfInterest" name="areasOfInterest">
+        <option value="arts">Arts</option>
+        <option value="science">Science</option>
+        <option value="math">Math</option>
+        <option value="humanities">Humanities</option>
+        <option value="business">Business</option>
+    </select> <br><br>
+
+    <input type="submit" value="Submit">
+  </form>
+
+
+</body>
+</html>
