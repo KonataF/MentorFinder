@@ -1,5 +1,5 @@
 import time
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, session
 from database import Database
 from dotenv import load_dotenv
 import os
@@ -21,8 +21,35 @@ def get_current_time():
     return {'time': time.time()}
 
 
-@ app.route("/api/auth", methods=['post'])
+@ app.route("/api/login", methods=['post'])
 def login():
+    email = request.json.get("email")
+    password = request.json.get("password")
+    user_type = request.json.get("userType")
+
+    if user_type == "Mentee":
+
+        menteeCollection = Database.get_collection('mentee')
+
+        menteeFound = menteeCollection.find_one(
+            {"email": email})
+
+        if menteeFound:
+
+            print(f"Mentor found {menteeFound}")
+
+            passwordcheck = menteeFound['password']
+            obj_id = menteeFound['_id']
+
+            if bcrypt.checkpw(password.encode('utf8'), passwordcheck):
+
+                session["email"] = menteeFound['email']
+
+                return jsonify({"loggedIn": True, "objectId": str(obj_id)})
+
+            else:
+
+                return jsonify({"loggedIn": False})
 
 
 @ app.route("/api/register", methods=['post'])
@@ -40,8 +67,7 @@ def register():
 
     if user_type == "Mentee":
 
-        mentee = Mentee(f_name, l_name,
-                        email, hashed_password)
+        mentee = Mentee(f_name, l_name, email, hashed_password)
 
         print(f'Registering Mentee {mentee.email}')
 
