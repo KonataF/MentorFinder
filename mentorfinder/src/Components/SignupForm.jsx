@@ -37,7 +37,7 @@ const SignupForm = () => {
       console.log(result.data);
       const userData = result.data;
       if (userData) {
-        navigate("/editProfile", { state: { userData } });
+        navigate("/editProfile", { state: { userData, userType } });
       }
     }
   };

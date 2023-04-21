@@ -7,7 +7,6 @@ const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userType, setUserType] = useState("mentor");
-  const [userData, setUserData] = useState(null);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -26,20 +25,19 @@ const LoginForm = () => {
     });
     const result = await response.json();
 
-    //console.log(result["loggedIn"]);
     const isLoggedIn = result["loggedIn"];
     const userId = result["objectId"];
 
     if (isLoggedIn) {
       const response = await fetch(`/profile/${userType}/${userId}`);
       const result = await response.json();
-      console.log(result);
-      // const userData = result.data;
-      // console.log(typeof userData);
-      // if (userData["isProfileComplete"]) {
-      //   navigate("/editProfile", { state: { userData } });
-      //   // history.push("/editProfile", { userData });
-      // }
+      console.log(result.data);
+      const userData = result.data;
+      if (userData["isProfileComplete"] === false) {
+        navigate("/editProfile", { state: { userData, userType } });
+      } else {
+        navigate("/dashboard", { state: { userData } });
+      }
     }
   };
 

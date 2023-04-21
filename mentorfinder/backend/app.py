@@ -47,15 +47,15 @@ def get_user_data(typeOfUser, userId):
     if userFound:
         print(f"Mentee found {userFound}")
         print(type(userFound))
-        return json.dumps(userFound, default=json_util.default)
+        return json.dumps({"data": userFound}, default=json_util.default)
 
     else:
-        return {'userFound': False, "message": f"{typeOfUser} not found"}
+        return json.dumps({'userFound': False, "message": f"{typeOfUser} not found"})
 
 
 @ app.route("/api/build_profile", methods=['post'])
 def build_profile():
-    print(request.json)
+    print(request.json.get('userType'))
     return {'time': time.time()}
 
 

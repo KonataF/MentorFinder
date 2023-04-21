@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 
-const ProfileEditor = (props) => {
+const ProfileEditor = () => {
   const { state } = useLocation();
-  console.log(state);
+  const userType = state.userType;
+  //   console.log(`State ${state.userType}`);
   const [username, setUsername] = useState("");
   const [profilePic, setProfilePic] = useState("");
   const [dob, setDob] = useState("");
@@ -19,6 +20,7 @@ const ProfileEditor = (props) => {
       username,
       profilePic,
       dob,
+      userType,
       occupation: {
         position: occupationPosition,
         company: occupationCompany,
