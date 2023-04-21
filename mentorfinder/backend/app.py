@@ -21,6 +21,10 @@ def get_current_time():
     return {'time': time.time()}
 
 
+@ app.route("/api/auth", methods=['post'])
+def login():
+
+
 @ app.route("/api/register", methods=['post'])
 def register():
 
