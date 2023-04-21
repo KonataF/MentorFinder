@@ -51,6 +51,8 @@ def login():
 
                 return jsonify({"loggedIn": False})
 
+    else:
+
 
 @ app.route("/api/register", methods=['post'])
 def register():

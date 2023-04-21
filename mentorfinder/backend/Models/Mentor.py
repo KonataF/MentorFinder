@@ -20,3 +20,4 @@ class Mentor:
         self.maxCapacityNum = 0
         self.menteeList = []
         self.ifMaxCapacity = False
+        self.isProfileComplete = False

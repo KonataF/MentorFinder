@@ -11,6 +11,13 @@
 # production
 /build
 
+# virtualenv
+/backend/venv
+/backend/__pycache__
+
+# env
+/backend/.env
+
 # misc
 .DS_Store
 .env.local

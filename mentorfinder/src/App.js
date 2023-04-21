@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 function App() {
-  const [currentTime, setCurrentTime] = useState(0);
+  const [currentTime, setCurrentTime] = useState("Hello From React");
 
   useEffect(() => {
-    fetch('/time').then(res => res.json()).then(data => {
+    fetch('/admin').then(res => res.json()).then(data => {
+      console.log(data)
       setCurrentTime(data.time);
     });
   }, []);

@@ -18,3 +18,4 @@ class Mentee:
         self.experience = experience
         self.bio = bio
         self.mentorList = []
+        self.isProfileComplete = False
