@@ -23,6 +23,14 @@ const LoginForm = () => {
     const result = await response.json();
     console.log(result);
     console.log(result["loggedIn"]);
+    const isLoggedIn = result["loggedIn"];
+    const userId = result["objectId"];
+
+    if (isLoggedIn) {
+      const response = await fetch(`/profile/${userType}/${userId}`);
+      const result = await response.json();
+      console.log(result.data);
+    }
   };
 
   const handleUserTypeChange = (event) => {

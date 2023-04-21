@@ -7,6 +7,8 @@ import json
 import bcrypt
 from Models.Mentee import Mentee
 from Models.Mentor import Mentor
+from bson.objectid import ObjectId
+from bson import json_util
 
 app = Flask(__name__)
 
@@ -19,6 +21,36 @@ def admin():
 @ app.route('/time')
 def get_current_time():
     return {'time': time.time()}
+
+
+@ app.route("/profile/<typeOfUser>/<userId>", methods=['get'])
+def get_user_data(typeOfUser, userId):
+
+    print(f'fetching profile for {typeOfUser} : {userId}')
+
+    userFound = ''
+
+    if typeOfUser == 'Mentee':
+
+        menteeCollection = Database.get_collection('mentee')
+
+        userFound = menteeCollection.find_one(
+            {"_id": ObjectId(userId)})
+
+    else:
+
+        mentorCollection = Database.get_collection('mentor')
+
+        userFound = mentorCollection.find_one(
+            {"_id": ObjectId(userId)})
+
+    if userFound:
+        print(f"Mentee found {userFound}")
+        print(type(userFound))
+        return {'userFound': True, 'data': json.dumps(userFound, default=json_util.default)}
+
+    else:
+        return {'userFound': False, "message": f"{typeOfUser} not found"}
 
 
 @ app.route("/api/build_profile", methods=['post'])

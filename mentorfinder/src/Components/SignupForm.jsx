@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ProfileEditor from "./ProfileEditor";
 
 const SignupForm = () => {
   const navigate = useNavigate();
