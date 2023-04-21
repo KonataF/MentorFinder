@@ -1,25 +1,62 @@
-import logo from './logo.svg';
 import './App.css';
+import Navbar from './Navbar';
+import React, { useState } from "react";
+import Dashboard from './pages/Dashboard';
+import FindMentor from './pages/FindMentor';
+import MyMentors from './pages/MyMentors';
+import { Login } from "./pages/Login";
+import { Register } from "./pages/Register";
+import { Route, Routes } from "react-router-dom"
 
-function App() {
+export function App() {
+  // const [currentForm, setCurrentForm] = useState('login');
+
+  // const toggleForm = (formName) => {
+  //   setCurrentForm(formName);
+  // }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+    
+      <Navbar />
+      <div className="container">
+        <Routes>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/findmentor" element={<FindMentor />} />
+          <Route path="/mymentors" element={<MyMentors />} />
+          <Route path="/login" element={<Login />}/>
+        </Routes>
+      </div>
+
+      {/* <div className="App">
+      {
+        currentForm === "login" ? <Login onFormSwitch={toggleForm} /> : <Register onFormSwitch={toggleForm} />
+      }
+      </div> */}
+      {/* <div className="menu-container">
+        <div className="menu_trigger">
+
+      </div> */}
+        {/* <div className="educationDropdown">
+          <h3> Unused <br/><span></span></h3>
+          <ul>
+            <DropdownItem/>
+          </ul>
+        </div>
+      </div> */}
+
+    
+    </>
+  )
 }
+// function DropdownItem(props) {
+//   return(
+//     //**Not sure what is going on here */
+//     // <li className = 'dropdownItem'></li>
+//     // <img></img>
+//     //   <a> [props.text] </a>
+//     <p>sample text</p>
+//   );
+// }
 
 export default App;
