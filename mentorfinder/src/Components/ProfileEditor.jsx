@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const ProfileEditor = (props) => {
+  const { state } = useLocation();
+  console.log(state);
   const [username, setUsername] = useState("");
   const [profilePic, setProfilePic] = useState("");
   const [dob, setDob] = useState("");

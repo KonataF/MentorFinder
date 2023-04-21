@@ -30,8 +30,15 @@ const SignupForm = () => {
     console.log(result);
     const isRegistered = result["registered"];
     console.log(`registered ${isRegistered}`);
+    const userId = result["objectId"];
     if (isRegistered) {
-      navigate("/editProfile");
+      const response = await fetch(`/profile/${userType}/${userId}`);
+      const result = await response.json();
+      console.log(result.data);
+      const userData = result.data;
+      if (userData) {
+        navigate("/editProfile", { state: { userData } });
+      }
     }
   };
 

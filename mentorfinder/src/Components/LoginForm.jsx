@@ -1,9 +1,13 @@
 import React, { useState } from "react";
+import ProfileEditor from "./ProfileEditor";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userType, setUserType] = useState("mentor");
+  const [userData, setUserData] = useState(null);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -30,6 +34,11 @@ const LoginForm = () => {
       const response = await fetch(`/profile/${userType}/${userId}`);
       const result = await response.json();
       console.log(result.data);
+      const userData = result.data;
+      if (userData) {
+        navigate("/editProfile", { state: { userData } });
+        // history.push("/editProfile", { userData });
+      }
     }
   };
 
@@ -38,47 +47,49 @@ const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="Mentor">
-          Mentor
-          <input
-            type="radio"
-            id="Mentor"
-            name="userType"
-            value="Mentor"
-            checked={userType === "Mentor"}
-            onChange={handleUserTypeChange}
-          />
-        </label>
-        <label htmlFor="Mentee">
-          Mentee
-          <input
-            type="radio"
-            id="Mentee"
-            name="userType"
-            value="Mentee"
-            checked={userType === "Mentee"}
-            onChange={handleUserTypeChange}
-          />
-        </label>
-      </div>
-      <label htmlFor="email"> Email </label>
-      <input
-        type="email"
-        id="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <label htmlFor="password"> Password </label>
-      <input
-        type="password"
-        id="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button type="submit"> Submit </button>
-    </form>
+    <>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="Mentor">
+            Mentor
+            <input
+              type="radio"
+              id="Mentor"
+              name="userType"
+              value="Mentor"
+              checked={userType === "Mentor"}
+              onChange={handleUserTypeChange}
+            />
+          </label>
+          <label htmlFor="Mentee">
+            Mentee
+            <input
+              type="radio"
+              id="Mentee"
+              name="userType"
+              value="Mentee"
+              checked={userType === "Mentee"}
+              onChange={handleUserTypeChange}
+            />
+          </label>
+        </div>
+        <label htmlFor="email"> Email </label>
+        <input
+          type="email"
+          id="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <label htmlFor="password"> Password </label>
+        <input
+          type="password"
+          id="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button type="submit"> Submit </button>
+      </form>
+    </>
   );
 };
 
