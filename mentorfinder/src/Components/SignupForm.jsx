@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import ProfileEditor from "./ProfileEditor";
 
 const SignupForm = () => {
+  const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -26,6 +29,11 @@ const SignupForm = () => {
     });
     const result = await response.json();
     console.log(result);
+    const isRegistered = result["registered"];
+    console.log(`registered ${isRegistered}`);
+    if (isRegistered) {
+      navigate("/editProfile");
+    }
   };
 
   const handleUserTypeChange = (event) => {

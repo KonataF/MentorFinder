@@ -7,6 +7,8 @@ import SignupForm from "./Components/SignupForm";
 import LandingPage from "./Components/LandingPage";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LoginForm from "./Components/LoginForm";
+import Dashboard from "./Components/Dashboard";
+import ProfileEditor from "./Components/ProfileEditor";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -16,6 +18,8 @@ root.render(
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/signup" element={<SignupForm />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/editProfile" element={<ProfileEditor />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

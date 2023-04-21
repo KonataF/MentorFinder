@@ -22,6 +22,7 @@ const LoginForm = () => {
     });
     const result = await response.json();
     console.log(result);
+    console.log(result["loggedIn"]);
   };
 
   const handleUserTypeChange = (event) => {

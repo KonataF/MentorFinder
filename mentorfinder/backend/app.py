@@ -21,6 +21,12 @@ def get_current_time():
     return {'time': time.time()}
 
 
+@ app.route("/api/build_profile", methods=['post'])
+def build_profile():
+    print(request.json)
+    return {'time': time.time()}
+
+
 @ app.route("/api/login", methods=['post'])
 def login():
     email = request.json.get("email")
@@ -36,11 +42,12 @@ def login():
 
         if menteeFound:
 
-            print(f"Mentor found {menteeFound}")
+            print(f"Mentee found {menteeFound}")
 
             passwordcheck = menteeFound['password']
             obj_id = menteeFound['_id']
 
+            # check password
             if bcrypt.checkpw(password.encode('utf8'), passwordcheck):
 
                 session["email"] = menteeFound['email']
@@ -49,9 +56,35 @@ def login():
 
             else:
 
-                return jsonify({"loggedIn": False})
+                return jsonify({"loggedIn": False, "message": "incorrect password"})
+
+        else:
+
+            return jsonify({"loggedIn": False, "message": "incorrect username"})
 
     else:
+
+        mentorCollection = Database.get_collection('mentor')
+
+        mentorFound = mentorCollection.find_one(
+            {"email": email})
+
+        if mentorFound:
+            obj_id = mentorFound['_id']
+            print(f"Mentor found {mentorFound}")
+            passwordcheck = mentorFound['password']
+            if bcrypt.checkpw(password.encode('utf8'), passwordcheck):
+                session["email"] = mentorFound['email']
+
+                return jsonify({"loggedIn": True, "objectId": str(obj_id)})
+
+            else:
+                print(f"Mentor not found {mentorFound}")
+                return jsonify({"loggedIn": False, "message": "incorrect password"})
+
+        else:
+
+            return jsonify({"loggedIn": False, "message": "incorrect username"})
 
 
 @ app.route("/api/register", methods=['post'])
