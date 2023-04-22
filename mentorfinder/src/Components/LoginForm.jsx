@@ -33,10 +33,11 @@ const LoginForm = () => {
       const result = await response.json();
       console.log(result.data);
       const userData = result.data;
+      console.log(userData["_id"]["$oid"]);
       if (userData["isProfileComplete"] === false) {
         navigate("/editProfile", { state: { userData, userType } });
       } else {
-        navigate("/dashboard", { state: { userData } });
+        navigate("/dashboard", { state: { userData, userType } });
       }
     }
   };

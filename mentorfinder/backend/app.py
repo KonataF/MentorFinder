@@ -44,6 +44,8 @@ def get_user_data(typeOfUser, userId):
         userFound = mentorCollection.find_one(
             {"_id": ObjectId(userId)})
 
+    print(userFound)
+
     if userFound:
         print(f"Mentee found {userFound}")
         print(type(userFound))
@@ -55,8 +57,62 @@ def get_user_data(typeOfUser, userId):
 
 @ app.route("/api/build_profile", methods=['post'])
 def build_profile():
-    print(request.json.get('userType'))
-    return {'time': time.time()}
+    user_type = request.json.get('userType')
+    _id = request.json.get('_id')
+
+    print(request.json)
+
+    # print(f'updating records for {email}')
+
+    query = {"_id": ObjectId(_id)}
+
+    if user_type == "Mentor":
+
+        mentorCollection = Database.get_collection('mentor')
+
+        newvalues = {"$set":
+                     {"name": request.json.get('name'),
+                      "username": request.json.get('username'),
+                      "profilePic": request.json.get('profilepic'),
+                      "dob": request.json.get('dob'),
+                      "occupation": request.json.get('occupation'),
+                      "education": request.json.get('education'),
+                      "areasOfInterests": request.json.get('area_of_interest'),
+                      "bio": request.json.get('bio'),
+                      "experience": request.json.get('experience'),
+                      "maxCapacityNum": request.json.get('max_mentees'),
+                      }}
+
+        updationResult = mentorCollection.update_one(query, newvalues)
+        print(f"updation count: {updationResult.modified_count}")
+        if updationResult.modified_count > 0:
+            return jsonify({"updated": True, "objectId": str(_id), "message": "mentor profile built successfully"})
+        else:
+            return jsonify({"updated": True, "objectId": str(_id), "message": "mentor profile completion unsuccessful"})
+
+    else:
+
+        menteeCollection = Database.get_collection('mentee')
+
+        newvalues = {"$set":
+                     {"name": request.json.get('name'),
+                      "username": request.json.get('username'),
+                      "profilePic": request.json.get('profilepic'),
+                      "dob": request.json.get('dob'),
+                      "occupation": request.json.get('occupation'),
+                      "education": request.json.get('education'),
+                      "areasOfInterests": request.json.get('area_of_interest'),
+                      "bio": request.json.get('bio'),
+                      "experience": request.json.get('experience'),
+                      "maxCapacityNum": request.json.get('max_mentees'),
+                      }}
+
+        updationResult = menteeCollection.update_one(query, newvalues)
+        print(f"updation count: {updationResult.modified_count}")
+        if updationResult.modified_count > 0:
+            return jsonify({"updated": True, "objectId": str(_id), "message": "mentee profile built successfully"})
+        else:
+            return jsonify({"updated": True, "objectId": str(_id), "message": "mentee profile completion unsuccessful"})
 
 
 @ app.route("/api/login", methods=['post'])

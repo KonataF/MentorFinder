@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const ProfileEditor = () => {
   const { state } = useLocation();
+  const navigate = useNavigate();
   const userType = state.userType;
-  //   console.log(`State ${state.userType}`);
+  const userId = state.userData["_id"]["$oid"];
   const [username, setUsername] = useState("");
   const [profilePic, setProfilePic] = useState("");
   const [dob, setDob] = useState("");
@@ -15,8 +16,10 @@ const ProfileEditor = () => {
   const [educationDiscipline, setEducationDiscipline] = useState("");
 
   const handleSubmit = async (event) => {
+    console.log(`State ${state.userData["_id"]["$oid"]}`);
     event.preventDefault();
     const data = {
+      userId,
       username,
       profilePic,
       dob,
@@ -32,6 +35,7 @@ const ProfileEditor = () => {
       },
     };
     console.log(data);
+    // make API request to update user profile with data
     const response = await fetch("/api/build_profile", {
       method: "POST",
       headers: {
@@ -41,7 +45,14 @@ const ProfileEditor = () => {
     });
     const result = await response.json();
     console.log(result);
-    // make API request to update user profile with data
+    const hasUpdated = result["updated"];
+    if (hasUpdated) {
+      const response = await fetch(`/profile/${userType}/${userId}`);
+      const result = await response.json();
+      console.log(result.data);
+      const userData = result.data;
+      navigate("/dashboard", { state: { userData, userType } });
+    }
   };
 
   return (
