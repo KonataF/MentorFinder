@@ -19,3 +19,13 @@ class User:
         self.type = type
         self.experience = experience
         self.bio = bio
+
+    def upvotePost():
+        pass
+    def undoUpvotePost():
+        pass
+    def downvotePost():
+        pass
+    def undoDownvotePost():
+        pass
+    

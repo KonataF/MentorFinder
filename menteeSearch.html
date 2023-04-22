@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Mentor Search Page</title>
+</head>
+
+<style>
+#container {
+    margin:auto;
+    width:50%;  
+    text-align: center;
+}
+</style>
+
+<body>
+
+<div id="container">
+<h1>Welcome!</h1>
+<h2> Search for mentees down below: </h2>
+
+<form action="/searchForMentors" method="get">
+    <label for="name">Name</label><br>
+    <input type="text" id="name" name="name"><br><br>
+    <label for="company">Company</label><br>
+    <input type="text" id="company" name="company"><br><br>
+    <label for="position">Occupation</label><br>
+    <input type="text" id="position" name="position"><br><br>
+
+    <label for="college">College</label><br>
+    <input type="text" id="college" name="college"><br><br>
+    <label for="educationLvl">Education Level</label><br>
+    <select id="educationLvl" name="educationLvl">
+        <option value="Masters">Master's Degree</option>
+        <option value="Doctorate">Doctorate Degree</option>
+    </select> <br><br>
+
+    <label for="areaOfInterest">Areas of Interest</label><br>
+    <select id="areaOfInterest" name="areasOfInterest">
+        <option value="arts">Arts</option>
+        <option value="science">Science</option>
+        <option value="math">Math</option>
+        <option value="humanities">Humanities</option>
+        <option value="business">Business</option>
+    </select> <br><br>
+
+    <input type="submit" value="Submit">
+  </form>
+
+  <!-- {% include 'userSearchResults.html' %} -->
+  <tr>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Company</th>
+    <th>Position</th>
+    <th>College</th>
+    <th>Education Level</th>
+    <th>Areas of Interest</th>
+
+  </tr>
+  {% if results.length() == 0}
+    { message }
+  {% else %}
+    {% for result in results %}
+    <tr>
+        <td>{{ results["fname"] }}</td>
+        <td>{{ results["lname"] }}</td>
+        <td>{{ results["occupation"].company }}</td>
+        <td>{{ results["occupation"].position }}</td>
+        <td>{{ results["education"].college }}</td>
+        <td>{{ results["education"].degree }}</td>
+        <td>{{ results["areasOfInterest"] }}</td>
+    </tr>
+    {% endfor %}
+   {% endif %}
+</div>
+
+</body>
+</html>

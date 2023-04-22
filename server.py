@@ -347,19 +347,6 @@ def searchForMentors():
         return render_template("mentorSearch.html",results = mentorsFound)
 
 
-
-    
-
-
-
-
-
-
-
-
-
-
-
 # searching for mentees
 @app.route("/menteeSearch", methods=['post', 'get'])
 def menteeSearch():
@@ -368,7 +355,7 @@ def menteeSearch():
 @ app.route("/searchForMentees", methods=['post', 'get'])
 def searchForMentees():
     #print(request.form)
-    pass
+    # will fill in once i get searchForMentors to work
 
 # logging in as mentor
 @ app.route("/logout", methods=['post', 'get'])
