@@ -55,6 +55,18 @@ def get_user_data(typeOfUser, userId):
         return json.dumps({'userFound': False, "message": f"{typeOfUser} not found"})
 
 
+@ app.route("/api/get_mentors", methods=['get'])
+def get_mentors():
+    mentors = list(Database.get_collection('mentor').find({}))
+    return json.dumps({"data": mentors}, default=json_util.default)
+
+
+@ app.route("/api/get_mentees", methods=['get'])
+def get_mentees():
+    mentees = list(Database.get_collection('mentee').find({}))
+    return json.dumps({"data": mentees}, default=json_util.default)
+
+
 @ app.route("/api/build_profile", methods=['post'])
 def build_profile():
     user_type = request.json.get('userType')
