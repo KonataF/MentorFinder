@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function NotificationsPage() {
   const [data, setData] = useState(null);
@@ -6,24 +6,27 @@ function NotificationsPage() {
   const typeOfUser = localStorage.getItem("userType");
   console.log(userId, typeOfUser);
 
-  const fetchData = async () => {
-    const response = await fetch(`/notifications/${typeOfUser}/${userId}`);
-    const result = await response.json();
-    setData(result);
-    console.log(result.data);
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch(`/notifications/${typeOfUser}/${userId}`);
+      const result = await response.json();
+      setData(result.data);
+      console.log(data);
+    };
 
-  useState(() => {
     fetchData();
-  }, []);
+  }, [typeOfUser, userId]);
 
   return (
     <div>
       {data ? (
-        <div>
-          <h2>{data.title}</h2>
-          <p>{data.message}</p>
-        </div>
+        data.map((notification) => (
+          <div key={notification.notification_id}>
+            <h2>{notification.notification_from}</h2>
+            <p>{notification.notification_to}</p>
+            <p>{notification.notification_type}</p>
+          </div>
+        ))
       ) : (
         <p>Loading...</p>
       )}
