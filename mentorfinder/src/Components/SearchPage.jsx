@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import SearchResultCard from "./SearchResultCard";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function SearchPage() {
+  const { state } = useLocation();
+  console.log(state);
+  const userData = state.userData;
   const [searchTerm, setSearchTerm] = useState("");
   const [searchType, setSearchType] = useState("degree");
   const [searchResult, setSearchResult] = useState(null);
@@ -17,7 +21,6 @@ function SearchPage() {
   const handleSearch = async () => {
     // Perform search based on searchTerm and searchType
     console.log(`Searching for ${searchTerm} in ${searchType}`);
-
     const response = await fetch(`api/search?${searchType}=${searchTerm}`);
     const result = await response.json();
     console.log(result.data);
@@ -26,8 +29,11 @@ function SearchPage() {
 
   const handleButtonClick = async (_id) => {
     console.log(`Clicked object with id : ${_id}`);
+    const currentUserId = userData["_id"]["$oid"];
+    const mentorId = _id;
     const data = {
-      _id,
+      currentUserId,
+      mentorId,
     };
     console.log(data);
     const response = await fetch("/api/push_notification", {

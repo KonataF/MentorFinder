@@ -7,6 +7,7 @@ import json
 import bcrypt
 from Models.Mentee import Mentee
 from Models.Mentor import Mentor
+from Models.Notification import Notification
 from bson.objectid import ObjectId
 from bson import json_util
 
@@ -66,7 +67,37 @@ def search():
 
 @ app.route("/api/push_notification", methods=['post'])
 def push_notification():
-    return json.dumps({"data": "hello"})
+
+    toId = request.json.get('mentorId')
+
+    fromId = request.json.get('currentUserId')
+
+    mentorCollection = Database.get_collection('mentor')
+
+    userFound = mentorCollection.find_one(
+        {"_id": ObjectId(toId)})
+
+    print(userFound)
+
+    query = {"_id": ObjectId(toId)}
+
+    notification = Notification(ObjectId(), fromId, toId, "networking")
+
+    user_notifications = userFound["notifications"]
+
+    if user_notifications is None:
+        user_notifications = []
+
+    user_notifications.append(vars(notification))
+
+    newvalues = {"$set": {"notifications": user_notifications}}
+
+    updationResult = mentorCollection.update_one(query, newvalues)
+    print(f"updation count: {updationResult.modified_count}")
+    if updationResult.modified_count > 0:
+        return jsonify({"notificationSent": True, "requestorsId": fromId, "requesteeId": toId, "message": "request sent to the mentor successfully"})
+    else:
+        return jsonify({"notificationSent": False, "requestorsId": fromId, "requesteeId": toId, "message": "notification failed"})
 
 
 @ app.route("/api/get_mentors", methods=['get'])
