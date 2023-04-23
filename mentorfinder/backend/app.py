@@ -55,6 +55,14 @@ def get_user_data(typeOfUser, userId):
         return json.dumps({'userFound': False, "message": f"{typeOfUser} not found"})
 
 
+@ app.route("/api/search", methods=['get'])
+def search():
+    degree = request.args.get("degree")
+    mentors = list(Database.get_collection(
+        'mentor').find({"education.degree": degree}))
+    return json.dumps({"data": mentors}, default=json_util.default)
+
+
 @ app.route("/api/get_mentors", methods=['get'])
 def get_mentors():
     mentors = list(Database.get_collection('mentor').find({}))
