@@ -24,6 +24,29 @@ def get_current_time():
     return {'time': time.time()}
 
 
+@ app.route("/notifications/<typeOfUser>/<userId>", methods=['get'])
+def get_user_notifications(typeOfUser, userId):
+    print(f'fetching profile for {typeOfUser} : {userId}')
+
+    userFound = ''
+
+    if typeOfUser == 'Mentee':
+
+        menteeCollection = Database.get_collection('mentee')
+
+        userFound = menteeCollection.find_one(
+            {"_id": ObjectId(userId)})
+
+    else:
+
+        mentorCollection = Database.get_collection('mentor')
+
+        userFound = mentorCollection.find_one(
+            {"_id": ObjectId(userId)})
+
+    return json.dumps({"data": userFound['notifications']}, default=json_util.default)
+
+
 @ app.route("/profile/<typeOfUser>/<userId>", methods=['get'])
 def get_user_data(typeOfUser, userId):
 

@@ -5,7 +5,7 @@ const ProfileEditor = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
   const userType = state.userType;
-  const isProfileComplete = state.userData["isProfileComplete"];
+  let isProfileComplete = state.userData["isProfileComplete"];
   const userId = state.userData["_id"]["$oid"];
   const [username, setUsername] = useState("");
   const [profilePic, setProfilePic] = useState("");
@@ -21,6 +21,7 @@ const ProfileEditor = () => {
       `Object Id is ${state.userData["_id"]["$oid"]}, Profile COmplee ${isProfileComplete}`
     );
     event.preventDefault();
+    isProfileComplete = true;
     const data = {
       userId,
       username,

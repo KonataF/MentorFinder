@@ -11,6 +11,7 @@ import Dashboard from "./Components/Dashboard";
 import ProfileEditor from "./Components/ProfileEditor";
 import MyMentors from "./Components/MyMentors";
 import SearchPage from "./Components/SearchPage";
+import NotificationsPage from "./Components/NotificationPage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -24,6 +25,7 @@ root.render(
         <Route path="/editProfile" element={<ProfileEditor />} />
         <Route path="/myMentors" element={<MyMentors />} />
         <Route path="/search" element={<SearchPage />} />
+        <Route path="/notifications" element={<NotificationsPage />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

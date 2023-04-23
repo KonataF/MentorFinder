@@ -28,6 +28,9 @@ const LoginForm = () => {
     const isLoggedIn = result["loggedIn"];
     const userId = result["objectId"];
 
+    localStorage.setItem("userId", userId);
+    localStorage.setItem("userType", userType);
+
     if (isLoggedIn) {
       const response = await fetch(`/profile/${userType}/${userId}`);
       const result = await response.json();
