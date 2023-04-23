@@ -1,6 +1,7 @@
 import pymongo
 from dotenv import load_dotenv
 import os
+import certifi
 
 
 class Database:
@@ -11,7 +12,7 @@ class Database:
         db_key = os.environ.get("key")
         connectionURL = f"mongodb+srv://{uname}:{db_key}@mentorfinder.kjb2und.mongodb.net/?retryWrites=true&w=majority"
         print(connectionURL)
-        client = pymongo.MongoClient(connectionURL)
+        client = pymongo.MongoClient(connectionURL, tlsCAFile=certifi.where())
         cls.database = client.get_database("MentorFinderDB")
 
     @classmethod
