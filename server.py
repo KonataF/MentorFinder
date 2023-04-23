@@ -399,6 +399,49 @@ def searchForMentees():
         #return render_template("mentorSearch.html",results = menteesFound, queryGenerated=str(query))  - for testing
         return render_template("menteeSearch.html",results = menteesFound) 
 
+# creating community hubs
+@ app.route("/communityHubCreation", methods=['post', 'get'])
+def communityHubCreation():
+    return render_template('communityHubCreation.html')
+
+@ app.route("/createCommunityHub", methods=['post', 'get'])
+def createCommunityHub():
+    return render_template('createCommunityHub.html')
+
+# searching for community hubs
+@ app.route("/communityHubSearch", methods=['post', 'get'])
+def communityHubSearch():
+    return render_template('communityHubSearch.html')
+
+@ app.route("/searchForCommunityHubs", methods=['post', 'get'])
+def searchForCommunityHubs():
+    searchName = request.args.get("searchName")
+    searchKeyword = request.args.get("searchKeyword")
+
+    # splitting up input and creating long query to search for
+    hubCollection = Database.get_collection('communityHub')
+    query = {}
+
+    # search by checking if search name given is found in title of hub (also accounts for if user begins to type a hub name)
+    if searchName:
+        query["hubName"] =  {'$regex': str(searchName)}
+    # search keyword in tags - checks each keyword and sees if it is part of any tags
+    if searchKeyword:
+        searchKeywords = searchKeyword.split(",")
+        query["tags"] =  {'$in': searchKeywords}
+        #for keyword in searchKeywords:
+        #    query["tags"] =  {'$in': str(keyword)}
+
+    # search for mentor with given query and show certain fields in results
+    hubsFound = list(hubCollection.find(query, { "_id": 0, "hubName": 1, "memberList": 1, "owner": 1, "description": 1, "tags": 1 }))
+    
+
+    if len(hubsFound) == 0:
+        return render_template("communityHubSearch.html",results = hubsFound, queryGenerated=str(query), errorMessage ="No mentees found using search given.")
+        #return render_template("communityHubSearch.html",results = hubsFound, errorMessage ="No hubs found using search given.")
+    else:
+        return render_template("communityHubSearch.html",results = hubsFound, queryGenerated=str(query)) 
+        #return render_template("communityHubSearch.html",results = hubsFound) 
 
 
 # logging in as mentor
