@@ -10,6 +10,7 @@ from MenteeObject import *
 from MentorObject import *
 import pprint
 from dotenv import load_dotenv
+import pymongo
 
 app = Flask(__name__)
 
@@ -306,10 +307,8 @@ def searchForMentors():
     college = request.args.get("college")
     educationLvl = request.args.get("educationLvl")
     areaOfInterest = request.args.get("areaOfInterest")
-    #areaOfInterest2 = request.args.get("areaOfInterest2")
-    #areasOfInterest = []
-    # splitting up input and creating long queryy to search for
 
+    # splitting up input and creating long query to search for
     mentorCollection = Database.get_collection('mentor')
     query = {}
 
@@ -333,33 +332,20 @@ def searchForMentors():
     if educationLvl: # if user has one of the two shown education lvls
         query["education.degree"] = educationLvl
 
-    extraInfo = ""
-
     if areaOfInterest: # if user has one of the two shown education lvls
-        #query["areasOfInterest"] = [areaOfInterest]
-        query["areasOfInterest"] = {'$in': [areaOfInterest]}
+        query["areasOfInterests"] =  {'$in' : [str(areaOfInterest)] }
         extraInfo = "area of interest given"
     else:
         extraInfo = "no area of interest given"
-    '''
-    if areaOfInterest:
-        extraInfo = "area of interest was given"
-        # checks if given area of interst is in array of a person's areas of interest
-        query["areasOfInterest"] = {'$in': [areaOfInterest]}
-        #query["areasOfInterest"] = areaOfInterest
-    '''
 
-    #return render_template("mentorSearch.html") - TESTING
 
     # search for mentor with given query and show certain fields in results
-    mentorsFound = list(mentorCollection.find(query, { "_id": 0, "fname": 1, "lname": 1, "education": 1, "occupation": 1, "bio": 1 })) # TESTING
+    mentorsFound = list(mentorCollection.find(query, { "_id": 0, "fname": 1, "lname": 1, "education": 1, "occupation": 1, "bio": 1, "areasOfInterests": 1 })) # TESTING
     
-    #print(mentorsFound) # TESTING
-    #extraInfo = ""
     if len(mentorsFound) == 0:
-        return render_template("mentorSearch.html",results = mentorsFound, queryGenerated=str(query), extraInfo = extraInfo, errorMessage ="No mentors found using search given.")
+        return render_template("mentorSearch.html",results = mentorsFound, queryGenerated=str(query), errorMessage ="No mentors found using search given.")
     else:
-        return render_template("mentorSearch.html",results = mentorsFound, queryGenerated=str(query), extraInfo = extraInfo) # TESTING
+        return render_template("mentorSearch.html",results = mentorsFound, queryGenerated=str(query)) 
 
     
 # searching for mentees
