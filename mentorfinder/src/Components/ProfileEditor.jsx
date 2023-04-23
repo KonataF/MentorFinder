@@ -5,6 +5,7 @@ const ProfileEditor = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
   const userType = state.userType;
+  const isProfileComplete = state.userData["isProfileComplete"];
   const userId = state.userData["_id"]["$oid"];
   const [username, setUsername] = useState("");
   const [profilePic, setProfilePic] = useState("");
@@ -16,7 +17,9 @@ const ProfileEditor = () => {
   const [educationDiscipline, setEducationDiscipline] = useState("");
 
   const handleSubmit = async (event) => {
-    console.log(`State ${state.userData["_id"]["$oid"]}`);
+    console.log(
+      `Object Id is ${state.userData["_id"]["$oid"]}, Profile COmplee ${isProfileComplete}`
+    );
     event.preventDefault();
     const data = {
       userId,
@@ -33,6 +36,7 @@ const ProfileEditor = () => {
         degree: educationDegree,
         discipline: educationDiscipline,
       },
+      isProfileComplete,
     };
     console.log(data);
     // make API request to update user profile with data

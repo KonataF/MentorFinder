@@ -64,6 +64,11 @@ def search():
     return json.dumps({"data": mentors}, default=json_util.default)
 
 
+@ app.route("/api/push_notification", methods=['post'])
+def push_notification():
+    return json.dumps({"data": "hello"})
+
+
 @ app.route("/api/get_mentors", methods=['get'])
 def get_mentors():
     mentors = list(Database.get_collection('mentor').find({}))
@@ -79,13 +84,16 @@ def get_mentees():
 @ app.route("/api/build_profile", methods=['post'])
 def build_profile():
     user_type = request.json.get('userType')
-    _id = request.json.get('_id')
+    _id = request.json.get('userId')
 
     print(request.json)
-
+    print(f'type of id is {type(_id)}')
     # print(f'updating records for {email}')
 
     query = {"_id": ObjectId(_id)}
+
+    searchResultTemp = Database.get_collection('mentor').find_one(query)
+    print(f'HERER FOUNF SOMETHING {searchResultTemp}')
 
     if user_type == "Mentor":
 
@@ -102,6 +110,7 @@ def build_profile():
                       "bio": request.json.get('bio'),
                       "experience": request.json.get('experience'),
                       "maxCapacityNum": request.json.get('max_mentees'),
+                      "isProfileComplete": request.json.get('isProfileComplete')
                       }}
 
         updationResult = mentorCollection.update_one(query, newvalues)
@@ -126,6 +135,7 @@ def build_profile():
                       "bio": request.json.get('bio'),
                       "experience": request.json.get('experience'),
                       "maxCapacityNum": request.json.get('max_mentees'),
+                      "isProfileComplete": request.json.get('isProfileComplete')
                       }}
 
         updationResult = menteeCollection.update_one(query, newvalues)

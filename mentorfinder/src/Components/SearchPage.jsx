@@ -24,8 +24,21 @@ function SearchPage() {
     setSearchResult(result.data);
   };
 
-  const handleButtonClick = (fname) => {
-    console.log(`Clicked object with id : ${fname}`);
+  const handleButtonClick = async (_id) => {
+    console.log(`Clicked object with id : ${_id}`);
+    const data = {
+      _id,
+    };
+    console.log(data);
+    const response = await fetch("/api/push_notification", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    const result = await response.json();
+    console.log(result);
     // Do something with the fname value
   };
 

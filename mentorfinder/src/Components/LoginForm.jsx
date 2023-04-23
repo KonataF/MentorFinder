@@ -35,6 +35,8 @@ const LoginForm = () => {
       const userData = result.data;
       console.log(userData["_id"]["$oid"]);
       if (userData["isProfileComplete"] === false) {
+        userData["isProfileComplete"] = true;
+        console.log(userData["isProfileComplete"]);
         navigate("/editProfile", { state: { userData, userType } });
       } else {
         navigate("/dashboard", { state: { userData, userType } });

@@ -19,6 +19,6 @@ class Mentor:
         self.bio = bio
         self.maxCapacityNum = 0
         self.menteeList = []
-        self.Notifications = []
+        self.notifications = []
         self.ifMaxCapacity = False
         self.isProfileComplete = False
