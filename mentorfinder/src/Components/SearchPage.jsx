@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import SearchResultCard from "./SearchResultCard";
 
 function SearchPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchType, setSearchType] = useState("degree");
+  const [searchResult, setSearchResult] = useState(null);
 
   const handleInputChange = (event) => {
     setSearchTerm(event.target.value);
@@ -12,9 +14,19 @@ function SearchPage() {
     setSearchType(event.target.value);
   };
 
-  const handleSearch = () => {
+  const handleSearch = async () => {
     // Perform search based on searchTerm and searchType
     console.log(`Searching for ${searchTerm} in ${searchType}`);
+
+    const response = await fetch(`api/search?${searchType}=${searchTerm}`);
+    const result = await response.json();
+    console.log(result.data);
+    setSearchResult(result.data);
+  };
+
+  const handleButtonClick = (fname) => {
+    console.log(`Clicked object with id : ${fname}`);
+    // Do something with the fname value
   };
 
   return (
@@ -59,6 +71,14 @@ function SearchPage() {
         </label>
       </div>
       <button onClick={handleSearch}>Search</button>
+      {searchResult &&
+        searchResult.map((result) => (
+          <SearchResultCard
+            key={result.email}
+            data={result}
+            onButtonClick={handleButtonClick}
+          />
+        ))}
     </div>
   );
 }

@@ -58,6 +58,7 @@ def get_user_data(typeOfUser, userId):
 @ app.route("/api/search", methods=['get'])
 def search():
     degree = request.args.get("degree")
+    print(degree)
     mentors = list(Database.get_collection(
         'mentor').find({"education.degree": degree}))
     return json.dumps({"data": mentors}, default=json_util.default)

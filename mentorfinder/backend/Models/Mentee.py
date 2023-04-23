@@ -17,5 +17,6 @@ class Mentee:
         self.hubsList = []
         self.experience = experience
         self.bio = bio
+        self.notifications = []
         self.mentorList = []
         self.isProfileComplete = False
