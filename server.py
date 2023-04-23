@@ -300,7 +300,6 @@ def mentorSearch():
 
 @ app.route("/searchForMentors", methods=['post', 'get'])
 def searchForMentors():
-
     name = request.args.get("name")
     company = request.args.get("company")
     position = request.args.get("position")
@@ -340,7 +339,7 @@ def searchForMentors():
 
 
     # search for mentor with given query and show certain fields in results
-    mentorsFound = list(mentorCollection.find(query, { "_id": 0, "fname": 1, "lname": 1, "education": 1, "occupation": 1, "bio": 1, "areasOfInterests": 1 })) # TESTING
+    mentorsFound = list(mentorCollection.find(query, { "_id": 0, "fname": 1, "lname": 1, "education": 1, "occupation": 1, "bio": 1, "areasOfInterests": 1 }))
     
     if len(mentorsFound) == 0:
         return render_template("mentorSearch.html",results = mentorsFound, queryGenerated=str(query), errorMessage ="No mentors found using search given.")
@@ -355,9 +354,53 @@ def menteeSearch():
 
 @ app.route("/searchForMentees", methods=['post', 'get'])
 def searchForMentees():
-    #print(request.form)
-    # will fill in once i get searchForMentors to work
-    pass 
+    name = request.args.get("name")
+    company = request.args.get("company")
+    position = request.args.get("position")
+    college = request.args.get("college")
+    areaOfInterest = request.args.get("areaOfInterest")
+
+    # splitting up input and creating long query to search for
+    menteeCollection = Database.get_collection('mentee')
+    query = {}
+
+    if name:
+        nameSplit = name.split()
+        if len(nameSplit) == 1:
+            # check for if single name given is either someone's first or last name
+            query["$or"] = [{"fname": nameSplit[0]}, {"lname": nameSplit[0]}] 
+        if len(nameSplit) == 2:
+            fname = nameSplit[0]
+            lname = nameSplit[1]
+            query["fname"] = fname
+            query["lname"] = lname
+    if company:
+        #company = company.lower() - account for case?
+        query["occupation.company"] = company
+    if position:
+        query["occupation.position"] = position
+    if college:
+        query["education.college"] = college
+
+    if areaOfInterest: # if user has one of the two shown education lvls
+        query["areasOfInterests"] =  {'$in' : [str(areaOfInterest)] }
+        extraInfo = "area of interest given"
+    else:
+        extraInfo = "no area of interest given"
+
+
+    # search for mentor with given query and show certain fields in results
+    menteesFound = list(menteeCollection.find(query, { "_id": 0, "fname": 1, "lname": 1, "education": 1, "occupation": 1, "bio": 1, "areasOfInterests": 1 }))
+    
+    if len(menteesFound) == 0:
+        #return render_template("mentorSearch.html",results = menteesFound, queryGenerated=str(query), errorMessage ="No mentees found using search given.") - for testing
+        return render_template("menteeSearch.html",results = menteesFound, errorMessage ="No mentees found using search given.")
+    else:
+        #return render_template("mentorSearch.html",results = menteesFound, queryGenerated=str(query))  - for testing
+        return render_template("menteeSearch.html",results = menteesFound) 
+
+
+
 # logging in as mentor
 @ app.route("/logout", methods=['post', 'get'])
 def logout():

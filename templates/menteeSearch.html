@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Mentor Search Page</title>
+<title>Mentee Search Page</title>
 </head>
 
 <style>
@@ -11,6 +11,9 @@
     width:50%;  
     text-align: center;
 }
+.myTable { background-color:#eee;border-collapse:collapse; }
+.myTable th { background-color:#000;color:white;width:50%; }
+.myTable td, .myTable th { padding:5px;border:1px solid #000; }
 </style>
 
 <body>
@@ -19,61 +22,63 @@
 <h1>Welcome!</h1>
 <h2> Search for mentees down below: </h2>
 
-<form action="/searchForMentors" method="get">
+<form action="/searchForMentees" method="get">
     <label for="name">Name</label><br>
     <input type="text" id="name" name="name"><br><br>
     <label for="company">Company</label><br>
     <input type="text" id="company" name="company"><br><br>
-    <label for="position">Occupation</label><br>
+    <label for="position">Position</label><br>
     <input type="text" id="position" name="position"><br><br>
 
     <label for="college">College</label><br>
     <input type="text" id="college" name="college"><br><br>
-    <label for="educationLvl">Education Level</label><br>
-    <select id="educationLvl" name="educationLvl">
-        <option value="Masters">Master's Degree</option>
-        <option value="Doctorate">Doctorate Degree</option>
-    </select> <br><br>
 
-    <label for="areaOfInterest">Areas of Interest</label><br>
-    <select id="areaOfInterest" name="areasOfInterest">
-        <option value="arts">Arts</option>
-        <option value="science">Science</option>
-        <option value="math">Math</option>
-        <option value="humanities">Humanities</option>
-        <option value="business">Business</option>
+    <label for="areaOfInterest">Area of Interest</label><br>
+    <select id="areaOfInterest" name="areaOfInterest">
+        <option value=""></option>
+        <option value="Arts">Arts</option>
+        <option value="Science">Science</option>
+        <option value="Math">Math</option>
+        <option value="Humanities">Humanities</option>
+        <option value="Business">Business</option>
     </select> <br><br>
-
+<br><br>
     <input type="submit" value="Submit">
   </form>
 
-  <!-- {% include 'userSearchResults.html' %} -->
+
+    <p>  Query Generated:   {{ queryGenerated }}</p>
+
+    {{errorMessage}} <br> <br>
+
+
+  <table class="myTable">
   <tr>
     <th>First Name</th>
     <th>Last Name</th>
     <th>Company</th>
     <th>Position</th>
     <th>College</th>
-    <th>Education Level</th>
     <th>Areas of Interest</th>
 
   </tr>
-  {% if results.length() == 0}
-    { message }
-  {% else %}
+
+
+
     {% for result in results %}
     <tr>
-        <td>{{ results["fname"] }}</td>
-        <td>{{ results["lname"] }}</td>
-        <td>{{ results["occupation"].company }}</td>
-        <td>{{ results["occupation"].position }}</td>
-        <td>{{ results["education"].college }}</td>
-        <td>{{ results["education"].degree }}</td>
-        <td>{{ results["areasOfInterest"] }}</td>
+        <td>{{ result["fname"] }}</td>
+        <td>{{ result["lname"] }}</td>
+        <td>{{ result["occupation"].company }}</td>
+        <td>{{ result["occupation"].position }}</td>
+        <td>{{ result["education"].college }}</td>
+        <td>{{ result["areasOfInterests"] }}</td>
     </tr>
     {% endfor %}
-   {% endif %}
+    </table>
+
 </div>
+
 
 </body>
 </html>

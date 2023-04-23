@@ -49,26 +49,13 @@
         <option value="Business">Business</option>
     </select> <br><br>
 <br><br>
-    <!--
-    <label for="areaOfInterest2">Area of Interest #2</label><br>
-    <select id="areaOfInterest2" name="areasOfInterest2">
-        <option value=""></option>
-        <option value="Arts">Arts</option>
-        <option value="Science">Science</option>
-        <option value="Math">Math</option>
-        <option value="Humanities">Humanities</option>
-        <option value="Business">Business</option>
-    </select> <br><br>
-    -->
     <input type="submit" value="Submit">
   </form>
 
 
-    <p>  Query Generated:   {{ queryGenerated }}</p>
-    <p>  {{ extraInfo }}</p><br>
+ <!-- for testing   <p>  Query Generated:   {{ queryGenerated }}</p> --> 
 
     {{errorMessage}} <br> <br>
-  <!-- {% include 'userSearchResults.html' %} -->
 
 
   <table class="myTable">
@@ -93,7 +80,7 @@
         <td>{{ result["occupation"].position }}</td>
         <td>{{ result["education"].college }}</td>
         <td>{{ result["education"].degree }}</td>
-        <td>{{ result["areasOfInterest"] }}</td>
+        <td>{{ result["areasOfInterests"] }}</td>
     </tr>
     {% endfor %}
     </table>
