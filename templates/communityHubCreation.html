@@ -20,58 +20,28 @@
 
 <div id="container">
 <h1>Welcome!</h1>
-<h2> Search for community hubs: </h2>
-self.id = id
-self.hubName = hubName
-self.postCollection = postCollection
-self.bannerPhoto = bannerPhoto
-self.profilePic = profilePic
-self.memberList = memberList
-self.owner = owner
-self.description = description
-self.tags = []
+<h2> Create a community hub </h2>
+
+
 <form action="/createCommunityHub" method="get">
     <label for="hubName">Hub Name:</label><br>
     <input type="text" id="hubName" name="hubName"><br><br>
-    <label for="searchKeyword">Description:</label><br>
-    <input type="text" id="searchKeyword" name="searchKeyword"><br>
-    <label for="searchKeyword">Tags:</label><br>
-    <input type="text" id="searchKeyword" name="searchKeyword"><br>
-    <input type="submit" value="Submit">
+    <label for="description">Description:</label><br>
+    <input type="text" id="description" name="description"><br>
+    <label for="tags">Tags:</label><br>
+    <input type="text" id="tags" name="tags"><br>
+    <label for="banner">Banner:</label><br>
+    <input type="file" id="banner" name="banner"><br><br>
+    <label for="pfp">Forum Picture:</label><br>
+    <input type="file" id="pfp" name="pfp"><br><br>
+    <input type="submit" value="Create">
+
   </form>
-  <form action="/communityHubCreation">
-    <input type="submit" value="Interested in creating your own hub?" />
-</form>
 
 
-  <p>  Query Generated:   {{ queryGenerated }}</p> 
-
-    {{errorMessage}} <br> <br>
+    {{message}} <br> <br>
 
 
-  <table class="myTable">
-  <tr>
-    <th>Hub Name</th>
-    <th>Member List</th>
-    <th># of Members</th>
-    <th>Owner</th>
-    <th>Description</th>
-    <th>Tags</th>
-  </tr>
-
-
-
-    {% for result in results %}
-    <tr>
-        <td>{{ result["hubName"] }}</td>
-        <td>{{ result["memberList"] }}</td>
-        <td>{{ result["memberList"] }}</td>
-        <td>{{ result["owner"]}}</td>
-        <td>{{ result["description"]}}</td>
-        <td>{{ result["tags"]}}</td>
-    </tr>
-    {% endfor %}
-    </table>
 
 </div>
 

@@ -1,13 +1,13 @@
 from Comment import Comment
+from datetime import datetime
 
 
 class Post:
-    def __init__(self, id, userId, name, date, time, content) -> None:
-        self.id = id
-        self.userId = userId
-        self.name = name
-        self.date = date
-        self.time = time
+    def __init__(self, authorId, title, content) -> None:
+        self.authorId = authorId
+        self.name = title
+        self.date = datetime.today()
+        self.time = datetime.now().strftime("%H:%M")
         self.numUpvotes = 0
         self.numDownvotes = 0
         self.content = content

@@ -8,6 +8,8 @@ import bcrypt
 from database import Database
 from MenteeObject import *
 from MentorObject import *
+from CommunityHub import *
+from post import *
 import pprint
 from dotenv import load_dotenv
 import pymongo
@@ -133,6 +135,8 @@ def menteeAuth():
         passwordcheck = menteeFound['password']
         if bcrypt.checkpw(password.encode('utf8'), passwordcheck):
             session["email"] = menteeFound['email']
+            session["_id"] = menteeFound['_id'] # ADDED FOR MY USE
+            session["type"]= "mentee"
             return jsonify(
                 message="Welcome"
             )
@@ -276,6 +280,8 @@ def mentorAuth():
         passwordcheck = mentorFound['password']
         if bcrypt.checkpw(password.encode('utf8'), passwordcheck):
             session["email"] = mentorFound['email']
+            session["_id"] = mentorFound['_id'] # ADDED FOR MY USE
+            session["type"]= "mentor"
             return jsonify(
                 message="Welcome"
             )
@@ -406,8 +412,45 @@ def communityHubCreation():
 
 @ app.route("/createCommunityHub", methods=['post', 'get'])
 def createCommunityHub():
-    return render_template('createCommunityHub.html')
+    #temp
+    ''' 
+    session["email"] = mentorFound['email']
+    session["_id"] = mentorFound['_id'] # ADDED FOR MY USE
+    session["type"]= "mentor"
+    # testing
+    session["email"] = "hi@hi.com"
+    session["_id"] = '64500f395a232e2e59ed1990'
+    session["type"]= "mentor"
+    '''
+    
+    name = request.args.get("hubName")
+    description = request.args.get("description")
+    tags = request.args.get("tags")
+    tags = tags.split(',')
+    banner = request.args.get("banner")
+    pfp = request.args.get("pfp")
 
+    newHub = CommunityHub(name, session["_id"], description, tags, banner, pfp)
+
+    serialized_hub = vars(newHub) 
+
+    hubCollection = Database.get_collection('communityHub')
+
+    search_result = hubCollection.find_one({"hubName": name})
+
+    # check if hub with same name already exists
+    if search_result is None: 
+        hubCollection.insert_one(serialized_hub)
+        userCollection = Database.get_collection(session["type"])
+        # add to owner's list of hubs they're part of
+        curr_hub = list(hubCollection.find({"hubName": name}))[0]
+        curr_hub_id = curr_hub["_id"] # get id of current hub
+        userCollection.update_one({"_id": session["_id"]}, {"$push": {"hubsList": curr_hub_id}})
+        return render_template('communityHubCreation.html', message="Your hub was successfully created")
+        # TODO: make attribute to track hubs person is owner of?
+    else:
+        return render_template('communityHubCreation.html', message="A hub with this name already exists. Please try a different name")
+    
 # searching for community hubs
 @ app.route("/communityHubSearch", methods=['post', 'get'])
 def communityHubSearch():
@@ -443,12 +486,46 @@ def searchForCommunityHubs():
         return render_template("communityHubSearch.html",results = hubsFound, queryGenerated=str(query)) 
         #return render_template("communityHubSearch.html",results = hubsFound) 
 
+# displaying individual hub - TODO: add more later when i talk to others
+@ app.route("/communityHubSpace", methods=['post', 'get'])
+def communityHubSpace():
+    return render_template('communityHubSpace.html')
 
+# create a post in hub
+@ app.route("/createPost", methods=['post', 'get'])
+def createPost():
+    #temp
+    ''' 
+    session["email"] = mentorFound['email']
+    session["_id"] = mentorFound['_id'] # ADDED FOR MY USE
+    session["type"]= "mentor"
+    # testing
+    session["email"] = "hi@hi.com"
+    session["_id"] = '64500f395a232e2e59ed1990'
+    session["type"]= "mentor"
+    '''
+    title = request.args.get("title")
+    content = request.args.get("content")
+
+    newPost = Post(session["_id"], title, content)
+
+    serialized_post = vars(newPost) 
+
+    postCollection = Database.get_collection('post')
+
+    postCollection.insert_one(serialized_post)
+
+    # refresh with post on feed
+    return render_template('hubDisplay.html', message="Your post was successfully created")
+    
 # logging in as mentor
 @ app.route("/logout", methods=['post', 'get'])
 def logout():
     if "email" in session:
         session.pop("email", None)
+        #session["email"] = mentorFound['email'] # i added
+        session["_id"] = None # ADDED FOR MY USE
+        session["type"]= None # ADDED FOR MY USE
     return jsonify(
         message="Logging out.."
     )

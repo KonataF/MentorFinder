@@ -1,11 +1,10 @@
 class CommunityHub:
-    def __init__(self, id, hubName, postCollection, bannerPhoto, profilePic, memberList, owner, description) -> None:
-        self.id = id
+    def __init__(self, hubName, owner, description, tags, bannerPhoto="", profilePic="") -> None:
         self.hubName = hubName
-        self.postCollection = postCollection
+        self.postCollection = []
         self.bannerPhoto = bannerPhoto
         self.profilePic = profilePic
-        self.memberList = memberList
+        self.memberList = [owner]
         self.owner = owner
         self.description = description
-        self.tags = []
+        self.tags = tags
