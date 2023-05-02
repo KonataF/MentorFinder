@@ -136,7 +136,8 @@ def menteeAuth():
         if bcrypt.checkpw(password.encode('utf8'), passwordcheck):
             session["email"] = menteeFound['email']
             session["_id"] = menteeFound['_id'] # ADDED FOR MY USE
-            session["type"]= "mentee"
+            session["type"]= "mentee" # ADDED FOR MY USE
+            session["fullName"] = menteeFound['fname'] + " " + menteeFound['lname'] # ADDED FOR MY USE
             return jsonify(
                 message="Welcome"
             )
@@ -281,7 +282,9 @@ def mentorAuth():
         if bcrypt.checkpw(password.encode('utf8'), passwordcheck):
             session["email"] = mentorFound['email']
             session["_id"] = mentorFound['_id'] # ADDED FOR MY USE
-            session["type"]= "mentor"
+            session["type"]= "mentor" # ADDED FOR MY USE
+            session["fullName"] = mentorFound['fname'] + " " + mentorFound['lname'] # ADDED FOR MY USE
+            
             return jsonify(
                 message="Welcome"
             )
@@ -442,11 +445,11 @@ def createCommunityHub():
     if search_result is None: 
         hubCollection.insert_one(serialized_hub)
         userCollection = Database.get_collection(session["type"])
-        # add to owner's list of hubs they're part of
+        # add to owner's list of hubs they're part of - TODO: NOT WORKING
         curr_hub = list(hubCollection.find({"hubName": name}))[0]
         curr_hub_id = curr_hub["_id"] # get id of current hub
         userCollection.update_one({"_id": session["_id"]}, {"$push": {"hubsList": curr_hub_id}})
-        return render_template('communityHubCreation.html', message="Your hub was successfully created")
+        return render_template('communityHubCreation.html', message="Your hub was successfully created", curr_hub_id=curr_hub_id, )
         # TODO: make attribute to track hubs person is owner of?
     else:
         return render_template('communityHubCreation.html', message="A hub with this name already exists. Please try a different name")
@@ -478,7 +481,6 @@ def searchForCommunityHubs():
     # search for mentor with given query and show certain fields in results
     hubsFound = list(hubCollection.find(query, { "_id": 0, "hubName": 1, "memberList": 1, "owner": 1, "description": 1, "tags": 1 }))
     
-
     if len(hubsFound) == 0:
         return render_template("communityHubSearch.html",results = hubsFound, queryGenerated=str(query), errorMessage ="No mentees found using search given.")
         #return render_template("communityHubSearch.html",results = hubsFound, errorMessage ="No hubs found using search given.")
@@ -489,25 +491,19 @@ def searchForCommunityHubs():
 # displaying individual hub - TODO: add more later when i talk to others
 @ app.route("/communityHubSpace", methods=['post', 'get'])
 def communityHubSpace():
+    session["hub"] = '64503200584ff630f60bac3e'  # for testing
     return render_template('communityHubSpace.html')
 
 # create a post in hub
 @ app.route("/createPost", methods=['post', 'get'])
 def createPost():
-    #temp
-    ''' 
-    session["email"] = mentorFound['email']
-    session["_id"] = mentorFound['_id'] # ADDED FOR MY USE
-    session["type"]= "mentor"
-    # testing
-    session["email"] = "hi@hi.com"
-    session["_id"] = '64500f395a232e2e59ed1990'
-    session["type"]= "mentor"
-    '''
-    title = request.args.get("title")
-    content = request.args.get("content")
+    session["hub"] = '64503200584ff630f60bac3e' # temp
+    session["_id"] = '64500f395a232e2e59ed1990' # temp
+    session["fullName"] = "Rob Lee" # temp
+    title = request.args.get("post_title")
+    content = request.args.get("post_content")
 
-    newPost = Post(session["_id"], title, content)
+    newPost = Post(session["hub"], session["_id"], session["fullName"], title, content)
 
     serialized_post = vars(newPost) 
 
@@ -516,8 +512,30 @@ def createPost():
     postCollection.insert_one(serialized_post)
 
     # refresh with post on feed
-    return render_template('hubDisplay.html', message="Your post was successfully created")
+    return render_template('communityHubSpace.html', message="Your post was successfully created", extraInfo=str(serialized_post))
     
+# create a comment on a post in hub
+@ app.route("/createComment", methods=['post', 'get'])
+def createComment():
+    session["hub"] = '64503200584ff630f60bac3e' # temp
+    session["postId"] = '6450b199c4794601feb562fa' # temp
+    session["_id"] = '64500f395a232e2e59ed1990' # temp
+    session["fullName"] = "Rob Lee" # temp
+
+    content = request.args.get("comment_content")
+
+    newComment = Comment(session["hub"], session["postId"], session["_id"], session["fullName"], content)
+
+    serialized_comment = vars(newComment) 
+
+    commentCollection = Database.get_collection('comment')
+
+    commentCollection.insert_one(serialized_comment)
+
+    # refresh with post on feed
+    return render_template('communityHubSpace.html', message="Your comment was successfully created", extraInfo=str(serialized_comment))
+    
+
 # logging in as mentor
 @ app.route("/logout", methods=['post', 'get'])
 def logout():
