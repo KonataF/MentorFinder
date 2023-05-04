@@ -1,19 +1,34 @@
 import './App.css';
 import Navbar from './Navbar';
 import React, { useState } from "react";
-import Dashboard from './pages/Dashboard';
 import FindMentor from './pages/FindMentor';
 import MyMentors from './pages/MyMentors';
 //import Home from './pages/Home';
 import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
 import { Route, Routes } from "react-router-dom"
+import DashboardLeftColumn from "./src/pages/DashboardLeftColumn"
+import DashboardMiddleColumn from "./src/pages/DashboardMiddleColumn"
+import DashboardRightColumn from "./src/pages/DashboardRightColumn"
 
 export function App() {
   const [currentForm, setCurrentForm] = useState('login');
 
   const toggleForm = (formName) => {
     setCurrentForm(formName);
+  }
+
+  const DashboardLayout = ()=>{
+    return(
+      <div>
+        <Navbar/>
+        <div style={{display:"flex"}}>
+          <DashboardLeftColumn/>
+          <DashboardMidddleColumn/>
+          <DashboardRightColumn/>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -54,10 +69,12 @@ export function App() {
 function DropdownItem(props) {
   return(
     //**Not sure what is going on here */
-    <li className = 'dropdownItem'></li>
-    <img></img>
-      <a> [props.text] </a>
+    // <li className = 'dropdownItem'></li>
+    // <img></img>
+    //   <a> [props.text] </a>
+    <p>sample text</p>
   );
 }
 
 export default App;
+
