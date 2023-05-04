@@ -13,6 +13,7 @@ class Database:
         connectionURL = f"mongodb+srv://{uname}:{db_key}@mentorfinder.kjb2und.mongodb.net/?retryWrites=true&w=majority"
         print(connectionURL)
         client = pymongo.MongoClient(connectionURL, tlsCAFile=certifi.where())
+        print(client.server_info())
         cls.database = client.get_database("MentorFinderDB")
 
     @classmethod
