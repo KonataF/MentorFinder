@@ -1,3 +1,26 @@
+.rightColumn::-webkit-scrollbar {
+  display: none;
+}
+
+.rightColumn .container {
+  padding: 20px;
+}
+
+.rightColumn .container .communityHubCard span {
+  color: gray;
+}
+
+.rightColumn .container .communityHubCard .hub {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rightColumn .container .communityHubCard .button {
+  display: flex;
+  align-items: center;
+}
+
 :root {
   --primary-bg: #f8f8f8;
   --secondary-bg: #fdfdfd;
