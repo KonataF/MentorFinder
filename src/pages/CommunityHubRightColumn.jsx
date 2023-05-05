@@ -1,7 +1,7 @@
 import "./CommunityHubRightColumn.scss"
 
 
-export const CommunityHubRightColumn = () => {
+const CommunityHubRightColumn = () => {
     return (
         <div className="rightCollumn">
             <div className="container">
@@ -21,4 +21,4 @@ export const CommunityHubRightColumn = () => {
     )
 }
 
-
+export default CommunityHubRightColumn
