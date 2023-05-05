@@ -39,7 +39,7 @@ export function App() {
         <Routes>
           {/* need to figure out a way to re-rounte to dashboard page when you click Site Name */}
           {/* <Route path="/" element={<Login />} /> */}
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard" element={<DashboardLayout />} />
           <Route path="/findmentor" element={<FindMentor />} />
           <Route path="/mymentors" element={<MyMentors />} />
         </Routes>
