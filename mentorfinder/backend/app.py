@@ -1,5 +1,5 @@
 import time
-from flask import Flask, jsonify, request, session
+from flask import Flask, jsonify, request, session, render_template
 from database import Database
 from dotenv import load_dotenv
 import os
@@ -327,6 +327,272 @@ def register():
             print(search_result)
 
             return jsonify({"registered": False})
+
+    # searching for mentors
+
+
+@ app.route("/mentorSearch", methods=['post', 'get'])
+def mentorSearch():
+    return render_template('mentorSearch.html')
+
+
+@ app.route("/searchForMentors", methods=['post', 'get'])
+def searchForMentors():
+    name = request.args.get("name")
+    company = request.args.get("company")
+    position = request.args.get("position")
+    college = request.args.get("college")
+    educationLvl = request.args.get("educationLvl")
+    areaOfInterest = request.args.get("areaOfInterest")
+
+    # splitting up input and creating long query to search for
+    mentorCollection = Database.get_collection('mentor')
+    query = {}
+
+    if name:
+        nameSplit = name.split()
+        if len(nameSplit) == 1:
+            # check for if single name given is either someone's first or last name
+            query["$or"] = [{"fname": nameSplit[0]}, {"lname": nameSplit[0]}]
+        if len(nameSplit) == 2:
+            fname = nameSplit[0]
+            lname = nameSplit[1]
+            query["fname"] = fname
+            query["lname"] = lname
+    if company:
+        # company = company.lower() - account for case?
+        query["occupation.company"] = company
+    if position:
+        query["occupation.position"] = position
+    if college:
+        query["education.college"] = college
+    if educationLvl:  # if user has one of the two shown education lvls
+        query["education.degree"] = educationLvl
+
+    if areaOfInterest:  # if user has one of the two shown education lvls
+        query["areasOfInterests"] = {'$in': [str(areaOfInterest)]}
+        extraInfo = "area of interest given"
+    else:
+        extraInfo = "no area of interest given"
+
+    # search for mentor with given query and show certain fields in results
+    mentorsFound = list(mentorCollection.find(query, {
+                        "_id": 0, "fname": 1, "lname": 1, "education": 1, "occupation": 1, "bio": 1, "areasOfInterests": 1}))
+
+    if len(mentorsFound) == 0:
+        return render_template("mentorSearch.html", results=mentorsFound, queryGenerated=str(query), errorMessage="No mentors found using search given.")
+    else:
+        return render_template("mentorSearch.html", results=mentorsFound, queryGenerated=str(query))
+
+
+# searching for mentees
+@ app.route("/menteeSearch", methods=['post', 'get'])
+def menteeSearch():
+    return render_template('menteeSearch.html')
+
+
+@ app.route("/searchForMentees", methods=['post', 'get'])
+def searchForMentees():
+    name = request.args.get("name")
+    company = request.args.get("company")
+    position = request.args.get("position")
+    college = request.args.get("college")
+    areaOfInterest = request.args.get("areaOfInterest")
+
+    # splitting up input and creating long query to search for
+    menteeCollection = Database.get_collection('mentee')
+    query = {}
+
+    if name:
+        nameSplit = name.split()
+        if len(nameSplit) == 1:
+            # check for if single name given is either someone's first or last name
+            query["$or"] = [{"fname": nameSplit[0]}, {"lname": nameSplit[0]}]
+        if len(nameSplit) == 2:
+            fname = nameSplit[0]
+            lname = nameSplit[1]
+            query["fname"] = fname
+            query["lname"] = lname
+    if company:
+        # company = company.lower() - account for case?
+        query["occupation.company"] = company
+    if position:
+        query["occupation.position"] = position
+    if college:
+        query["education.college"] = college
+
+    if areaOfInterest:  # if user has one of the two shown education lvls
+        query["areasOfInterests"] = {'$in': [str(areaOfInterest)]}
+        extraInfo = "area of interest given"
+    else:
+        extraInfo = "no area of interest given"
+
+    # search for mentor with given query and show certain fields in results
+    menteesFound = list(menteeCollection.find(query, {
+                        "_id": 0, "fname": 1, "lname": 1, "education": 1, "occupation": 1, "bio": 1, "areasOfInterests": 1}))
+
+    if len(menteesFound) == 0:
+        # return render_template("mentorSearch.html",results = menteesFound, queryGenerated=str(query), errorMessage ="No mentees found using search given.") - for testing
+        return render_template("menteeSearch.html", results=menteesFound, errorMessage="No mentees found using search given.")
+    else:
+        # return render_template("mentorSearch.html",results = menteesFound, queryGenerated=str(query))  - for testing
+        return render_template("menteeSearch.html", results=menteesFound)
+
+# creating community hubs
+
+
+@ app.route("/communityHubCreation", methods=['post', 'get'])
+def communityHubCreation():
+    return render_template('communityHubCreation.html')
+
+
+@ app.route("/createCommunityHub", methods=['post', 'get'])
+def createCommunityHub():
+    # temp
+    ''' 
+    session["email"] = mentorFound['email']
+    session["_id"] = mentorFound['_id'] # ADDED FOR MY USE
+    session["type"]= "mentor"
+    # testing
+    session["email"] = "hi@hi.com"
+    session["_id"] = '64500f395a232e2e59ed1990'
+    session["type"]= "mentor"
+    '''
+
+    name = request.args.get("hubName")
+    description = request.args.get("description")
+    tags = request.args.get("tags")
+    tags = tags.split(',')
+    banner = request.args.get("banner")
+    pfp = request.args.get("pfp")
+
+    newHub = CommunityHub(name, session["_id"], description, tags, banner, pfp)
+
+    serialized_hub = vars(newHub)
+
+    hubCollection = Database.get_collection('communityHub')
+
+    search_result = hubCollection.find_one({"hubName": name})
+
+    # check if hub with same name already exists
+    if search_result is None:
+        hubCollection.insert_one(serialized_hub)
+        userCollection = Database.get_collection(session["type"])
+        # add to owner's list of hubs they're part of - TODO: NOT WORKING
+        curr_hub = list(hubCollection.find({"hubName": name}))[0]
+        curr_hub_id = curr_hub["_id"]  # get id of current hub
+        userCollection.update_one({"_id": session["_id"]}, {
+                                  "$push": {"hubsList": curr_hub_id}})
+        return render_template('communityHubCreation.html', message="Your hub was successfully created", curr_hub_id=curr_hub_id, )
+        # TODO: make attribute to track hubs person is owner of?
+    else:
+        return render_template('communityHubCreation.html', message="A hub with this name already exists. Please try a different name")
+
+# searching for community hubs
+
+
+@ app.route("/communityHubSearch", methods=['post', 'get'])
+def communityHubSearch():
+    return render_template('communityHubSearch.html')
+
+
+@ app.route("/searchForCommunityHubs", methods=['post', 'get'])
+def searchForCommunityHubs():
+    searchName = request.args.get("searchName")
+    searchKeyword = request.args.get("searchKeyword")
+
+    # splitting up input and creating long query to search for
+    hubCollection = Database.get_collection('communityHub')
+    query = {}
+
+    # search by checking if search name given is found in title of hub (also accounts for if user begins to type a hub name)
+    if searchName:
+        query["hubName"] = {'$regex': str(searchName)}
+    # search keyword in tags - checks each keyword and sees if it is part of any tags
+    if searchKeyword:
+        searchKeywords = searchKeyword.split(",")
+        query["tags"] = {'$in': searchKeywords}
+        # for keyword in searchKeywords:
+        #    query["tags"] =  {'$in': str(keyword)}
+
+    # search for mentor with given query and show certain fields in results
+    hubsFound = list(hubCollection.find(query, {
+                     "_id": 0, "hubName": 1, "memberList": 1, "owner": 1, "description": 1, "tags": 1}))
+
+    if len(hubsFound) == 0:
+        return render_template("communityHubSearch.html", results=hubsFound, queryGenerated=str(query), errorMessage="No mentees found using search given.")
+        # return render_template("communityHubSearch.html",results = hubsFound, errorMessage ="No hubs found using search given.")
+    else:
+        return render_template("communityHubSearch.html", results=hubsFound, queryGenerated=str(query))
+        # return render_template("communityHubSearch.html",results = hubsFound)
+
+# displaying individual hub - TODO: add more later when i talk to others
+
+
+@ app.route("/communityHubSpace", methods=['post', 'get'])
+def communityHubSpace():
+    session["hub"] = '64503200584ff630f60bac3e'  # for testing
+    return render_template('communityHubSpace.html')
+
+# create a post in hub
+
+
+@ app.route("/createPost", methods=['post', 'get'])
+def createPost():
+    session["hub"] = '64503200584ff630f60bac3e'  # temp
+    session["_id"] = '64500f395a232e2e59ed1990'  # temp
+    session["fullName"] = "Rob Lee"  # temp
+    title = request.args.get("post_title")
+    content = request.args.get("post_content")
+
+    newPost = Post(session["hub"], session["_id"],
+                   session["fullName"], title, content)
+
+    serialized_post = vars(newPost)
+
+    postCollection = Database.get_collection('post')
+
+    postCollection.insert_one(serialized_post)
+
+    # refresh with post on feed
+    return render_template('communityHubSpace.html', message="Your post was successfully created", extraInfo=str(serialized_post))
+
+# create a comment on a post in hub
+
+
+@ app.route("/createComment", methods=['post', 'get'])
+def createComment():
+    session["hub"] = '64503200584ff630f60bac3e'  # temp
+    session["postId"] = '6450b199c4794601feb562fa'  # temp
+    session["_id"] = '64500f395a232e2e59ed1990'  # temp
+    session["fullName"] = "Rob Lee"  # temp
+
+    content = request.args.get("comment_content")
+
+    newComment = Comment(
+        session["hub"], session["postId"], session["_id"], session["fullName"], content)
+
+    serialized_comment = vars(newComment)
+
+    commentCollection = Database.get_collection('comment')
+
+    commentCollection.insert_one(serialized_comment)
+
+    # refresh with post on feed
+    return render_template('communityHubSpace.html', message="Your comment was successfully created", extraInfo=str(serialized_comment))
+
+
+# logging in as mentor
+@ app.route("/logout", methods=['post', 'get'])
+def logout():
+    if "email" in session:
+        session.pop("email", None)
+        # session["email"] = mentorFound['email'] # i added
+        session["_id"] = None  # ADDED FOR MY USE
+        session["type"] = None  # ADDED FOR MY USE
+    return jsonify(
+        message="Logging out.."
+    )
 
 
 if __name__ == "__main__":
