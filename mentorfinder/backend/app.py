@@ -224,6 +224,10 @@ def login():
             if bcrypt.checkpw(password.encode('utf8'), passwordcheck):
 
                 session["email"] = menteeFound['email']
+                session["_id"] = menteeFound['_id']  # ADDED FOR MY USE
+                session["type"] = "mentee"  # ADDED FOR MY USE
+                session["fullName"] = menteeFound['fname'] + \
+                    " " + menteeFound['lname']  # ADDED FOR MY USE
 
                 return jsonify({"loggedIn": True, "objectId": str(obj_id)})
 
@@ -248,7 +252,10 @@ def login():
             passwordcheck = mentorFound['password']
             if bcrypt.checkpw(password.encode('utf8'), passwordcheck):
                 session["email"] = mentorFound['email']
-
+                session["_id"] = menteeFound['_id']  # ADDED FOR MY USE
+                session["type"] = "mentee"  # ADDED FOR MY USE
+                session["fullName"] = menteeFound['fname'] + \
+                    " " + menteeFound['lname']  # ADDED FOR MY USE
                 return jsonify({"loggedIn": True, "objectId": str(obj_id)})
 
             else:
