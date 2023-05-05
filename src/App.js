@@ -24,7 +24,7 @@ export function App() {
         <Navbar/>
         <div style={{display:"flex"}}>
           <DashboardLeftColumn/>
-          <DashboardMidddleColumn/>
+          <DashboardMiddleColumn/>
           <DashboardRightColumn/>
         </div>
       </div>
