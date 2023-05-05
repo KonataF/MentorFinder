@@ -1,8 +1,10 @@
 import "./DashboardMiddleColumn.jsx"
 
-export const MiddleColumn = () => {
+const DashboardMiddleColumn = () => {
     return (
         <div></div>
 
     )
 }
+
+export default DashboardMiddleColumn
