@@ -1,6 +1,6 @@
 import "./DashboardRightColumn.scss"
 
-export const RightColumn = () => {
+const DashboardRightColumn = () => {
     return (
         <div className="rightCollumn">
             <div className="container">
@@ -23,4 +23,6 @@ export const RightColumn = () => {
         </div>
     )
 }
+
+export default DashboardRightColumn
 
