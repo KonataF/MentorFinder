@@ -7,9 +7,9 @@ import MyMentors from './pages/MyMentors';
 import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
 import { Route, Routes } from "react-router-dom"
-import DashboardLeftColumn from "./src/pages/DashboardLeftColumn"
-import DashboardMiddleColumn from "./src/pages/DashboardMiddleColumn"
-import DashboardRightColumn from "./src/pages/DashboardRightColumn"
+import DashboardLeftColumn from "./pages/DashboardLeftColumn"
+import DashboardMiddleColumn from "./pages/DashboardMiddleColumn"
+import DashboardRightColumn from "./pages/DashboardRightColumn"
 
 export function App() {
   const [currentForm, setCurrentForm] = useState('login');
