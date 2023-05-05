@@ -21,7 +21,6 @@ export function App() {
   const DashboardLayout = ()=>{
     return(
       <div>
-        <Navbar/>
         <div style={{display:"flex"}}>
           <DashboardLeftColumn/>
           <DashboardMiddleColumn/>
