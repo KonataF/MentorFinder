@@ -1,4 +1,6 @@
 from datetime import datetime
+
+
 class Comment:
     def __init__(self, hubBelongingTo, postId, authorId, authorFullName, content) -> None:
         self.hubBelongingTo = hubBelongingTo

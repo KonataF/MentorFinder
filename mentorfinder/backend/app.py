@@ -8,6 +8,9 @@ import bcrypt
 from Models.Mentee import Mentee
 from Models.Mentor import Mentor
 from Models.Notification import Notification
+from Models.CommunityHub import CommunityHub
+from Models.post import Post
+from Models.Comment import Comment
 from bson.objectid import ObjectId
 from bson import json_util
 

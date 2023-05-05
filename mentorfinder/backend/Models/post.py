@@ -1,4 +1,3 @@
-from Comment import Comment
 from datetime import datetime
 
 
