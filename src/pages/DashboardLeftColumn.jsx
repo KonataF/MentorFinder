@@ -1,6 +1,6 @@
 import "./DashboardLeftColumn.scss"
 
-const LeftColumn = () => {
+const DashboardLeftColumn = () => {
     return (
         <div className='leftColumn'>
             <div className="container">
@@ -12,4 +12,6 @@ const LeftColumn = () => {
         </div>
     )
 }
+
+export default DashboardLeftColumn;
 
