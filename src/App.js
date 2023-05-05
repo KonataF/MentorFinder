@@ -29,6 +29,23 @@ export function App() {
       </div>
     )
   }
+  
+  const CommunityHubLayout = ()=>{
+    return(
+      <div>
+
+      </div>
+    )
+  }
+
+  const MyMentorLayout = ()=>{
+    return(
+      <div>
+
+      </div>
+    )
+  }
+  
 
   return (
     <>
