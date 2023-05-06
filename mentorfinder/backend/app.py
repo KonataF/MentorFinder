@@ -35,22 +35,36 @@ def get_user_notifications(typeOfUser, userId):
 
     if typeOfUser == 'Mentee':
 
-        menteeCollection = Database.get_collection('mentee')
-
-        userFound = menteeCollection.find_one(
-            {"_id": ObjectId(userId)})
+        userFound = get_user_by_id('mentee', userId)
 
     else:
 
-        mentorCollection = Database.get_collection('mentor')
-
-        userFound = mentorCollection.find_one(
-            {"_id": ObjectId(userId)})
+        userFound = get_user_by_id('mentor', userId)
 
     return json.dumps({"data": userFound['notifications']}, default=json_util.default)
 
 
-def get_user(collection_name, userId):
+@ app.route("/menteeList/<typeOfUser>/<userId>", methods=['get'])
+@ app.route("/mentorList/<typeOfUser>/<userId>", methods=['get'])
+def get_user_connections(typeOfUser, userId):
+    print(f'fetching mentees/mentors for {typeOfUser} : {userId}')
+
+    userFound = ''
+
+    if typeOfUser == 'Mentee':
+
+        userFound = get_user_by_id('mentee', userId)
+
+        return json.dumps({"data": userFound['mentorList']}, default=json_util.default)
+
+    else:
+
+        userFound = get_user_by_id('mentor', userId)
+
+    return json.dumps({"data": userFound['menteeList']}, default=json_util.default)
+
+
+def get_user_by_id(collection_name, userId):
 
     collection = Database.get_collection(collection_name)
 
@@ -69,11 +83,11 @@ def get_user_data(typeOfUser, userId):
 
     if typeOfUser == 'Mentee':
 
-        userFound = get_user('mentee', userId)
+        userFound = get_user_by_id('mentee', userId)
 
     else:
 
-        userFound = get_user('mentor', userId)
+        userFound = get_user_by_id('mentor', userId)
 
     print(userFound)
 
