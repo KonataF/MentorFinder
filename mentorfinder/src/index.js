@@ -3,15 +3,15 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import SignupForm from "./Components/SignupForm";
-import LandingPage from "./Components/LandingPage";
+import SignupForm from "./components/SignupForm";
+import LandingPage from "./components/LandingPage";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import LoginForm from "./Components/LoginForm";
-import Dashboard from "./Components/Dashboard";
-import ProfileEditor from "./Components/ProfileEditor";
-import MyMentors from "./Components/MyMentors";
-import SearchPage from "./Components/SearchPage";
-import NotificationsPage from "./Components/NotificationPage";
+import LoginForm from "./components/LoginForm";
+import Dashboard from "./components/Dashboard";
+import ProfileEditor from "./components/ProfileEditor";
+import MyMentors from "./components/MyMentors";
+import SearchPage from "./components/SearchPage";
+import NotificationsPage from "./components/NotificationPage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
