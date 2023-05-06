@@ -1,6 +1,7 @@
-@tailwind base;
+/* uncomment this at the end to incorporate tailwind styles */
+/* @tailwind base;
 @tailwind components;
-@tailwind utilities;
+@tailwind utilities; */
 
 body {
   margin: 0;

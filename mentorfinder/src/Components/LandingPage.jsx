@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import LoginForm from "./LoginForm";
+import Navbar from "./Navbar";
 
 const Home = () => {
   return (

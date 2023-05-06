@@ -50,6 +50,16 @@ def get_user_notifications(typeOfUser, userId):
     return json.dumps({"data": userFound['notifications']}, default=json_util.default)
 
 
+def get_user(collection_name, userId):
+
+    collection = Database.get_collection(collection_name)
+
+    userFound = collection.find_one(
+        {"_id": ObjectId(userId)})
+
+    return userFound
+
+
 @ app.route("/profile/<typeOfUser>/<userId>", methods=['get'])
 def get_user_data(typeOfUser, userId):
 
@@ -59,17 +69,11 @@ def get_user_data(typeOfUser, userId):
 
     if typeOfUser == 'Mentee':
 
-        menteeCollection = Database.get_collection('mentee')
-
-        userFound = menteeCollection.find_one(
-            {"_id": ObjectId(userId)})
+        userFound = get_user('mentee', userId)
 
     else:
 
-        mentorCollection = Database.get_collection('mentor')
-
-        userFound = mentorCollection.find_one(
-            {"_id": ObjectId(userId)})
+        userFound = get_user('mentor', userId)
 
     print(userFound)
 
@@ -233,6 +237,7 @@ def login():
                     " " + menteeFound['lname']  # ADDED FOR MY USE
 
                 return jsonify({"loggedIn": True, "objectId": str(obj_id)})
+                # return json.dumps({"loggedIn": True, "objectId": str(obj_id)}, default=json_util.default)
 
             else:
 
@@ -254,11 +259,11 @@ def login():
             print(f"Mentor found {mentorFound}")
             passwordcheck = mentorFound['password']
             if bcrypt.checkpw(password.encode('utf8'), passwordcheck):
-                session["email"] = mentorFound['email']
-                session["_id"] = menteeFound['_id']  # ADDED FOR MY USE
-                session["type"] = "mentee"  # ADDED FOR MY USE
-                session["fullName"] = menteeFound['fname'] + \
-                    " " + menteeFound['lname']  # ADDED FOR MY USE
+                # session["email"] = mentorFound['email']
+                # session["_id"] = mentorFound['_id']  # ADDED FOR MY USE
+                # session["type"] = "mentee"  # ADDED FOR MY USE
+                # session["fullName"] = mentorFound['fname'] + \
+                #     " " + mentorFound['lname']  # ADDED FOR MY USE
                 return jsonify({"loggedIn": True, "objectId": str(obj_id)})
 
             else:

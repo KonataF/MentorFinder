@@ -63,6 +63,7 @@ const SignupForm = () => {
             value="Mentor"
             checked={userType === "Mentor"}
             onChange={handleUserTypeChange}
+            required
             className="form-radio text-blue-600 h-4 w-4"
           />
           <span className="ml-2 text-gray-800 font-medium">Mentor</span>
@@ -75,6 +76,7 @@ const SignupForm = () => {
             value="Mentee"
             checked={userType === "Mentee"}
             onChange={handleUserTypeChange}
+            required
             className="form-radio text-blue-600 h-4 w-4"
           />
           <span className="ml-2 text-gray-800 font-medium">Mentee</span>
@@ -92,6 +94,7 @@ const SignupForm = () => {
           id="firstName"
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
+          required
           className="form-input w-full border-gray-300 shadow-sm focus:ring-blue-600 focus:border-blue-600"
         />
       </div>
@@ -107,6 +110,7 @@ const SignupForm = () => {
           id="lastName"
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
+          required
           className="form-input w-full border-gray-300 shadow-sm focus:ring-blue-600 focus:border-blue-600"
         />
       </div>
@@ -122,6 +126,7 @@ const SignupForm = () => {
           id="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          required
           className="form-input w-full border-gray-300 shadow-sm focus:ring-blue-600 focus:border-blue-600"
         />
       </div>
@@ -136,6 +141,7 @@ const SignupForm = () => {
           type="password"
           id="password"
           value={password}
+          required
           onChange={(e) => setPassword(e.target.value)}
           className="form-input w-full border-gray-300 shadow-sm focus:ring-blue-600 focus:border-blue-600"
         />

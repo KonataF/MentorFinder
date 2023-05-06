@@ -30,6 +30,7 @@ const LoginForm = () => {
 
     localStorage.setItem("userId", userId);
     localStorage.setItem("userType", userType);
+    localStorage.setItem("loggedIn", isLoggedIn);
 
     if (isLoggedIn) {
       const response = await fetch(`/profile/${userType}/${userId}`);
