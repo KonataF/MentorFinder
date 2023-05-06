@@ -10,6 +10,8 @@ import { Route, Routes } from "react-router-dom"
 import DashboardLeftColumn from "./pages/DashboardLeftColumn"
 import DashboardMiddleColumn from "./pages/DashboardMiddleColumn"
 import DashboardRightColumn from "./pages/DashboardRightColumn"
+import CommunityHubLeftColumn from "./pages/CommunityHubLeftColumn"
+import CommunityHubRightColumn from  "./pages/CommunityHubRightColumn"
 
 export function App() {
   const [currentForm, setCurrentForm] = useState('login');
@@ -18,7 +20,7 @@ export function App() {
     setCurrentForm(formName);
   }
 
-  const DashboardLayout = ()=>{
+  const DashboardLayout = () => {
     return(
       <div>
         <div style={{display:"flex"}}>
@@ -33,7 +35,8 @@ export function App() {
   const CommunityHubLayout = ()=>{
     return(
       <div>
-
+        <CommunityHubLeftColumn/>
+        <CommunityHubRightColumn/>
       </div>
     )
   }
