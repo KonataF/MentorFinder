@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.0/css/bootstrap.min.css" integrity="sha256-/ykJw/wDxMa0AQhHDYfuMEwVb4JHMx9h4jD4XvHqVzU=" crossorigin="anonymous" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentee Profile</title>
+</head>
+<body>
+
+    <h1>Welcome, {{menteeObj.email}} Complete profile as a Mentor</h1>
+    <form action="/buildMenteeProfile" method="POST">
+        <div class="form-group">
+          <label for="exampleInputEmail1">Name</label>
+          <input  name="name"  type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Peter Parker">
+          <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+        <div>
+            <label for="exampleInputEmail1">Email</label>
+            <input  name="email"  type="email" class="form-control" id="exampleInputEmail1" value={{menteeObj.email}} aria-describedby="emailHelp">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">username</label>
+          <input name="username" type="text" class="form-control" id="exampleInputPassword1" placeholder="exampleusername">
+        </div>
+        <div class="mb-3">
+            <label for="formFile" class="form-label">Profile Picture</label>
+            <input name="profilepic" class="form-control" type="file" id="formFile" accept="image/*">
+          </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">DOB</label>
+            <input name="dob" type="date" class="form-control" id="exampleInputPassword1" placeholder="27-12-1999">
+          </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Occupation</label>
+            <input name="occupation" type="text" class="form-control" id="exampleInputPassword1" placeholder="Software Engineer">
+          </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Education</label>
+            <input name="education" type="text" class="form-control" id="exampleInputPassword1" placeholder="Education">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Areas of Interest</label>
+            <input name="area_of_interest" type="text" class="form-control" id="exampleInputPassword1" placeholder="Sports, CLimate Tech">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Experience</label>
+            <input name="experience" type="text" class="form-control" id="exampleInputPassword1" placeholder="SWE @ google">
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlTextarea1">Example Bio</label>
+            <textarea name="bio" class="form-control" id="exampleFormControlTextarea1" rows="3" >{{menteeObj.bio}}</textarea>
+          </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </form>
+    
+</body>
+</html>

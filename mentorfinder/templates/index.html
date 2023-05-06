@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.0/css/bootstrap.min.css" integrity="sha256-/ykJw/wDxMa0AQhHDYfuMEwVb4JHMx9h4jD4XvHqVzU=" crossorigin="anonymous" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
+
+    <h1>Mentor Finder</h1>
+
+
+    <a  class='btn btn-primary' href="{{ url_for('loginAsMentor') }}">Login As Mentor</a>
+    
+    <a class='btn btn-primary' href="{{ url_for('loginAsMentee') }}">Login As Mentee</a>
+
+    <a class='btn btn-primary' href="{{ url_for('signupAsMentor') }}">Sign Up As Mentor</a>
+
+    <a class='btn btn-primary' href="{{ url_for('signupAsMentee') }}">Sign Up As Mentee</a>
+
+    <a class='btn btn-primary' href="{{ url_for('admin') }}">View As Admin</a>
+
+</body>
+</html>
