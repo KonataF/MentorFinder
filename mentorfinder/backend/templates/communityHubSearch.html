@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Mentor Search Page</title>
+</head>
+
+<style>
+#container {
+    margin:auto;
+    width:50%;  
+    text-align: center;
+}
+.myTable { background-color:#eee;border-collapse:collapse; }
+.myTable th { background-color:#000;color:white;width:50%; }
+.myTable td, .myTable th { padding:5px;border:1px solid #000; }
+</style>
+
+<body>
+
+<div id="container">
+<h1>Welcome!</h1>
+<h2> Search for community hubs: </h2>
+
+<form action="/searchForCommunityHubs" method="get">
+    <label for="searchName">Search by name:</label><br>
+    <input type="text" id="searchName" name="searchName"><br><br>
+    <label for="searchKeyword">Enter keywords or topics (separate keywords with commas):</label><br>
+    <input type="text" id="searchKeyword" name="searchKeyword"><br>
+    <input type="submit" value="Submit">
+</form>
+<form action="/communityHubCreation">
+    <input type="submit" value="Interested in creating your own hub?" />
+</form>
+
+
+  <p>  Query Generated:   {{ queryGenerated }}</p> 
+
+    {{errorMessage}} <br> <br>
+
+
+  <table class="myTable">
+  <tr>
+    <th>Hub Name</th>
+    <th>Member List</th>
+    <th># of Members</th>
+    <th>Owner</th>
+    <th>Description</th>
+    <th>Tags</th>
+  </tr>
+
+
+
+    {% for result in results %}
+    <tr>
+        <td>{{ result["hubName"] }}</td>
+        <td>{{ result["memberList"] }}</td>
+        <td>{{ result["memberList"] }}</td>
+        <td>{{ result["owner"]}}</td>
+        <td>{{ result["description"]}}</td>
+        <td>{{ result["tags"]}}</td>
+    </tr>
+    {% endfor %}
+    </table>
+
+</div>
+
+
+</body>
+</html>

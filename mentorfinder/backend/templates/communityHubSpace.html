@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Community Hub Space</title>
+</head>
+
+<style>
+#container {
+    margin:auto;
+    width:50%;  
+    text-align: center;
+}
+.myTable { background-color:#eee;border-collapse:collapse; }
+.myTable th { background-color:#000;color:white;width:50%; }
+.myTable td, .myTable th { padding:5px;border:1px solid #000; }
+</style>
+
+<body>
+
+<div id="container">
+<h1>Welcome to {{hubName}} </h1>
+<h2> Explore below </h2>
+
+{{message}} <br> <br>
+
+<form action="/createPost" method="get">
+    <label for="post_title">Title:</label><br>
+    <input type="text" id="post_title" name="post_title"><br>
+    <label for="post_content">Content:</label><br>
+    <input type="text" id="post_content" name="post_content"><br><br>
+    <input type="submit" value="Create a Post">
+
+</form>
+
+<form action="/createComment" method="get">
+  <label for="comment_content">Content:</label><br>
+  <input type="text" id="comment_content" name="comment_content"><br><br>
+  <input type="submit" value="Create a Comment">
+
+</form>
+  {{extraInfo}} <br> <br>
+
+
+</div>
+
+
+</body>
+</html>

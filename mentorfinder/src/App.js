@@ -1,58 +1,52 @@
-import './App.css';
-import Navbar from './Navbar';
+import "./App.css";
+import Navbar from "./Navbar";
 import React, { useState } from "react";
-import FindMentor from './pages/FindMentor';
-import MyMentors from './pages/MyMentors';
+import FindMentor from "./pages/FindMentor";
+import MyMentors from "./pages/MyMentors";
 //import Home from './pages/Home';
 import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
-import { Route, Routes } from "react-router-dom"
-import DashboardLeftColumn from "./pages/DashboardLeftColumn"
-import DashboardMiddleColumn from "./pages/DashboardMiddleColumn"
-import DashboardRightColumn from "./pages/DashboardRightColumn"
-import CommunityHubLeftColumn from "./pages/CommunityHubLeftColumn"
-import CommunityHubRightColumn from  "./pages/CommunityHubRightColumn"
+import { Route, Routes } from "react-router-dom";
+import DashboardLeftColumn from "./pages/DashboardLeftColumn";
+import DashboardMiddleColumn from "./pages/DashboardMiddleColumn";
+import DashboardRightColumn from "./pages/DashboardRightColumn";
+import CommunityHubLeftColumn from "./pages/CommunityHubLeftColumn";
+import CommunityHubRightColumn from "./pages/CommunityHubRightColumn";
 
 export function App() {
-  const [currentForm, setCurrentForm] = useState('login');
+  const [currentForm, setCurrentForm] = useState("login");
 
   const toggleForm = (formName) => {
     setCurrentForm(formName);
-  }
+  };
 
   const DashboardLayout = () => {
-    return(
+    return (
       <div>
-        <div style={{display:"flex"}}>
-          <DashboardLeftColumn/>
-          <DashboardMiddleColumn/>
-          <DashboardRightColumn/>
+        <div style={{ display: "flex" }}>
+          <DashboardLeftColumn />
+          <DashboardMiddleColumn />
+          <DashboardRightColumn />
         </div>
       </div>
-    )
-  }
-  
-  const CommunityHubLayout = ()=>{
-    return(
-      <div>
-        <CommunityHubLeftColumn/>
-        <CommunityHubRightColumn/>
-      </div>
-    )
-  }
+    );
+  };
 
-  const MyMentorLayout = ()=>{
-    return(
+  const CommunityHubLayout = () => {
+    return (
       <div>
-
+        <CommunityHubLeftColumn />
+        <CommunityHubRightColumn />
       </div>
-    )
-  }
-  
+    );
+  };
+
+  const MyMentorLayout = () => {
+    return <div></div>;
+  };
 
   return (
     <>
-    
       <Navbar />
       <div className="container">
         <Routes>
@@ -65,28 +59,30 @@ export function App() {
       </div>
 
       <div className="App">
-      {
-        currentForm === "login" ? <Login onFormSwitch={toggleForm} /> : <Register onFormSwitch={toggleForm} />
-      }
+        {currentForm === "login" ? (
+          <Login onFormSwitch={toggleForm} />
+        ) : (
+          <Register onFormSwitch={toggleForm} />
+        )}
       </div>
       <div className="menu-container">
-        <div className="menu_trigger">
-
-        </div>
+        <div className="menu_trigger"></div>
         <div className="educationDropdown">
-          <h3> Unused <br/><span></span></h3>
+          <h3>
+            {" "}
+            Unused <br />
+            <span></span>
+          </h3>
           <ul>
-            <DropdownItem/>
+            <DropdownItem />
           </ul>
         </div>
       </div>
-
-    
     </>
-  )
+  );
 }
 function DropdownItem(props) {
-  return(
+  return (
     //**Not sure what is going on here */
     // <li className = 'dropdownItem'></li>
     // <img></img>
