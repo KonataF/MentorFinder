@@ -355,7 +355,7 @@ def register():
 
 @ app.route("/mentorSearch", methods=['post', 'get'])
 def mentorSearch():
-    return render_template('mentorSearch.html')
+    return render_template('mentorSearch.html') # TODO: get rid of? not needed?
 
 
 @ app.route("/searchForMentors", methods=['post', 'get'])
@@ -402,15 +402,17 @@ def searchForMentors():
                         "_id": 0, "fname": 1, "lname": 1, "education": 1, "occupation": 1, "bio": 1, "areasOfInterests": 1}))
 
     if len(mentorsFound) == 0:
-        return render_template("mentorSearch.html", results=mentorsFound, queryGenerated=str(query), errorMessage="No mentors found using search given.")
+        #return render_template("mentorSearch.html", results=mentorsFound, queryGenerated=str(query), errorMessage="No mentors found using search given.") # OLD - FOR REF
+        return jsonify({"results": mentorsFound, "errorMessage": "No mentors found using search given."})
     else:
-        return render_template("mentorSearch.html", results=mentorsFound, queryGenerated=str(query))
+        #return render_template("mentorSearch.html", results=mentorsFound, queryGenerated=str(query)) # OLD - FOR REF
+        return jsonify({"results": mentorsFound})
 
 
 # searching for mentees
 @ app.route("/menteeSearch", methods=['post', 'get'])
 def menteeSearch():
-    return render_template('menteeSearch.html')
+    return render_template('menteeSearch.html') # TODO: get rid of? not needed?
 
 
 @ app.route("/searchForMentees", methods=['post', 'get'])
@@ -454,18 +456,16 @@ def searchForMentees():
                         "_id": 0, "fname": 1, "lname": 1, "education": 1, "occupation": 1, "bio": 1, "areasOfInterests": 1}))
 
     if len(menteesFound) == 0:
-        # return render_template("mentorSearch.html",results = menteesFound, queryGenerated=str(query), errorMessage ="No mentees found using search given.") - for testing
-        return render_template("menteeSearch.html", results=menteesFound, errorMessage="No mentees found using search given.")
+        #return render_template("menteeSearch.html", results=menteesFound, errorMessage="No mentees found using search given.") - OLD - FOR REF
+        return jsonify({"results": menteesFound, "errorMessage": "No mentees found using search given."}) 
     else:
-        # return render_template("mentorSearch.html",results = menteesFound, queryGenerated=str(query))  - for testing
-        return render_template("menteeSearch.html", results=menteesFound)
+        #return render_template("menteeSearch.html", results=menteesFound) - OLD - FOR REF
+        return jsonify({"results": menteesFound})
 
 # creating community hubs
-
-
 @ app.route("/communityHubCreation", methods=['post', 'get'])
 def communityHubCreation():
-    return render_template('communityHubCreation.html')
+    return render_template('communityHubCreation.html') # TODO: get rid of? not needed?
 
 
 @ app.route("/createCommunityHub", methods=['post', 'get'])
@@ -505,17 +505,17 @@ def createCommunityHub():
         curr_hub_id = curr_hub["_id"]  # get id of current hub
         userCollection.update_one({"_id": session["_id"]}, {
                                   "$push": {"hubsList": curr_hub_id}})
-        return render_template('communityHubCreation.html', message="Your hub was successfully created", curr_hub_id=curr_hub_id, )
+        #return render_template('communityHubCreation.html', message="Your hub was successfully created", curr_hub_id=curr_hub_id) - OLD - FOR REF
+        return jsonify({"message": "Your hub was successfully created", "curr_hub_id": curr_hub_id})
         # TODO: make attribute to track hubs person is owner of?
     else:
-        return render_template('communityHubCreation.html', message="A hub with this name already exists. Please try a different name")
+        # return render_template('communityHubCreation.html', message="A hub with this name already exists. Please try a different name") - OLD - FOR REF
+        return jsonify({"message": "A hub with this name already exists. Please try a different name"})
 
 # searching for community hubs
-
-
 @ app.route("/communityHubSearch", methods=['post', 'get'])
 def communityHubSearch():
-    return render_template('communityHubSearch.html')
+    return render_template('communityHubSearch.html') # TODO: get rid of ? not needed?
 
 
 @ app.route("/searchForCommunityHubs", methods=['post', 'get'])
@@ -542,23 +542,19 @@ def searchForCommunityHubs():
                      "_id": 0, "hubName": 1, "memberList": 1, "owner": 1, "description": 1, "tags": 1}))
 
     if len(hubsFound) == 0:
-        return render_template("communityHubSearch.html", results=hubsFound, queryGenerated=str(query), errorMessage="No mentees found using search given.")
-        # return render_template("communityHubSearch.html",results = hubsFound, errorMessage ="No hubs found using search given.")
+        # return render_template("communityHubSearch.html", results=hubsFound, queryGenerated=str(query), errorMessage="No hubs found using search given.") - OLD - FOR REF
+        return jsonify({"results": hubsFound, "errorMessage": "No hubs found using search given."})
     else:
-        return render_template("communityHubSearch.html", results=hubsFound, queryGenerated=str(query))
-        # return render_template("communityHubSearch.html",results = hubsFound)
+        # return render_template("communityHubSearch.html", results=hubsFound, queryGenerated=str(query)) - OLD - FOR REF
+        return jsonify({"results": hubsFound})
 
 # displaying individual hub - TODO: add more later when i talk to others
-
-
 @ app.route("/communityHubSpace", methods=['post', 'get'])
 def communityHubSpace():
     session["hub"] = '64503200584ff630f60bac3e'  # for testing
-    return render_template('communityHubSpace.html')
+    return render_template('communityHubSpace.html') # TODO: CHANGE
 
 # create a post in hub
-
-
 @ app.route("/createPost", methods=['post', 'get'])
 def createPost():
     session["hub"] = '64503200584ff630f60bac3e'  # temp
@@ -577,11 +573,10 @@ def createPost():
     postCollection.insert_one(serialized_post)
 
     # refresh with post on feed
-    return render_template('communityHubSpace.html', message="Your post was successfully created", extraInfo=str(serialized_post))
+    # return render_template('communityHubSpace.html', message="Your post was successfully created", extraInfo=str(serialized_post)) - OLD - FOR REF
+    return jsonify({"message": "Your post was successfully created", "extraInfo": str(serialized_post)}) 
 
 # create a comment on a post in hub
-
-
 @ app.route("/createComment", methods=['post', 'get'])
 def createComment():
     session["hub"] = '64503200584ff630f60bac3e'  # temp
@@ -601,10 +596,13 @@ def createComment():
     commentCollection.insert_one(serialized_comment)
 
     # refresh with post on feed
-    return render_template('communityHubSpace.html', message="Your comment was successfully created", extraInfo=str(serialized_comment))
+    # return render_template('communityHubSpace.html', message="Your comment was successfully created", extraInfo=str(serialized_comment)) - OLD - FOR REF
+    return jsonify({"message": "Your post was successfully created", "extraInfo": str(serialized_comment)}) 
 
 
-# logging in as mentor
+
+
+# logging out
 @ app.route("/logout", methods=['post', 'get'])
 def logout():
     if "email" in session:
