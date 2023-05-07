@@ -14,6 +14,7 @@ import SearchPage from "./components/SearchPage";
 import NotificationsPage from "./components/NotificationPage";
 import SearchBar from "./components/SearchForUsers";
 import CommunityHubSearch from "./components/SearchForCommunities";
+import ModalComponent from "./components/Modal";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -30,6 +31,7 @@ root.render(
         <Route path="/notifications" element={<NotificationsPage />} />
         <Route path="/searchusers" element={<SearchBar />} />
         <Route path="/searchcommunities" element={<CommunityHubSearch />} />
+        <Route path="/post" element={<ModalComponent />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
