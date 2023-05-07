@@ -2,8 +2,9 @@ import "./DashboardMiddleColumn.jsx"
 
 const DashboardMiddleColumn = () => {
     return (
-        <div></div>
-
+        <div>
+            <Post/>
+        </div>
     )
 }
 

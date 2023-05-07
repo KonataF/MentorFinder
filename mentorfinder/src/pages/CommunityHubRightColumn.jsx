@@ -1,9 +1,24 @@
 import "./CommunityHubRightColumn.scss"
+import React, { useState, useEffect } from "react";
 
 
 const CommunityHubRightColumn = () => {
+    const [data, setData] = useState(null)
+    const hubId = localStoratge.getItem("hubId")
+    console.log(hubId)
+
+    useEffect(() => {
+        const fetchData = async () => {
+          const response = await fetch(`/communityhub/${hubId}`);
+          const result = await response.json();
+          setData(result.data);
+          console.log(data);
+        };
+
+        fetchData()
+    }, [hubId])
     return (
-        <div className="rightCollumn">
+        <div className="rightColumn">
             <div className="container">
                 <div className="communityHubCard">
                     <div className="community">
