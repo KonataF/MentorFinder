@@ -579,8 +579,10 @@ def communityHubSearch():
 
 @ app.route("/searchForCommunityHubs", methods=['post', 'get'])
 def searchForCommunityHubs():
-    searchName = request.args.get("searchName")
-    searchKeyword = request.args.get("searchKeyword")
+    searchName = request.args.get("name")
+    searchKeyword = request.args.get("keywords")
+
+    print(searchName, searchKeyword)
 
     # splitting up input and creating long query to search for
     hubCollection = Database.get_collection('communityHub')
@@ -597,7 +599,8 @@ def searchForCommunityHubs():
     # search for mentor with given query and show certain fields in results
     hubsFound = list(hubCollection.find(query, {
                      "_id": 0, "hubName": 1, "memberList": 1, "owner": 1, "description": 1, "tags": 1}))
-
+    print(f'Query for communuty hubs is {query}')
+    print(hubsFound)
     if len(hubsFound) == 0:
         # return render_template("communityHubSearch.html", results=hubsFound, queryGenerated=str(query), errorMessage="No hubs found using search given.") - OLD - FOR REF
         return jsonify({"results": hubsFound, "errorMessage": "No hubs found using search given."})

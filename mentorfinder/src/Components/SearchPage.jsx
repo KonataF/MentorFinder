@@ -23,7 +23,7 @@ function SearchPage() {
     console.log(`Searching for ${searchTerm} in ${searchType}`);
     const response = await fetch(`api/search?${searchType}=${searchTerm}`);
     const result = await response.json();
-    console.log(result.data);
+    //console.log(result.data["fname"]);
     setSearchResult(result.data);
   };
 

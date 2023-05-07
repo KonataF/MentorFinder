@@ -9,15 +9,25 @@ const SearchBar = () => {
   const [areaOfInterest, setAreaOfInterest] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
+  const userType = localStorage.getItem("userType");
 
   const handleSubmit = async (e) => {
+    //const searchType = "";
+
+    // if (userType == "mentor") {
+    //     const searchType = "Mentees";
+    //   } else {
+    //     const searchType = "Mentors";
+    //   }
+
     e.preventDefault();
     const url = `/searchForMentors?name=${name}&company=${company}&position=${position}&college=${college}&areaOfInterest=${areaOfInterest}`;
     try {
       const response = await fetch(url);
       const data = await response.json();
       setSearchResult(data.results);
-      console.log(searchResult);
+      //console.log(searchResult);
+      //console.log(searchResult[0].occupation.position);
       setErrorMessage("");
     } catch (error) {
       setSearchResult([]);
@@ -50,7 +60,7 @@ const SearchBar = () => {
   return (
     <div>
       <h1>Welcome!</h1>
-      <h2>Search for mentees down below:</h2>
+      <h2>Search for Mentor/Mentee down below:</h2>
       <form onSubmit={handleSubmit}>
         <label htmlFor="name">Name</label>
         <br />
