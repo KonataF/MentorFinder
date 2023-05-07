@@ -1,5 +1,5 @@
-import SearchBar from '../components/searchBar'
-import Card from '../components/Card'
+import SearchBar from '../Components/searchBar'
+import Card from '../Components/Card'
 import '../index.css'
 
 
@@ -12,7 +12,7 @@ export default function FindMentor() {
         <div class="right-container">
             <Card/>
             <Card/>
-            <Card/>
+            </>
         </div> 
         </div>
 
