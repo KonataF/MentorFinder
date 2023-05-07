@@ -13,8 +13,10 @@ import DashboardRightColumn from "./pages/DashboardRightColumn";
 import CommunityHubLeftColumn from "./pages/CommunityHubLeftColumn";
 import CommunityHubRightColumn from "./pages/CommunityHubRightColumn";
 
+
 export function App() {
   const [currentForm, setCurrentForm] = useState("login");
+
 
   const toggleForm = (formName) => {
     setCurrentForm(formName);

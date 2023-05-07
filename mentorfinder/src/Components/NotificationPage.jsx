@@ -4,18 +4,22 @@ function NotificationsPage() {
   const [data, setData] = useState(null);
   const userId = localStorage.getItem("userId");
   const typeOfUser = localStorage.getItem("userType");
-  console.log(userId, typeOfUser);
 
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(`/notifications/${typeOfUser}/${userId}`);
       const result = await response.json();
       setData(result.data);
-      console.log(data);
     };
 
     fetchData();
   }, [typeOfUser, userId]);
+
+  const handleAcceptOrDecline = async (notification_from, action) => {
+    const response = await fetch(
+      `/notifications/${action}/${userId}/${notification_from}`
+    );
+  };
 
   return (
     <div>
@@ -25,6 +29,20 @@ function NotificationsPage() {
             <h2>{notification.notification_from}</h2>
             <p>{notification.notification_to}</p>
             <p>{notification.notification_type}</p>
+            <button
+              onClick={() =>
+                handleAcceptOrDecline(notification.notification_from, "accept")
+              }
+            >
+              Accept
+            </button>
+            <button
+              onClick={() =>
+                handleAcceptOrDecline(notification.notification_from, "decline")
+              }
+            >
+              Decline
+            </button>
           </div>
         ))
       ) : (

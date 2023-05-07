@@ -8,8 +8,9 @@ function SearchResultCard({ data, onButtonClick }) {
       <div className="card-body">
         <h5 className="card-title">{`${data.fname} ${data.lname}`}</h5>
         <h6 className="card-subtitle mb-2 text-muted">{data.email}</h6>
+        <p className="card-text">{data.occupation.position}</p>
         <p className="card-text">{data.status}</p>
-        <button onClick={handleClick}>Get fname</button>
+        <button onClick={handleClick}>Request</button>
       </div>
     </div>
   );
