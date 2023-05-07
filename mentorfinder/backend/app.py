@@ -534,8 +534,6 @@ def searchForCommunityHubs():
     if searchKeyword:
         searchKeywords = searchKeyword.split(",")
         query["tags"] = {'$in': searchKeywords}
-        # for keyword in searchKeywords:
-        #    query["tags"] =  {'$in': str(keyword)}
 
     # search for mentor with given query and show certain fields in results
     hubsFound = list(hubCollection.find(query, {
@@ -548,7 +546,11 @@ def searchForCommunityHubs():
         # return render_template("communityHubSearch.html", results=hubsFound, queryGenerated=str(query)) - OLD - FOR REF
         return jsonify({"results": hubsFound})
 
-# displaying individual hub - TODO: add more later when i talk to others
+
+
+
+
+# displaying individual hub info display and feed 
 @ app.route("/communityHubSpace", methods=['post', 'get'])
 def communityHubSpace():
     temp_id = '64503200584ff630f60bac3e'  # for testing
