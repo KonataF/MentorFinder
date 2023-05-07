@@ -143,11 +143,15 @@ def push_notification():
     else:
         return jsonify({"notificationSent": False, "requestorsId": fromId, "requesteeId": toId, "message": "notification failed"})
 
+# helper route to get all the mentors from the db
+
 
 @ app.route("/api/get_mentors", methods=['get'])
 def get_mentors():
     mentors = list(Database.get_collection('mentor').find({}))
     return json.dumps({"data": mentors}, default=json_util.default)
+
+# helper routes to get all the mentees from the db
 
 
 @ app.route("/api/get_mentees", methods=['get'])
