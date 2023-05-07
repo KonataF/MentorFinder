@@ -551,8 +551,16 @@ def searchForCommunityHubs():
 # displaying individual hub - TODO: add more later when i talk to others
 @ app.route("/communityHubSpace", methods=['post', 'get'])
 def communityHubSpace():
-    session["hub"] = '64503200584ff630f60bac3e'  # for testing
-    return render_template('communityHubSpace.html') # TODO: CHANGE
+    temp_id = '64503200584ff630f60bac3e'  # for testing
+    hubCollection = Database.get_collection('communityHub')
+    hubInfo = hubCollection.find_one({"_id": temp_id}, {"hubName": 1, "bannerPhoto": 1, "profilePic": 1, "owner": 1, "description": 1, "tags": 1})
+
+    # getting feed to display
+    postCollection = Database.get_collection('post')
+    feedPosts = postCollection.find({"hubBelongingTo": temp_id})
+    feedPosts.sort( { "date": -1, "time": -1 } ) # sort posts in chronological order from most recent to least
+
+    return jsonify({"hubInfo": hubInfo, "feedPosts": feedPosts})
 
 # create a post in hub
 @ app.route("/createPost", methods=['post', 'get'])
@@ -598,7 +606,6 @@ def createComment():
     # refresh with post on feed
     # return render_template('communityHubSpace.html', message="Your comment was successfully created", extraInfo=str(serialized_comment)) - OLD - FOR REF
     return jsonify({"message": "Your post was successfully created", "extraInfo": str(serialized_comment)}) 
-
 
 
 
