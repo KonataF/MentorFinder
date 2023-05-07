@@ -27,6 +27,17 @@ def get_current_time():
     return {'time': time.time()}
 
 
+@ app.route("/notifications/<action>/<userId>/<notification_from>", methods=['get'])
+def process_notification_action(action, userId, notification_from):
+    print(action, userId, notification_from)
+
+    if action == 'accept':
+        # get_user_notifications()
+        pass
+
+    return jsonify({"data": [action, userId, notification_from]})
+
+
 @ app.route("/notifications/<typeOfUser>/<userId>", methods=['get'])
 def get_user_notifications(typeOfUser, userId):
     print(f'fetching profile for {typeOfUser} : {userId}')

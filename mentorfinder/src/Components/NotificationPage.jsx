@@ -15,15 +15,9 @@ function NotificationsPage() {
     fetchData();
   }, [typeOfUser, userId]);
 
-  const handleAccept = async (notification_from) => {
+  const handleAcceptOrDecline = async (notification_from, action) => {
     const response = await fetch(
-      `/notifications/accept/${userId}/${notification_from}`
-    );
-  };
-
-  const handleDecline = async (notification_from) => {
-    const response = await fetch(
-      `/notifications/decline/${userId}/${notification_from}`
+      `/notifications/${action}/${userId}/${notification_from}`
     );
   };
 
@@ -37,20 +31,14 @@ function NotificationsPage() {
             <p>{notification.notification_type}</p>
             <button
               onClick={() =>
-                handleAccept(
-                  notification.notification_from,
-                  notification.notification_to
-                )
+                handleAcceptOrDecline(notification.notification_from, "accept")
               }
             >
               Accept
             </button>
             <button
               onClick={() =>
-                handleDecline(
-                  notification.notification_from,
-                  notification.notification_to
-                )
+                handleAcceptOrDecline(notification.notification_from, "decline")
               }
             >
               Decline
