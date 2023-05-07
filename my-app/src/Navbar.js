@@ -1,31 +1,56 @@
-import './App.css'
-import { Link, useMatch, useResolvedPath } from "react-router-dom"
+import { NavLink } from "react-router-dom";
 
-export default function Navbar() {
+const Navbar = () => {
   return (
-    <nav className="nav">
-      <Link to="/" className="site-title">
-        Site Name
-      </Link>
-      <ul>
-        <CustomLink to="/dashboard">Dashboard</CustomLink>
-        <CustomLink to="/findmentor">Find Mentor</CustomLink>
-       < CustomLink to="/mymentors">My Mentors</CustomLink>
-       < CustomLink to="/login">Login</CustomLink>
-      </ul>
+    <nav className="bg-gray-800">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          <div className="flex items-center">
+            <div className="flex-shrink-0">
+              <img className="h-8 w-8" src="/logo.svg" alt="Logo" />
+            </div>
+            <div className="hidden md:block">
+              <div className="ml-auto flex items-baseline space-x-4">
+                <NavLink
+                  exact
+                  to="/"
+                  activeClassName="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Home
+                </NavLink>
+                <NavLink
+                  exact
+                  to="/dashboard"
+                  activeClassName="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Dashboard
+                </NavLink>
+                <NavLink
+                  exact
+                  to="/pages/communityhub"
+                  activeClassName="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Community Hub
+                </NavLink>
+                <NavLink
+                  exact
+                  to="/pages/findmentor"
+                  activeClassName="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  FindMentor
+                </NavLink>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </nav>
-  )
-}
+  );
+};
 
-function CustomLink({ to, children, ...props }) {
-  const resolvedPath = useResolvedPath(to)
-  const isActive = useMatch({ path: resolvedPath.pathname, end: true })
-
-  return (
-    <li className={isActive ? "active" : ""}>
-      <Link to={to} {...props}>
-        {children}
-      </Link>
-    </li>
-  )
-}
+export default Navbar;
+ 

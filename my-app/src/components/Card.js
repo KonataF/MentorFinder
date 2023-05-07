@@ -1,17 +1,6 @@
 import '../index.css';
 import '../App.css';
 
-// - email
-// - username
-// - password
-// - profilePic (optional)
-// - date of birth
-// - occupation
-// - education
-// - experience
-// - bio
-// - maxNumOfMentees (optional)
-
 export default function Card() {
     return (
         <div class="card" link rel="stylesheet" href="https://use.typekit.net/slx0pnh.css">

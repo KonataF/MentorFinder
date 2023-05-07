@@ -1,0 +1,42 @@
+[
+    {
+      "title": "CS Hub",
+      "tags": ["comp sci", "css", "python", "coding"],
+      "link":"https://engineering.nyu.edu/" 
+    },
+    {
+      "title": "CS Hub2",
+      "tags": ["comp sci", "css", "python", "coding"],
+      "link":"https://engineering.nyu.edu/" 
+    },
+    {
+        "title": "CS Hub3",
+        "tags": ["comp sci", "css", "python", "coding"],
+        "link":"https://engineering.nyu.edu/" 
+      },
+    {
+        "title": "English Hub",
+        "tags": ["writing", "english"],
+        "link":"https://engineering.nyu.edu/" 
+    },
+    {
+        "title": "Physics Hub",
+        "tags": ["physics", "tandon"],
+        "link":"https://engineering.nyu.edu/" 
+    },
+    {
+        "title": "Physics Hub2",
+        "tags": ["physics", "tandon"],
+        "link":"https://engineering.nyu.edu/" 
+    },
+    {
+        "title": "Physics Hub3",
+        "tags": ["physics", "tandon"],
+        "link":"https://engineering.nyu.edu/" 
+    },
+    {
+        "title": "Physics Hub4",
+        "tags": ["physics", "tandon"],
+        "link":"https://engineering.nyu.edu/" 
+    }
+]

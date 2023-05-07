@@ -1,62 +1,47 @@
-import React, {useState} from 'react'
+import React, { useState } from "react";
+import "../App.css"
 
-const searchBar = () => {
+function SearchBar({placeholder, data}) {
+  const [filteredData, setFilteredData] = useState([]);
 
- const [searchInput, setSearchInput] = useState("");
+  const handleFilter = (e) => {
+  const inputWord = e.target.value;
+  const newFilter = data.filter((value) => {
+    // return value.title.toLowerCase()
 
- const countries = [
+    return value.title.toLowerCase().includes(inputWord.toLowerCase());
+    // return value && value.title && value.title.toLowerCase().includes(inputWord.toLowerCase());
+  })
 
-  { name: "Belgium", continent: "Europe" },
-  { name: "India", continent: "Asia" },
-  { name: "Bolivia", continent: "South America" },
-  { name: "Ghana", continent: "Africa" },
-  { name: "Japan", continent: "Asia" },
-  { name: "Canada", continent: "North America" },
-  { name: "New Zealand", continent: "Australasia" },
-  { name: "Italy", continent: "Europe" },
-  { name: "South Africa", continent: "Africa" },
-];
-
-const handleChange = (e) => {
-  e.preventDefault();
-  setSearchInput(e.target.value);
-};
-
-if (searchInput.length > 0) {
-    countries.filter((country) => {
-    return country.name.match(searchInput);
-});
+  if (inputWord === "") {
+    setFilteredData([]);
+  } else{
+    setFilteredData(newFilter);
+  }
 }
 
-return <div>
+  return (
+    <div className="search">
+      <div className="searchInputs">
+        <input type="text" placeholder={placeholder} onChange={handleFilter}></input>
+      </div>
+      {filteredData.length === 0 ? (
+        <div className="noMatches">
+          No matches
+        </div>
+        ) : (
+        <div className="dataResult">
+        {filteredData.map((value,key) => {
+          return(
+            <a className="dataItem" href={value.link}>
+              <p>{value.title}</p>
+            </a>
+          );
+        })}
+      </div>
+    )}
+    </div>
+  )  
+}
 
-<input
-   type="search"
-   placeholder="Search here"
-   onChange={handleChange}
-   value={searchInput} />
-
-<table>
-  <tr>
-    <th>Country</th>
-    <th>Continent</th>
-  </tr>
-
-{countries.map((country) => {
-
-<div>
-  <tr>
-    <td>{country.name}</td>
-    <td>{country.continent}</td>
-  </tr>
-</div>
-
-})}
-</table>
-
-</div>
-
-
-};
-
-export default searchBar;
+export default SearchBar;

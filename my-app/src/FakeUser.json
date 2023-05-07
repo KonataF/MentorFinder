@@ -1,0 +1,37 @@
+[
+    {
+      "isProfileComplete": true,
+      "userId": "user123",
+      "username": "JohnDoe",
+      "profilePic": "https://example.com/profilepic1.jpg",
+      "dob": "1990-01-01",
+      "userType": "regular",
+      "occupation": {
+        "position": "Software Engineer",
+        "company": "ABC Corp"
+      },
+      "education": {
+        "college": "XYZ University",
+        "degree": "Bachelor of Science",
+        "discipline": "Computer Science"
+      }
+    },
+    {
+      "isProfileComplete": true,
+      "userId": "user456",
+      "username": "JaneDoe",
+      "profilePic": "https://example.com/profilepic2.jpg",
+      "dob": "1995-03-15",
+      "userType": "premium",
+      "occupation": {
+        "position": "Marketing Manager",
+        "company": "DEF Inc"
+      },
+      "education": {
+        "college": "LMN College",
+        "degree": "Master of Business Administration",
+        "discipline": "Marketing"
+      }
+    }
+  ]
+  

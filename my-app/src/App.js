@@ -1,15 +1,13 @@
 import './App.css';
 import Navbar from './Navbar';
 import React, { useState } from "react";
+import Dashboard from './components/Dashboard';
 import FindMentor from './pages/FindMentor';
 import MyMentors from './pages/MyMentors';
 //import Home from './pages/Home';
 import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
-import { Route, Routes } from "react-router-dom"
-import DashboardLeftColumn from "./src/pages/DashboardLeftColumn"
-import DashboardMiddleColumn from "./src/pages/DashboardMiddleColumn"
-import DashboardRightColumn from "./src/pages/DashboardRightColumn"
+import { Route, BrowserRouter } from "react-router-dom"
 
 export function App() {
   const [currentForm, setCurrentForm] = useState('login');
@@ -18,31 +16,17 @@ export function App() {
     setCurrentForm(formName);
   }
 
-  const DashboardLayout = ()=>{
-    return(
-      <div>
-        <Navbar/>
-        <div style={{display:"flex"}}>
-          <DashboardLeftColumn/>
-          <DashboardMidddleColumn/>
-          <DashboardRightColumn/>
-        </div>
-      </div>
-    )
-  }
-
   return (
     <>
-    
       <Navbar />
       <div className="container">
-        <Routes>
+        <BrowserRouter>
           {/* need to figure out a way to re-rounte to dashboard page when you click Site Name */}
           {/* <Route path="/" element={<Login />} /> */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/findmentor" element={<FindMentor />} />
           <Route path="/mymentors" element={<MyMentors />} />
-        </Routes>
+        </BrowserRouter>
       </div>
 
       <div className="App">
@@ -57,7 +41,7 @@ export function App() {
         <div className="educationDropdown">
           <h3> Unused <br/><span></span></h3>
           <ul>
-            <DropdownItem/>
+            {/* <DropdownItem/> */}
           </ul>
         </div>
       </div>
@@ -66,14 +50,13 @@ export function App() {
     </>
   )
 }
-function DropdownItem(props) {
-  return(
-    //**Not sure what is going on here */
-    // <li className = 'dropdownItem'></li>
-    // <img></img>
-    //   <a> [props.text] </a>
-    <p>sample text</p>
-  );
-}
+// function DropdownItem(props) {
+//   return(
+//     //**Not sure what is going on here */
+//     <li className = 'dropdownItem'></li>
+//     <img></img>
+//       <a> [props.text] </a>
+//   );
+// }
 
 export default App;
