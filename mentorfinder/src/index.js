@@ -12,6 +12,8 @@ import ProfileEditor from "./components/ProfileEditor";
 import MyMentors from "./components/MyMentors";
 import SearchPage from "./components/SearchPage";
 import NotificationsPage from "./components/NotificationPage";
+import SearchBar from "./components/SearchForUsers";
+import CommunityHubSearch from "./components/SearchForCommunities";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -26,6 +28,8 @@ root.render(
         <Route path="/myMentors" element={<MyMentors />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/notifications" element={<NotificationsPage />} />
+        <Route path="/searchusers" element={<SearchBar />} />
+        <Route path="/searchcommunities" element={<CommunityHubSearch />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

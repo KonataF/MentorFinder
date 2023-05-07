@@ -31,11 +31,40 @@ def get_current_time():
 def process_notification_action(action, userId, notification_from):
     print(action, userId, notification_from)
 
-    if action == 'accept':
-        # get_user_notifications()
-        pass
+    user_notifications = get_user_notifications('Mentor', userId)
+    user_notifications_dict = json.loads(user_notifications)['data']
 
-    return jsonify({"data": [action, userId, notification_from]})
+    menteeList = json.loads(get_user_connections("Mentor", userId))['data']
+
+    if action == 'accept':
+
+        print(menteeList)
+        menteeList.append(notification_from)
+        newvalues = {"$set": {"menteeList": menteeList}}
+
+        print(user_notifications_dict)
+        # for notification in user_notifications_dict:
+        #     print(notification)
+        #     if notification['notification_id']['$oid'] == notification_from:
+        #         print(notification['notification_id']['$oid'])
+
+        updationResult = Database.get_collection(
+            'mentor').update_one({"_id": ObjectId(userId)}, newvalues)
+        print(f"updation count: {updationResult.modified_count}")
+        if updationResult.modified_count > 0:
+            return jsonify({"notificationAccepted": True, "message": "mentor added to the list"})
+        else:
+            return jsonify({"notificationSent": False, "message": "mentor can't be added to the list"})
+
+    else:
+        for notification in user_notifications_dict:
+            print(notification)
+            if notification['notification_id']['$oid'] == notification_from:
+                print(notification['notification_id']['$oid'])
+
+        return {"data": "gello"}
+
+    # return jsonify({"data": [action, userId, notification_from]})
 
 
 @ app.route("/notifications/<typeOfUser>/<userId>", methods=['get'])
@@ -370,7 +399,8 @@ def register():
 
 @ app.route("/mentorSearch", methods=['post', 'get'])
 def mentorSearch():
-    return render_template('mentorSearch.html') # TODO: get rid of? not needed?
+    # TODO: get rid of? not needed?
+    return render_template('mentorSearch.html')
 
 
 @ app.route("/searchForMentors", methods=['post', 'get'])
@@ -381,6 +411,8 @@ def searchForMentors():
     college = request.args.get("college")
     educationLvl = request.args.get("educationLvl")
     areaOfInterest = request.args.get("areaOfInterest")
+
+    #print(name, company, position)
 
     # splitting up input and creating long query to search for
     mentorCollection = Database.get_collection('mentor')
@@ -412,22 +444,26 @@ def searchForMentors():
     else:
         extraInfo = "no area of interest given"
 
+    print(f'query = {query}')
     # search for mentor with given query and show certain fields in results
     mentorsFound = list(mentorCollection.find(query, {
                         "_id": 0, "fname": 1, "lname": 1, "education": 1, "occupation": 1, "bio": 1, "areasOfInterests": 1}))
-
+    print("SEARCH CURSOR HERRE")
+    print(mentorsFound)
     if len(mentorsFound) == 0:
-        #return render_template("mentorSearch.html", results=mentorsFound, queryGenerated=str(query), errorMessage="No mentors found using search given.") # OLD - FOR REF
+        # return render_template("mentorSearch.html", results=mentorsFound, queryGenerated=str(query), errorMessage="No mentors found using search given.") # OLD - FOR REF
+        # return jsonify({"data": "hello world"})
         return jsonify({"results": mentorsFound, "errorMessage": "No mentors found using search given."})
     else:
-        #return render_template("mentorSearch.html", results=mentorsFound, queryGenerated=str(query)) # OLD - FOR REF
+        # return render_template("mentorSearch.html", results=mentorsFound, queryGenerated=str(query)) # OLD - FOR REF
         return jsonify({"results": mentorsFound})
 
 
 # searching for mentees
 @ app.route("/menteeSearch", methods=['post', 'get'])
 def menteeSearch():
-    return render_template('menteeSearch.html') # TODO: get rid of? not needed?
+    # TODO: get rid of? not needed?
+    return render_template('menteeSearch.html')
 
 
 @ app.route("/searchForMentees", methods=['post', 'get'])
@@ -437,6 +473,8 @@ def searchForMentees():
     position = request.args.get("position")
     college = request.args.get("college")
     areaOfInterest = request.args.get("areaOfInterest")
+
+    print(name, company, position)
 
     # splitting up input and creating long query to search for
     menteeCollection = Database.get_collection('mentee')
@@ -469,18 +507,21 @@ def searchForMentees():
     # search for mentor with given query and show certain fields in results
     menteesFound = list(menteeCollection.find(query, {
                         "_id": 0, "fname": 1, "lname": 1, "education": 1, "occupation": 1, "bio": 1, "areasOfInterests": 1}))
-
+    # print(query, menteesFound)
     if len(menteesFound) == 0:
-        #return render_template("menteeSearch.html", results=menteesFound, errorMessage="No mentees found using search given.") - OLD - FOR REF
-        return jsonify({"results": menteesFound, "errorMessage": "No mentees found using search given."}) 
+        # return render_template("menteeSearch.html", results=menteesFound, errorMessage="No mentees found using search given.") - OLD - FOR REF
+        return jsonify({"results": menteesFound, "errorMessage": "No mentees found using search given."})
     else:
-        #return render_template("menteeSearch.html", results=menteesFound) - OLD - FOR REF
+        # return render_template("menteeSearch.html", results=menteesFound) - OLD - FOR REF
         return jsonify({"results": menteesFound})
 
 # creating community hubs
+
+
 @ app.route("/communityHubCreation", methods=['post', 'get'])
 def communityHubCreation():
-    return render_template('communityHubCreation.html') # TODO: get rid of? not needed?
+    # TODO: get rid of? not needed?
+    return render_template('communityHubCreation.html')
 
 
 @ app.route("/createCommunityHub", methods=['post', 'get'])
@@ -520,7 +561,7 @@ def createCommunityHub():
         curr_hub_id = curr_hub["_id"]  # get id of current hub
         userCollection.update_one({"_id": session["_id"]}, {
                                   "$push": {"hubsList": curr_hub_id}})
-        #return render_template('communityHubCreation.html', message="Your hub was successfully created", curr_hub_id=curr_hub_id) - OLD - FOR REF
+        # return render_template('communityHubCreation.html', message="Your hub was successfully created", curr_hub_id=curr_hub_id) - OLD - FOR REF
         return jsonify({"message": "Your hub was successfully created", "curr_hub_id": curr_hub_id})
         # TODO: make attribute to track hubs person is owner of?
     else:
@@ -528,9 +569,12 @@ def createCommunityHub():
         return jsonify({"message": "A hub with this name already exists. Please try a different name"})
 
 # searching for community hubs
+
+
 @ app.route("/communityHubSearch", methods=['post', 'get'])
 def communityHubSearch():
-    return render_template('communityHubSearch.html') # TODO: get rid of ? not needed?
+    # TODO: get rid of ? not needed?
+    return render_template('communityHubSearch.html')
 
 
 @ app.route("/searchForCommunityHubs", methods=['post', 'get'])
@@ -562,24 +606,25 @@ def searchForCommunityHubs():
         return jsonify({"results": hubsFound})
 
 
-
-
-
-# displaying individual hub info display and feed 
+# displaying individual hub info display and feed
 @ app.route("/communityHubSpace", methods=['post', 'get'])
 def communityHubSpace():
     temp_id = '64503200584ff630f60bac3e'  # for testing
     hubCollection = Database.get_collection('communityHub')
-    hubInfo = hubCollection.find_one({"_id": temp_id}, {"hubName": 1, "bannerPhoto": 1, "profilePic": 1, "owner": 1, "description": 1, "tags": 1})
+    hubInfo = hubCollection.find_one({"_id": temp_id}, {
+                                     "hubName": 1, "bannerPhoto": 1, "profilePic": 1, "owner": 1, "description": 1, "tags": 1})
 
     # getting feed to display
     postCollection = Database.get_collection('post')
     feedPosts = postCollection.find({"hubBelongingTo": temp_id})
-    feedPosts.sort( { "date": -1, "time": -1 } ) # sort posts in chronological order from most recent to least
+    # sort posts in chronological order from most recent to least
+    feedPosts.sort({"date": -1, "time": -1})
 
     return jsonify({"hubInfo": hubInfo, "feedPosts": feedPosts})
 
 # create a post in hub
+
+
 @ app.route("/createPost", methods=['post', 'get'])
 def createPost():
     session["hub"] = '64503200584ff630f60bac3e'  # temp
@@ -599,9 +644,11 @@ def createPost():
 
     # refresh with post on feed
     # return render_template('communityHubSpace.html', message="Your post was successfully created", extraInfo=str(serialized_post)) - OLD - FOR REF
-    return jsonify({"message": "Your post was successfully created", "extraInfo": str(serialized_post)}) 
+    return jsonify({"message": "Your post was successfully created", "extraInfo": str(serialized_post)})
 
 # create a comment on a post in hub
+
+
 @ app.route("/createComment", methods=['post', 'get'])
 def createComment():
     session["hub"] = '64503200584ff630f60bac3e'  # temp
@@ -622,8 +669,7 @@ def createComment():
 
     # refresh with post on feed
     # return render_template('communityHubSpace.html', message="Your comment was successfully created", extraInfo=str(serialized_comment)) - OLD - FOR REF
-    return jsonify({"message": "Your post was successfully created", "extraInfo": str(serialized_comment)}) 
-
+    return jsonify({"message": "Your post was successfully created", "extraInfo": str(serialized_comment)})
 
 
 # logging out
