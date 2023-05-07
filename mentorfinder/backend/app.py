@@ -397,10 +397,10 @@ def register():
     # searching for mentors
 
 
-@ app.route("/mentorSearch", methods=['post', 'get'])
-def mentorSearch():
-    # TODO: get rid of? not needed?
-    return render_template('mentorSearch.html')
+# @ app.route("/mentorSearch", methods=['post', 'get'])
+# def mentorSearch():
+#     # TODO: get rid of? not needed?
+#     return render_template('mentorSearch.html')
 
 
 @ app.route("/searchForMentors", methods=['post', 'get'])
@@ -460,10 +460,10 @@ def searchForMentors():
 
 
 # searching for mentees
-@ app.route("/menteeSearch", methods=['post', 'get'])
-def menteeSearch():
-    # TODO: get rid of? not needed?
-    return render_template('menteeSearch.html')
+# @ app.route("/menteeSearch", methods=['post', 'get'])
+# def menteeSearch():
+#     # TODO: get rid of? not needed?
+#     return render_template('menteeSearch.html')
 
 
 @ app.route("/searchForMentees", methods=['post', 'get'])
@@ -610,16 +610,16 @@ def searchForCommunityHubs():
 
 
 # displaying individual hub info display and feed
-@ app.route("/communityHubSpace", methods=['post', 'get'])
-def communityHubSpace():
-    temp_id = '64503200584ff630f60bac3e'  # for testing
+@ app.route("/communityHubSpace/<hubId>", methods=['post', 'get'])
+def communityHubSpace(hubId):
+    # temp_id = '64503200584ff630f60bac3e'  # for testing
     hubCollection = Database.get_collection('communityHub')
-    hubInfo = hubCollection.find_one({"_id": temp_id}, {
+    hubInfo = hubCollection.find_one({"_id": hubId}, {
                                      "hubName": 1, "bannerPhoto": 1, "profilePic": 1, "owner": 1, "description": 1, "tags": 1})
 
     # getting feed to display
     postCollection = Database.get_collection('post')
-    feedPosts = postCollection.find({"hubBelongingTo": temp_id})
+    feedPosts = postCollection.find({"hubBelongingTo": hubId})
     # sort posts in chronological order from most recent to least
     feedPosts.sort({"date": -1, "time": -1})
 
