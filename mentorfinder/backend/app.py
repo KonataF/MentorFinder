@@ -609,6 +609,12 @@ def searchForCommunityHubs():
         return jsonify({"results": hubsFound})
 
 
+@ app.route('/communityHubs')
+def getAllCommunityHubs():
+    communityHubs = list(Database.get_collection('communityHub').find({}))
+    return json.dumps({"data": communityHubs}, default=json_util.default)
+
+
 # displaying individual hub info display and feed
 @ app.route("/communityHubSpace/<hubId>", methods=['post', 'get'])
 def communityHubSpace(hubId):
