@@ -89,6 +89,7 @@ export default function Dashboard() {
               </button>
             </Link>
           </div>
+
           <div className="w-1/2 bg-gray-200 rounded-lg px-4 py-4 mx-2 text-center">
             <h2 className="text-2xl font-bold mb-4">Column 2</h2>
             <p>Find one today!</p>

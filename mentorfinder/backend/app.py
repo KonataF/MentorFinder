@@ -693,8 +693,10 @@ def createPost():
     session["hub"] = '64503200584ff630f60bac3e'  # temp
     session["_id"] = '64500f395a232e2e59ed1990'  # temp
     session["fullName"] = "Rob Lee"  # temp
-    title = request.args.get("post_title")
-    content = request.args.get("post_content")
+    title = request.json.get("title")
+    content = request.json.get("text")
+
+    print(title, content)
 
     newPost = Post(session["hub"], session["_id"],
                    session["fullName"], title, content)
