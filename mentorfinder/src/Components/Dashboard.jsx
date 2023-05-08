@@ -6,6 +6,9 @@ import "../index.css";
 
 export default function Dashboard() {
   const [data, setData] = useState(null);
+  const [displayableMenteeData, setDisplayableMenteeData] = useState();
+  const [mentorData, setMentorData] = useState(null);
+  const [menteeData, setMenteeData] = useState(null);
   const userId = localStorage.getItem("userId");
   const typeOfUser = localStorage.getItem("userType");
 
@@ -17,12 +20,34 @@ export default function Dashboard() {
       setData(result.data);
     };
 
+    const fetchMentorData = async () => {
+      const response = await fetch(`/mentorList/${typeOfUser}/${userId}`);
+      const result = await response.json();
+      console.log(result);
+      setMentorData(result.data);
+    };
+
+    const fetchMenteeData = async () => {
+      if (mentorData) {
+        console.log("mentor data has been fetched");
+
+        console.log(`Mentee data in here {}`);
+        const response = await fetch(`/profile/Mentee/${userId}`);
+        const result = await response.json();
+        console.log(result);
+        setMenteeData(result.data);
+      }
+    };
+
     fetchData();
+    fetchMentorData();
+    fetchMenteeData();
   }, [typeOfUser, userId]);
 
   // console.log(`data is ${data["fname"]}`);
 
-  if (!data) {
+  if (!data || !mentorData || !menteeData) {
+    //console.log(mentorData);
     return <div>Loading...</div>;
   }
 
