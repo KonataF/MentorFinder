@@ -11,10 +11,10 @@ class Mentor:
         self.education = education
         self.areasOfInterests = []
         self.status = "offline"
-        self.materialsCatalog = []
-        self.upvotedPosts = []
-        self.downvotedPosts = []
-        self.hubsList = []
+        self.materialsCatalog = [] # NOT NEEDED?
+        self.upvotedPosts = [] # NOT NEEDED?
+        self.downvotedPosts = [] # NOT NEEDED?
+        self.hubsList = [] # names of hubs part of
         self.experience = experience
         self.bio = bio
         self.maxCapacityNum = 0

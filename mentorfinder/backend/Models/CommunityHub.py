@@ -1,6 +1,6 @@
 class CommunityHub:
     def __init__(self, hubName, owner, description, tags, bannerPhoto="", profilePic="") -> None:
-        self.hubName = hubName
+        self.hubName = hubName # primary key almost
         #self.postCollection = [] #get rid of
         self.bannerPhoto = bannerPhoto
         self.profilePic = profilePic
