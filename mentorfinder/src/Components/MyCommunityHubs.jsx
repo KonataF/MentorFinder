@@ -35,7 +35,9 @@ const CommunityHubs = () => {
         }}
       >
         <div className="rounded-lg bg-gray-200 p-10">
-          <h1 className="text-4xl font-bold mb-4 text-center">Hello</h1>
+          <h1 className="text-4xl font-bold mb-4 text-center">
+            Your Community Hubs
+          </h1>
           {hubData.map((hub) => (
             <div
               key={hub._id.$oid}

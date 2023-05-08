@@ -29,7 +29,15 @@ const Navbar = () => {
                 </NavLink>
                 <NavLink
                   exact
-                  to="/communityhub"
+                  to="/editProfile"
+                  activeClassName="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
+                  className="text-purple-500 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Edit Profile
+                </NavLink>
+                <NavLink
+                  exact
+                  to="/searchCommunities"
                   activeClassName="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
                   className="text-purple-500 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                 >
@@ -45,11 +53,19 @@ const Navbar = () => {
                 </NavLink>
                 <NavLink
                   exact
-                  to="/findmentors"
+                  to="/myCommunityHubs"
                   activeClassName="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
                   className="text-purple-500 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                 >
-                  Find Mentors
+                  My Community Hubs
+                </NavLink>
+                <NavLink
+                  exact
+                  to="/communityHubsSelect"
+                  activeClassName="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
+                  className="text-purple-500 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Post to My Community Hub
                 </NavLink>
                 <NavLink
                   exact

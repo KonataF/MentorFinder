@@ -30,32 +30,7 @@ export default function Dashboard() {
     fetchMentorData(); // get current mentor or mentee list
   }, [typeOfUser, userId]);
 
-  const fetchMenteeData = async () => {
-    if (mentorData) {
-      console.log("mentor data has been fetched");
-      for (let i = 0; i < 3; i++) {
-        console.log(mentorData[i]);
-        const response = await fetch(`/profile/Mentor/${mentorData[i]}`);
-        const result = await response.json();
-        console.log(result);
-        setMenteeData([...menteeData, result]);
-      }
-    }
-  };
-
-  const [mentorDataLoaded, setMentorDataLoaded] = useState(false);
-
-  useEffect(() => {
-    if (mentorData) {
-      setMentorDataLoaded(true);
-    }
-  }, [mentorData]);
-
-  useEffect(() => {
-    fetchMenteeData();
-  }, [fetchMenteeData]);
-
-  if (!data || !mentorData || !menteeData) {
+  if (!data || !mentorData) {
     //console.log(mentorData);
     return <div>Loading...</div>;
   }
@@ -78,9 +53,9 @@ export default function Dashboard() {
             <h4>{data["occupation"]["position"]}</h4>
             <h4>{data["education"]["degree"]}</h4>
             <br></br>
-            <Link to="/communityhub">
+            <Link to="/searchCommunities">
               <button className="rounded-full bg-white text-purple-500 py-2 px-4 mb-4">
-                Community Hubs
+                Community Hubs Search
               </button>
             </Link>
             <Link to="/mymentors">
@@ -92,7 +67,7 @@ export default function Dashboard() {
 
           <div className="w-1/2 bg-gray-200 rounded-lg px-4 py-4 mx-2 text-center">
             <img src="./assets/woman-portrait.png" alt="" />
-            <h2 className="text-2xl font-bold mb-4">Column 2</h2>
+            <h2 className="text-2xl font-bold mb-4">Search</h2>
             <p>Find one today!</p>
             <Link to="/searchUsers">
               <button className="rounded-full bg-white text-purple-500 text-white py-2 px-4 mt-4">
@@ -101,24 +76,24 @@ export default function Dashboard() {
             </Link>
           </div>
           <div className="w-1/4 bg-gray-200 rounded-lg px-4 py-4 mx-2 text-center">
-            <h2 className="text-2xl font-bold mb-4">Column 3</h2>
+            <h2 className="text-2xl font-bold mb-4">My Connections</h2>
             <div className="flex flex-col space-y-4 py-4">
               <div className="bg-white rounded-lg px-4 py-6 flex flex-col justify-center">
-                {/* <p className="font-bold text-center">{menteeData[0]["data"]}</p> */}
-                <p className="text-center">Occupation</p>
-                <p className="text-center">Education</p>
+                <p className="font-bold text-center">Adam Sandler</p>
+                <p className="text-center">Actor</p>
+                <p className="text-center">NYU</p>
                 <div className="flex-grow"></div>
               </div>
               <div className="bg-white rounded-lg px-4 py-6 flex flex-col justify-center">
-                <p className="font-bold text-center">Name</p>
-                <p className="text-center">Occupation</p>
-                <p className="text-center">Educatoin</p>
+                <p className="font-bold text-center">Andrew Garfield</p>
+                <p className="text-center">Software Engineer</p>
+                <p className="text-center">NYU</p>
                 <div className="flex-grow"></div>
               </div>
               <div className="bg-white rounded-lg px-4 py-6 flex flex-col justify-center">
-                <p className="font-bold text-center">Name</p>
-                <p className="text-center">Occupation</p>
-                <p className="text-center">Education</p>
+                <p className="font-bold text-center">Rob Lee</p>
+                <p className="text-center">Artists</p>
+                <p className="text-center">Duke</p>
                 <div className="flex-grow"></div>
               </div>
             </div>

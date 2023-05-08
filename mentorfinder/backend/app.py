@@ -91,6 +91,8 @@ def get_user_connections(typeOfUser, userId):
 
     userFound = ''
 
+    menteeInfoList = []
+
     if typeOfUser == 'Mentee':
 
         userFound = get_user_by_id('mentee', userId)
@@ -101,7 +103,13 @@ def get_user_connections(typeOfUser, userId):
 
         userFound = get_user_by_id('mentor', userId)
 
-    return json.dumps({"data": userFound['menteeList']}, default=json_util.default)
+    menteeList = userFound['menteeList']
+
+    for eachMenteeId in menteeList:
+
+        menteeInfoList.append(get_user_by_id('mentee', eachMenteeId))
+
+    return json.dumps({"data": userFound['menteeList'], "detailedData": menteeInfoList}, default=json_util.default)
 
 
 def get_user_by_id(collection_name, userId):

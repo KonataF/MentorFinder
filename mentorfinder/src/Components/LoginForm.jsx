@@ -40,6 +40,7 @@ const LoginForm = () => {
       console.log(userData["_id"]["$oid"]);
       if (userData["isProfileComplete"] === false) {
         userData["isProfileComplete"] = true;
+        localStorage.setItem("isProfileComplete", true);
         console.log(userData["isProfileComplete"]);
         navigate("/editProfile", { state: { userData, userType } });
       } else {

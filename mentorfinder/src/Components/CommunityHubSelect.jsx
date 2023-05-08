@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const CommunityHubSelect = (props) => {
+const CommunityHubSelect = () => {
   const userId = localStorage.getItem("userId");
   const typeOfUser = localStorage.getItem("userType");
 
