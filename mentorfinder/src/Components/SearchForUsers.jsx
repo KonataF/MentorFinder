@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import SearchResultCard from "./SearchResultCard";
+import Navbar from "./Navbar";
 
 const SearchBar = () => {
   const [name, setName] = useState("");
@@ -59,80 +60,99 @@ const SearchBar = () => {
 
   return (
     <div>
-      <h1>Welcome!</h1>
-      <h2>Search for Mentor/Mentee down below:</h2>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="name">Name</label>
-        <br />
-        <input
-          type="text"
-          id="name"
-          name="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <br />
-        <br />
-        <label htmlFor="company">Company</label>
-        <br />
-        <input
-          type="text"
-          id="company"
-          name="company"
-          value={company}
-          onChange={(e) => setCompany(e.target.value)}
-        />
-        <br />
-        <br />
-        <label htmlFor="position">Position</label>
-        <br />
-        <input
-          type="text"
-          id="position"
-          name="position"
-          value={position}
-          onChange={(e) => setPosition(e.target.value)}
-        />
-        <br />
-        <br />
-        <label htmlFor="college">College</label>
-        <br />
-        <input
-          type="text"
-          id="college"
-          name="college"
-          value={college}
-          onChange={(e) => setCollege(e.target.value)}
-        />
-        <br />
-        <br />
-        <label htmlFor="areaOfInterest">Area of Interest</label>
-        <br />
-        <select
-          id="areaOfInterest"
-          name="areaOfInterest"
-          value={areaOfInterest}
-          onChange={(e) => setAreaOfInterest(e.target.value)}
-        >
-          <option value=""></option>
-          <option value="Arts">Arts</option>
-          <option value="Science">Science</option>
-          <option value="Math">Math</option>
-          <option value="Humanities">Humanities</option>
-          <option value="Business">Business</option>
-        </select>
-        <br />
-        <br />
-        <button onClick={handleSubmit}>Search</button>
-        {searchResult &&
-          searchResult.map((result) => (
-            <SearchResultCard
-              key={result.email}
-              data={result}
-              onButtonClick={handleButtonClick}
+      <Navbar />
+      <div
+        className="flex flex-col items-center"
+        style={{
+          height: "calc(100vh - 4rem)",
+          marginTop: "4rem",
+          fontFamily: "montserrat",
+        }}
+      >
+        <div className="rounded-lg bg-gray-100 p-8">
+          <h1 className="text-2xl font-bold mb-4 text-center">Welcome!</h1>
+          <h2 className="text-1xl mb-4 text-center">
+            Search for Mentor/Mentee down below:
+          </h2>
+          <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
+            <label htmlFor="name" className="text-lg text-1xl">
+              Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="rounded-lg border-gray-300 border-2 px-4 py-2"
             />
-          ))}
-      </form>
+            <label htmlFor="company" className="text-lg text-1xl">
+              Company
+            </label>
+            <input
+              type="text"
+              id="company"
+              name="company"
+              value={company}
+              onChange={(e) => setCompany(e.target.value)}
+              className="rounded-lg border-gray-300 border-2 px-4 py-2"
+            />
+            <label htmlFor="position" className="text-lg text-1xl">
+              Position
+            </label>
+            <input
+              type="text"
+              id="position"
+              name="position"
+              value={position}
+              onChange={(e) => setPosition(e.target.value)}
+              className="rounded-lg border-gray-300 border-2 px-4 py-2"
+            />
+            <label htmlFor="college" className="text-lg text-1xl">
+              College
+            </label>
+            <input
+              type="text"
+              id="college"
+              name="college"
+              value={college}
+              onChange={(e) => setCollege(e.target.value)}
+              className="rounded-lg border-gray-300 border-2 px-4 py-2"
+            />
+            <label htmlFor="areaOfInterest" className="text-lg text-1xl">
+              Area of Interest
+            </label>
+            <select
+              id="areaOfInterest"
+              name="areaOfInterest"
+              value={areaOfInterest}
+              onChange={(e) => setAreaOfInterest(e.target.value)}
+              className="rounded-lg border-gray-300 border-2 px-4 py-2"
+            >
+              <option value=""></option>
+              <option value="Arts">Arts</option>
+              <option value="Science">Science</option>
+              <option value="Math">Math</option>
+              <option value="Humanities">Humanities</option>
+              <option value="Business">Business</option>
+            </select>
+            <button
+              onClick={handleSubmit}
+              className="rounded-lg bg-white text-purple-500 px-4 py-2 font-bold"
+            >
+              Search
+            </button>
+            {searchResult &&
+              searchResult.map((result) => (
+                <SearchResultCard
+                  key={result.email}
+                  data={result}
+                  onButtonClick={handleButtonClick}
+                />
+              ))}
+          </form>
+        </div>
+      </div>
     </div>
   );
 };

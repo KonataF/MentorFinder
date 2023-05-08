@@ -4,7 +4,7 @@ import Navbar from "./Navbar";
 import "../App.css";
 import "../index.css";
 
-export default async function Dashboard() {
+export default function Dashboard() {
   const [data, setData] = useState(null);
   const userId = localStorage.getItem("userId");
   const typeOfUser = localStorage.getItem("userType");
@@ -21,6 +21,11 @@ export default async function Dashboard() {
   }, [typeOfUser, userId]);
 
   // console.log(`data is ${data["fname"]}`);
+
+  if (!data) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div class="bg-white">
       <Navbar />
@@ -35,9 +40,9 @@ export default async function Dashboard() {
               src="profile.jpeg"
               className="rounded-full mx-auto h-32 w-32 mb-4"
             ></img> */}
-            <h4>{}</h4>
-            <h4>{}</h4>
-            <h4>Education</h4>
+            <h4>{data["fname"]}</h4>
+            <h4>{data["occupation"]["position"]}</h4>
+            <h4>{data["education"]["degree"]}</h4>
             <br></br>
             <Link to="/communityhub">
               <button className="rounded-full bg-white text-purple-500 py-2 px-4 mb-4">
