@@ -15,6 +15,7 @@ import NotificationsPage from "./components/NotificationPage";
 import SearchBar from "./components/SearchForUsers";
 import CommunityHubSearch from "./components/SearchForCommunities";
 import ModalComponent from "./components/Modal";
+import CommunityHub from "./components/CommunityHubs";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -29,9 +30,10 @@ root.render(
         <Route path="/myMentors" element={<MyMentors />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/notifications" element={<NotificationsPage />} />
-        <Route path="/searchusers" element={<SearchBar />} />
-        <Route path="/searchcommunities" element={<CommunityHubSearch />} />
+        <Route path="/searchUsers" element={<SearchBar />} />
+        <Route path="/searchCommunities" element={<CommunityHubSearch />} />
         <Route path="/post" element={<ModalComponent />} />
+        <Route path="/communityHubsMain" element={<CommunityHub />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

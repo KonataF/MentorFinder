@@ -1,18 +1,19 @@
+// import "./CommunityHubPosts.scss";
 // import "Upvote.js";
 // import "Downvote.js";
 import { Link } from "react-router-dom";
 
-const CreatePost = ({ post }) => {
+const Post = ({ post }) => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const post = { title, body, author };
-    fetch("http://localhost:5000/communityhub", {
+    const blog = { title, body, author };
+    fetch("https://localhost5000", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(post),
+      body: JSON.stringify(blog),
     }).then(() => {
       console.log("new post added");
     });
@@ -36,15 +37,28 @@ const CreatePost = ({ post }) => {
               <span className="date"> </span>
             </div>
           </div>
-          <div className="title"></div>
+          <div className="title">
+            <input
+              required
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </div>
           <div className="content">
+            <input
+              required
+              value={body}
+              onChange={(e) => setBody(e.target.value)}
+            />
             <img src={post.img} alt="" />"
           </div>
           <div className="info"></div>
+          <Upvote />
+          <Downvote />
         </div>
       </div>
     </div>
   );
 };
 
-export default CreatePost;
+export default Post;

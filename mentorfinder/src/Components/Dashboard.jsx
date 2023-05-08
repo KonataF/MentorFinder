@@ -6,9 +6,8 @@ import "../index.css";
 
 export default function Dashboard() {
   const [data, setData] = useState(null);
-  const [displayableMenteeData, setDisplayableMenteeData] = useState();
   const [mentorData, setMentorData] = useState(null);
-  const [menteeData, setMenteeData] = useState(null);
+  const [menteeData, setMenteeData] = useState([]);
   const userId = localStorage.getItem("userId");
   const typeOfUser = localStorage.getItem("userType");
 
@@ -21,30 +20,40 @@ export default function Dashboard() {
     };
 
     const fetchMentorData = async () => {
-      const response = await fetch(`/mentorList/${typeOfUser}/${userId}`);
+      const response = await fetch(`/menteeList/${typeOfUser}/${userId}`);
       const result = await response.json();
       console.log(result);
       setMentorData(result.data);
     };
 
-    const fetchMenteeData = async () => {
-      if (mentorData) {
-        console.log("mentor data has been fetched");
-
-        console.log(`Mentee data in here {}`);
-        const response = await fetch(`/profile/Mentee/${userId}`);
-        const result = await response.json();
-        console.log(result);
-        setMenteeData(result.data);
-      }
-    };
-
-    fetchData();
-    fetchMentorData();
-    fetchMenteeData();
+    fetchData(); //get data of current logged in user
+    fetchMentorData(); // get current mentor or mentee list
   }, [typeOfUser, userId]);
 
-  // console.log(`data is ${data["fname"]}`);
+  const fetchMenteeData = async () => {
+    if (mentorData) {
+      console.log("mentor data has been fetched");
+      for (let i = 0; i < 3; i++) {
+        console.log(mentorData[i]);
+        const response = await fetch(`/profile/Mentor/${mentorData[i]}`);
+        const result = await response.json();
+        console.log(result);
+        setMenteeData([...menteeData, result]);
+      }
+    }
+  };
+
+  const [mentorDataLoaded, setMentorDataLoaded] = useState(false);
+
+  useEffect(() => {
+    if (mentorData) {
+      setMentorDataLoaded(true);
+    }
+  }, [mentorData]);
+
+  useEffect(() => {
+    fetchMenteeData();
+  }, [fetchMenteeData]);
 
   if (!data || !mentorData || !menteeData) {
     //console.log(mentorData);
@@ -93,7 +102,7 @@ export default function Dashboard() {
             <h2 className="text-2xl font-bold mb-4">Column 3</h2>
             <div className="flex flex-col space-y-4 py-4">
               <div className="bg-white rounded-lg px-4 py-6 flex flex-col justify-center">
-                <p className="font-bold text-center">Name</p>
+                {/* <p className="font-bold text-center">{menteeData[0]["data"]}</p> */}
                 <p className="text-center">Occupation</p>
                 <p className="text-center">Education</p>
                 <div className="flex-grow"></div>
