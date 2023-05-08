@@ -628,18 +628,25 @@ def getAllCommunityHubs():
 # displaying individual hub info display and feed
 @ app.route("/communityHubSpace/<hubId>", methods=['post', 'get'])
 def communityHubSpace(hubId):
-    # temp_id = '64503200584ff630f60bac3e'  # for testing
+    temp_id = '64503200584ff630f60bac3e'  # for testing
     hubCollection = Database.get_collection('communityHub')
-    hubInfo = hubCollection.find_one({"_id": hubId}, {
+    hubInfo = hubCollection.find_one({"_id": temp_id}, {
                                      "hubName": 1, "bannerPhoto": 1, "profilePic": 1, "owner": 1, "description": 1, "tags": 1})
 
+    print(hubId)
     # getting feed to display
     postCollection = Database.get_collection('post')
-    feedPosts = postCollection.find({"hubBelongingTo": hubId})
+    feedPosts = postCollection.find({"hubBelongingTo": hubId}).sort("_id", -1)
     # sort posts in chronological order from most recent to least
-    feedPosts.sort({"date": -1, "time": -1})
+    # feedPosts.sort({"date": -1, "time": -1})
+    # feedPosts.sort("date": -1)
 
-    return jsonify({"hubInfo": hubInfo, "feedPosts": list(feedPosts)})
+    # return jsonify({"hubInfo": hubInfo, "feedPosts": list(feedPosts)})
+    # return jsonify({"hubDataFetched": True, "hubInfo": hubInfo, "objectId": str(_id), "message": "mentee profile built successfully"})
+    # print(list(feedPosts))
+    # return json.dumps({"hubInfo": hubInfo, "feedPosts": list(feedPosts)}, default=json_util.default)
+    # return jsonify({"data": list(feedPosts)})
+    return json.dumps({"data": list(feedPosts)}, default=json_util.default)
 
 # joining a hub - DONE CODING - NEEDS TO BE TESTED
 

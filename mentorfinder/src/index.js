@@ -16,6 +16,7 @@ import SearchBar from "./components/SearchForUsers";
 import CommunityHubSearch from "./components/SearchForCommunities";
 import ModalComponent from "./components/Modal";
 import CommunityHub from "./components/CommunityHubs";
+import CommunityHubSelect from "./components/CommunityHubSelect";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -34,6 +35,7 @@ root.render(
         <Route path="/searchCommunities" element={<CommunityHubSearch />} />
         <Route path="/post" element={<ModalComponent />} />
         <Route path="/communityHubsMain" element={<CommunityHub />} />
+        <Route path="/communityHubsSelect" element={<CommunityHubSelect />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
