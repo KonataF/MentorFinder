@@ -516,6 +516,8 @@ def searchForMentees():
         return jsonify({"results": menteesFound})
 
 # creating community hubs
+
+
 @ app.route("/communityHubCreation", methods=['post', 'get'])
 def communityHubCreation():
     # TODO: get rid of? not needed?
@@ -554,7 +556,7 @@ def createCommunityHub():
     if search_result is None:
         hubCollection.insert_one(serialized_hub)
         userCollection = Database.get_collection(session["type"])
-        # add to owner's list of hubs they're part of 
+        # add to owner's list of hubs they're part of
         '''
         # #TODO: NOT WORKING
         curr_hub = list(hubCollection.find({"hubName": name}))[0]
@@ -562,9 +564,10 @@ def createCommunityHub():
         userCollection.update_one({"_id": session["_id"]}, {
                                   "$push": {"hubsList": curr_hub_id}})
         '''
-        # ALTERNATIVE: 
+        # ALTERNATIVE:
         # add hub name to list of hubs current user is part of
-        userCollection.update_one({"_id": session["_id"]}, { "$push": {"hubsList": name}})
+        userCollection.update_one({"_id": session["_id"]}, {
+                                  "$push": {"hubsList": name}})
 
         # return render_template('communityHubCreation.html', message="Your hub was successfully created", curr_hub_id=curr_hub_id) - OLD - FOR REF
         # return jsonify({"message": "Your hub was successfully created", "curr_hub_id": curr_hub_id})
@@ -574,12 +577,16 @@ def createCommunityHub():
         return jsonify({"message": "A hub with this name already exists. Please try a different name"})
 
 # searching for community hubs
+
+
 @ app.route("/communityHubSearch", methods=['post', 'get'])
 def communityHubSearch():
     # TODO: get rid of ? not needed?
     return render_template('communityHubSearch.html')
 
 # searching for community hubs
+
+
 @ app.route("/searchForCommunityHubs", methods=['post', 'get'])
 def searchForCommunityHubs():
     searchName = request.args.get("name")
@@ -635,31 +642,39 @@ def communityHubSpace(hubId):
     return jsonify({"hubInfo": hubInfo, "feedPosts": list(feedPosts)})
 
 # joining a hub - DONE CODING - NEEDS TO BE TESTED
+
+
 @ app.route("/joinHub/<hubName>", methods=['post', 'get'])
 def joinHub(hubName):
     # add to list of hubs user is part of
     userCollection = Database.get_collection(session["type"])
-    userCollection.update_one({"_id": session["_id"]}, {"$push": {"hubsList": hubName}})
-
+    userCollection.update_one({"_id": session["_id"]}, {
+                              "$push": {"hubsList": hubName}})
 
     # add user to member list of hub
     hubCollection = Database.get_collection('communityHub')
-    hubCollection.update_one({"hubName": hubName}, {"$push": {"memberList": session["_id"]}})
+    hubCollection.update_one({"hubName": hubName}, {
+                             "$push": {"memberList": session["_id"]}})
 
     # don't need to return anything (?)
-    
 
+# please don't use the session variables for id, it has to come from frontend - Ali
 # display following list  - DONE CODING - NEEDS TO BE TESTED
+
+
 @ app.route("/showHubsMemberOf", methods=['post', 'get'])
 def showHubsMemberOf():
     userCollection = Database.get_collection(session["type"])
-    currentUserInfo = list(userCollection.find({"_id": session["_id"]}))[0] # list of one dict -> just dict of user info
-    followingHubsList = currentUserInfo["hubsList"] # list of hub names user is part of
+    currentUserInfo = list(userCollection.find({"_id": session["_id"]}))[
+        0]  # list of one dict -> just dict of user info
+    # list of hub names user is part of
+    followingHubsList = currentUserInfo["hubsList"]
 
     hubCollection = Database.get_collection("communityHub")
-    hubsFollowingInfo = list(hubCollection.find({"hubName": {'$in': followingHubsList}}))
+    hubsFollowingInfo = list(hubCollection.find(
+        {"hubName": {'$in': followingHubsList}}))
 
-    if len(hubsFollowingInfo) == 0: # if the user isn't a member of any hub
+    if len(hubsFollowingInfo) == 0:  # if the user isn't a member of any hub
         return jsonify({"results": hubsFollowingInfo, "message": "Expand your network and find a hub to join!"})
     else:
         return jsonify({"results": hubsFollowingInfo})
@@ -688,44 +703,56 @@ def createPost():
     return jsonify({"message": "Your post was successfully created", "extraInfo": str(serialized_post)})
 
 # upvote a post - DONE CODING - NEEDS TO BE TESTED
+
+
 @app.route("/upvotePost/<postId>", methods=['post', 'get'])
 def upvotePost(postId):
-     # add current user to list of upvoter id's
+    # add current user to list of upvoter id's
     postCollection = Database.get_collection('post')
-    postCollection.update_one({"_id": postId}, {"$push": {"upvoters": session["_id"]}})
+    postCollection.update_one(
+        {"_id": postId}, {"$push": {"upvoters": session["_id"]}})
 
-    # increment number of upvotes by 1 
-    postCollection.update_one({"_id": postId}, {"$inc": { "numUpvotes": 1}})
+    # increment number of upvotes by 1
+    postCollection.update_one({"_id": postId}, {"$inc": {"numUpvotes": 1}})
 
 # remove upvote from a post - DONE CODING - NEEDS TO BE TESTED
+
+
 @app.route("/removeUpvotePost/<postId>", methods=['post', 'get'])
 def removeUpvotePost(postId):
     # remove current user from list of upvoter id's
     postCollection = Database.get_collection('post')
-    postCollection.update_one({"_id": postId}, {"$pull": {"upvoters": session["_id"]}})
+    postCollection.update_one(
+        {"_id": postId}, {"$pull": {"upvoters": session["_id"]}})
 
-    # decrement number of upvotes by 1 
-    postCollection.update_one({"_id": postId}, {"$inc": { "numUpvotes": -1}})
+    # decrement number of upvotes by 1
+    postCollection.update_one({"_id": postId}, {"$inc": {"numUpvotes": -1}})
 
 # downvote a post - DONE CODING - NEEDS TO BE TESTED
+
+
 @app.route("/downvotePost/<postId>", methods=['post', 'get'])
 def downvotePost(postId):
-     # add current user to list of upvoter id's
+    # add current user to list of upvoter id's
     postCollection = Database.get_collection('post')
-    postCollection.update_one({"_id": postId}, {"$push": {"downvoters": session["_id"]}})
+    postCollection.update_one(
+        {"_id": postId}, {"$push": {"downvoters": session["_id"]}})
 
-    # increment number of upvotes by 1 
-    postCollection.update_one({"_id": postId}, {"$inc": { "numDownvotes": 1}})
+    # increment number of upvotes by 1
+    postCollection.update_one({"_id": postId}, {"$inc": {"numDownvotes": 1}})
 
-# remove downvote from a post - DONE CODING - NEEDS TO BE TESTED 
+# remove downvote from a post - DONE CODING - NEEDS TO BE TESTED
+
+
 @app.route("/removeDownvotePost/<postId>", methods=['post', 'get'])
 def removeDownvotePost(postId):
     # remove current user from list of upvoter id's
     postCollection = Database.get_collection('post')
-    postCollection.update_one({"_id": postId}, {"$pull": {"downvoters": session["_id"]}})
+    postCollection.update_one(
+        {"_id": postId}, {"$pull": {"downvoters": session["_id"]}})
 
-    # decrement number of upvotes by 1 
-    postCollection.update_one({"_id": postId}, {"$inc": { "numDownvotes": -1}})
+    # decrement number of upvotes by 1
+    postCollection.update_one({"_id": postId}, {"$inc": {"numDownvotes": -1}})
 
 
 # create a comment on a post in hub
@@ -752,45 +779,61 @@ def createComment():
     return jsonify({"message": "Your post was successfully created", "extraInfo": str(serialized_comment)})
 
 # hi
-# upvote a comment - DONE CODING - NEEDS TO BE TESTED 
+# upvote a comment - DONE CODING - NEEDS TO BE TESTED
+
+
 @app.route("/upvoteComment/<commentId>", methods=['post', 'get'])
 def upvoteComment(commentId):
-     # add current user to list of upvoter id's
+    # add current user to list of upvoter id's
     commentCollection = Database.get_collection('comment')
-    commentCollection.update_one({"_id": commentId}, {"$push": {"upvoters": session["_id"]}})
+    commentCollection.update_one(
+        {"_id": commentId}, {"$push": {"upvoters": session["_id"]}})
 
-    # increment number of upvotes by 1 
-    commentCollection.update_one({"_id": commentId}, {"$inc": { "numUpvotes": 1}})
+    # increment number of upvotes by 1
+    commentCollection.update_one(
+        {"_id": commentId}, {"$inc": {"numUpvotes": 1}})
 
-# remove upvote from a comment - DONE CODING - NEEDS TO BE TESTED 
+# remove upvote from a comment - DONE CODING - NEEDS TO BE TESTED
+
+
 @app.route("/removeUpvoteComment/<commentId>", methods=['post', 'get'])
 def removeUpvoteComment(commentId):
     # remove current user from list of upvoter id's
     commentCollection = Database.get_collection('comment')
-    commentCollection.update_one({"_id": commentId}, {"$pull": {"upvoters": session["_id"]}})
+    commentCollection.update_one(
+        {"_id": commentId}, {"$pull": {"upvoters": session["_id"]}})
 
-    # decrement number of upvotes by 1 
-    commentCollection.update_one({"_id": commentId}, {"$inc": { "numUpvotes": -1}})
+    # decrement number of upvotes by 1
+    commentCollection.update_one(
+        {"_id": commentId}, {"$inc": {"numUpvotes": -1}})
 
-# downvote a comment - DONE CODING - NEEDS TO BE TESTED 
+# downvote a comment - DONE CODING - NEEDS TO BE TESTED
+
+
 @app.route("/downvoteComment/<commentId>", methods=['post', 'get'])
 def downvoteComment(commentId):
-     # add current user to list of upvoter id's
+    # add current user to list of upvoter id's
     commentCollection = Database.get_collection('comment')
-    commentCollection.update_one({"_id": commentId}, {"$push": {"downvoters": session["_id"]}})
+    commentCollection.update_one(
+        {"_id": commentId}, {"$push": {"downvoters": session["_id"]}})
 
-    # increment number of upvotes by 1 
-    commentCollection.update_one({"_id": commentId}, {"$inc": { "numDownvotes": 1}})
+    # increment number of upvotes by 1
+    commentCollection.update_one(
+        {"_id": commentId}, {"$inc": {"numDownvotes": 1}})
 
-# remove downvote from a comment - DONE CODING - NEEDS TO BE TESTED 
+# remove downvote from a comment - DONE CODING - NEEDS TO BE TESTED
+
+
 @app.route("/removeDownvoteComment/<postId>", methods=['post', 'get'])
 def removeDownvoteComment(commentId):
     # remove current user from list of upvoter id's
     commentCollection = Database.get_collection('comment')
-    commentCollection.update_one({"_id": commentId}, {"$pull": {"downvoters": session["_id"]}})
+    commentCollection.update_one(
+        {"_id": commentId}, {"$pull": {"downvoters": session["_id"]}})
 
-    # decrement number of upvotes by 1 
-    commentCollection.update_one({"_id": commentId}, {"$inc": { "numDownvotes": -1}})
+    # decrement number of upvotes by 1
+    commentCollection.update_one(
+        {"_id": commentId}, {"$inc": {"numDownvotes": -1}})
 
 
 # logging out
