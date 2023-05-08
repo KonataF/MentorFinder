@@ -655,6 +655,7 @@ def communityHubSpace(hubId):
 def joinHub(hubName):
     # add to list of hubs user is part of
     userCollection = Database.get_collection(session["type"])
+
     userCollection.update_one({"_id": session["_id"]}, {
                               "$push": {"hubsList": hubName}})
 
@@ -669,22 +670,30 @@ def joinHub(hubName):
 # display following list  - DONE CODING - NEEDS TO BE TESTED
 
 
-@ app.route("/showHubsMemberOf", methods=['post', 'get'])
-def showHubsMemberOf():
-    userCollection = Database.get_collection(session["type"])
-    currentUserInfo = list(userCollection.find({"_id": session["_id"]}))[
-        0]  # list of one dict -> just dict of user info
+@ app.route("/showHubsMemberOf/<typeOfUser>/<userId>", methods=['post', 'get'])
+def showHubsMemberOf(typeOfUser, userId):
+
+    currentUserInfo = get_user_by_id(typeOfUser.lower(), userId)
+
+    # userCollection = Database.get_collection(session["type"])
+    # currentUserInfo = list(userCollection.find({"_id": session["_id"]}))[0]
+    # list of one dict -> just dict of user info
     # list of hub names user is part of
+
+    print(currentUserInfo)
     followingHubsList = currentUserInfo["hubsList"]
 
+    print('here')
     hubCollection = Database.get_collection("communityHub")
     hubsFollowingInfo = list(hubCollection.find(
         {"hubName": {'$in': followingHubsList}}))
 
+    print(hubsFollowingInfo)
+
     if len(hubsFollowingInfo) == 0:  # if the user isn't a member of any hub
         return jsonify({"results": hubsFollowingInfo, "message": "Expand your network and find a hub to join!"})
     else:
-        return jsonify({"results": hubsFollowingInfo})
+        return json.dumps({"data": hubsFollowingInfo}, default=json_util.default)
 
 
 # create a post in hub
@@ -853,9 +862,7 @@ def logout():
         # session["email"] = mentorFound['email'] # i added
         session["_id"] = None  # ADDED FOR MY USE
         session["type"] = None  # ADDED FOR MY USE
-    return jsonify(
-        message="Logging out.."
-    )
+    return jsonify({"loggedOut": True})
 
 
 if __name__ == "__main__":

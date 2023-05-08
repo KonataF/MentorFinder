@@ -54,47 +54,64 @@ const LoginForm = () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="Mentor">
-            Mentor
+      <div
+        className="flex flex-col items-center"
+        style={{
+          height: "calc(100vh - 1rem)",
+          marginTop: "4rem",
+          fontFamily: "montserrat",
+        }}
+      >
+        <div className="rounded-lg bg-gray-100 p-8">
+          <form onSubmit={handleSubmit}>
+            <div>
+              <label htmlFor="Mentor">
+                Mentor
+                <input
+                  type="radio"
+                  id="Mentor"
+                  name="userType"
+                  value="Mentor"
+                  checked={userType === "Mentor"}
+                  onChange={handleUserTypeChange}
+                />
+              </label>
+              <label htmlFor="Mentee">
+                Mentee
+                <input
+                  type="radio"
+                  id="Mentee"
+                  name="userType"
+                  value="Mentee"
+                  checked={userType === "Mentee"}
+                  onChange={handleUserTypeChange}
+                />
+              </label>
+            </div>
+            <label htmlFor="email"> Email </label>
             <input
-              type="radio"
-              id="Mentor"
-              name="userType"
-              value="Mentor"
-              checked={userType === "Mentor"}
-              onChange={handleUserTypeChange}
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
-          </label>
-          <label htmlFor="Mentee">
-            Mentee
+            <label htmlFor="password"> Password </label>
             <input
-              type="radio"
-              id="Mentee"
-              name="userType"
-              value="Mentee"
-              checked={userType === "Mentee"}
-              onChange={handleUserTypeChange}
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
-          </label>
+            <button
+              type="submit"
+              class="rounded-full bg-white text-purple-500 py-2 px-4"
+            >
+              {" "}
+              Submit{" "}
+            </button>
+          </form>
         </div>
-        <label htmlFor="email"> Email </label>
-        <input
-          type="email"
-          id="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <label htmlFor="password"> Password </label>
-        <input
-          type="password"
-          id="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="submit"> Submit </button>
-      </form>
+      </div>
     </>
   );
 };

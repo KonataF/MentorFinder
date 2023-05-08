@@ -135,6 +135,8 @@ const SearchBar = () => {
               <option value="Math">Math</option>
               <option value="Humanities">Humanities</option>
               <option value="Business">Business</option>
+              <option value="Business">Computer Science</option>
+              <option value="Business">Arts</option>
             </select>
             <button
               onClick={handleSubmit}

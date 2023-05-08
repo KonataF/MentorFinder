@@ -91,9 +91,10 @@ export default function Dashboard() {
           </div>
 
           <div className="w-1/2 bg-gray-200 rounded-lg px-4 py-4 mx-2 text-center">
+            <img src="./assets/woman-portrait.png" alt="" />
             <h2 className="text-2xl font-bold mb-4">Column 2</h2>
             <p>Find one today!</p>
-            <Link to="/findmentors">
+            <Link to="/searchUsers">
               <button className="rounded-full bg-white text-purple-500 text-white py-2 px-4 mt-4">
                 Connect Here
               </button>

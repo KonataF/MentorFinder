@@ -17,6 +17,8 @@ import CommunityHubSearch from "./components/SearchForCommunities";
 import ModalComponent from "./components/Modal";
 import CommunityHub from "./components/CommunityHubs";
 import CommunityHubSelect from "./components/CommunityHubSelect";
+import MyCommunityHubs from "./components/MyCommunityHubs";
+import Logout from "./components/Logout";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -25,6 +27,7 @@ root.render(
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginForm />} />
+        <Route path="/logout" element={<Logout />} />
         <Route path="/signup" element={<SignupForm />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/editProfile" element={<ProfileEditor />} />
@@ -36,6 +39,7 @@ root.render(
         <Route path="/post" element={<ModalComponent />} />
         <Route path="/communityHubsMain" element={<CommunityHub />} />
         <Route path="/communityHubsSelect" element={<CommunityHubSelect />} />
+        <Route path="/myCommunityHubs" element={<MyCommunityHubs />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

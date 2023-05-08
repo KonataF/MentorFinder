@@ -39,6 +39,8 @@ const ProfileEditor = () => {
       },
       isProfileComplete,
     };
+    localStorage.setItem("userId", userId);
+    localStorage.setItem("userType", userType);
     console.log(data);
     // make API request to update user profile with data
     const response = await fetch("/api/build_profile", {

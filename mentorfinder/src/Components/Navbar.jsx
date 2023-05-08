@@ -53,7 +53,7 @@ const Navbar = () => {
                 </NavLink>
                 <NavLink
                   exact
-                  to="/findmentors"
+                  to="/searchUsers"
                   activeClassName="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
                   className="text-purple-500 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium ml-auto"
                 >
@@ -61,7 +61,7 @@ const Navbar = () => {
                 </NavLink>
                 <NavLink
                   exact
-                  to="/findmentors"
+                  to="/notifications"
                   activeClassName="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
                   className="text-purple-500 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium ml-auto"
                 >
@@ -69,7 +69,7 @@ const Navbar = () => {
                 </NavLink>
                 <NavLink
                   exact
-                  to="/findmentors"
+                  to="/logout"
                   activeClassName="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
                   className="text-purple-500 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium ml-auto"
                 >
