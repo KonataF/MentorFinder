@@ -10,6 +10,8 @@ class Post:
         self.time = datetime.now().strftime("%H:%M")
         self.title = title
         self.numUpvotes = 0
+        self.upvoters = [] # list of user id's
         self.numDownvotes = 0
+        self.downvoters = [] # list of user id's
         self.content = content
         #self.comments = []
