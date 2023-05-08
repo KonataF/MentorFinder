@@ -78,7 +78,7 @@ function CommunityHubSearch() {
         </div>
 
         <div className="rounded-lg bg-gray-100 p-8 mt-8 text-center items-center">
-          <form action="/communityHubCreation">
+          <form action="/">
             <input
               type="submit"
               value="Interested in creating your own hub?"
