@@ -11,29 +11,45 @@ const Navbar = () => {
             </div>
             <div className="hidden md:block">
               <div className="ml-auto flex items-baseline space-x-4">
-                <NavLink
+                {/* <NavLink
                   exact
                   to="/"
                   activeClassName="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
                   className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                 >
                   Home
-                </NavLink>
+                </NavLink> */}
                 <NavLink
                   exact
-                  to="/about"
+                  to="/dashboard"
                   activeClassName="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
                   className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                 >
-                  About
+                  Dashboard
                 </NavLink>
                 <NavLink
                   exact
-                  to="/contact"
+                  to="/communityhub"
                   activeClassName="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
                   className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                 >
-                  Contact
+                  Community Hub
+                </NavLink>
+                <NavLink
+                  exact
+                  to="/mymentors"
+                  activeClassName="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  My Mentors
+                </NavLink>
+                <NavLink
+                  exact
+                  to="/findmentors"
+                  activeClassName="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Find Mentors
                 </NavLink>
               </div>
             </div>
